@@ -5,19 +5,24 @@ import { useEffect, useState } from "react";
 const NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493644670461").replace(/\D/g, "");
 
 type Info = { estado: string; pedido: string; pagoId: string };
+type Material = { slug: string; name: string; url: string | null };
 
 export function PagoBanner() {
   const [info, setInfo] = useState<Info | null>(null);
+  const [material, setMaterial] = useState<Material[] | null>(null);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const estado = q.get("pago");
     if (estado) {
-      setInfo({
-        estado,
-        pedido: q.get("external_reference") ?? "",
-        pagoId: q.get("payment_id") ?? "",
-      });
+      const pagoId = q.get("payment_id") ?? "";
+      setInfo({ estado, pedido: q.get("external_reference") ?? "", pagoId });
+      if (estado === "ok" && pagoId) {
+        fetch(`/api/entrega?payment_id=${encodeURIComponent(pagoId)}`)
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => setMaterial(d?.items ?? null))
+          .catch(() => setMaterial(null));
+      }
     }
   }, []);
 
@@ -37,7 +42,7 @@ export function PagoBanner() {
       ? "Tu pago está pendiente"
       : "No se pudo completar el pago";
   const detalle = ok
-    ? "Enviá tu comprobante por WhatsApp para que el Profe te habilite el acceso."
+    ? "Ya podés acceder a tu material. Guardá los enlaces y, si necesitás ayuda, escribinos por WhatsApp."
     : pendiente
       ? "Cuando Mercado Pago lo acredite te avisamos. Podés escribirnos por WhatsApp para confirmarlo."
       : "No se hizo ningún cobro. Podés intentar de nuevo o pagar por transferencia.";
@@ -64,11 +69,33 @@ export function PagoBanner() {
         {titulo}
       </h3>
       <p className="mt-2 text-sm text-slate-600">{detalle}</p>
+      {ok && material && material.length > 0 ? (
+        <div className="mt-4 space-y-2">
+          <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Tu material</p>
+          {material.map((m) =>
+            m.url ? (
+              <a
+                key={m.slug}
+                href={m.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center rounded-xl bg-sky-500 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-sky-400"
+              >
+                Abrir: {m.name}
+              </a>
+            ) : (
+              <p key={m.slug} className="rounded-xl bg-slate-100 px-4 py-3 text-center text-sm text-slate-600">
+                {m.name}: te lo enviamos por WhatsApp.
+              </p>
+            ),
+          )}
+        </div>
+      ) : null}
       <a
         href={`https://wa.me/${NUMBER}?text=${encodeURIComponent(texto)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 flex w-full items-center justify-center rounded-xl bg-[#25D366] px-6 py-3.5 text-base font-bold text-white transition hover:brightness-95"
+        className="mt-3 flex w-full items-center justify-center rounded-xl bg-[#25D366] px-6 py-3.5 text-base font-bold text-white transition hover:brightness-95"
       >
         Enviar por WhatsApp
       </a>
