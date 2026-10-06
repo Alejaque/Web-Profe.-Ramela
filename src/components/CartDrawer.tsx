@@ -460,7 +460,7 @@ export function CartDrawer() {
                 </div>
               </div>
 
-              <PaymentBox total={result.total} />
+              <PaymentBox total={result.total} orderId={result.orderId} items={result.items} />
 
               {result.whatsappUrl ? (
                 <a
@@ -525,29 +525,64 @@ function CopyRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function PaymentBox({ total }: { total: number }) {
+function PaymentBox({
+  total,
+  orderId,
+  items,
+}: {
+  total: number;
+  orderId: number;
+  items: { slug: string }[];
+}) {
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
+
+  async function payOnline() {
+    setPaying(true);
+    setPayError(null);
+    try {
+      const res = await fetch("/api/mp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, slugs: items.map((i) => i.slug) }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Error");
+      window.location.href = data.url;
+    } catch {
+      setPayError("El pago online no está disponible ahora. Usá la transferencia de abajo.");
+      setPaying(false);
+    }
+  }
+
   return (
     <div className="mt-5 space-y-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200">
       <h4 className="font-display text-2xl font-bold uppercase leading-none text-slate-950">
         Cómo pagar
       </h4>
-      <p className="text-sm text-slate-600">
-        Transferí <strong className="text-slate-900">{formatARS(total)}</strong> a esta cuenta de
-        Mercado Pago (también podés hacerlo desde cualquier banco):
-      </p>
-      <CopyRow label="Alias" value={PAY.alias} />
-      <CopyRow label="CVU" value={PAY.cvu} />
-      <p className="text-sm text-slate-600">
-        Titular: <strong className="text-slate-900">{PAY.holder}</strong>
-      </p>
-      <a
-        href={PAY.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3.5 text-base font-bold text-white transition hover:bg-sky-400"
+      <button
+        type="button"
+        onClick={payOnline}
+        disabled={paying}
+        className="flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3.5 text-base font-bold text-white transition hover:bg-sky-400 disabled:opacity-60"
       >
-        Pagar con Mercado Pago
-      </a>
+        {paying ? "Abriendo Mercado Pago..." : `Pagar ${formatARS(total)} con Mercado Pago`}
+      </button>
+      {payError ? <p className="text-sm font-medium text-red-600">{payError}</p> : null}
+      <p className="text-xs text-slate-500">Tarjeta, dinero en cuenta o efectivo. Después enviá el pedido por WhatsApp.</p>
+      <div className="border-t border-slate-200 pt-3">
+        <p className="mb-3 text-sm text-slate-600">
+          O transferí <strong className="text-slate-900">{formatARS(total)}</strong> desde
+          cualquier banco o billetera:
+        </p>
+        <CopyRow label="Alias" value={PAY.alias} />
+        <div className="mt-3">
+          <CopyRow label="CVU" value={PAY.cvu} />
+        </div>
+        <p className="mt-3 text-sm text-slate-600">
+          Titular: <strong className="text-slate-900">{PAY.holder}</strong>
+        </p>
+      </div>
     </div>
   );
 }
