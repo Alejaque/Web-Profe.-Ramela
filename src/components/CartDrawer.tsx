@@ -437,9 +437,9 @@ export function CartDrawer() {
                   ¡Gracias por tu pedido!
                 </h3>
                 <p className="mt-3 text-sm text-slate-600">
-                  Tu pedido <strong className="text-slate-900">#{result.orderId}</strong> quedó
-                  registrado. Te escribimos muy pronto para coordinar el pago y darte acceso a
-                  tu formación.
+                  Tu pedido <strong className="text-slate-900">#{result.orderId}</strong> está
+                  armado. Pagá con una de las opciones de abajo y enviá el pedido por WhatsApp
+                  junto con el comprobante para recibir tu acceso.
                 </p>
               </div>
 
@@ -459,6 +459,8 @@ export function CartDrawer() {
                   <span className="font-bold text-slate-950">{formatARS(result.total)}</span>
                 </div>
               </div>
+
+              <PaymentBox total={result.total} />
 
               {result.whatsappUrl ? (
                 <a
@@ -485,5 +487,67 @@ export function CartDrawer() {
         ) : null}
       </aside>
     </>
+  );
+}
+
+const PAY = {
+  alias: "aleramela",
+  cvu: "0000003100008178066486",
+  holder: "Sergio Alejandro Ramela",
+  link: "https://mpago.la/13GoBZu",
+};
+
+function CopyRow({ label, value }: { label: string; value: string }) {
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* si no se puede copiar, el dato queda visible igual */
+    }
+  }
+  return (
+    <div className="flex items-center justify-between gap-3 text-sm">
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+        <p className="break-all font-semibold text-slate-900">{value}</p>
+      </div>
+      <button
+        type="button"
+        onClick={copy}
+        className="shrink-0 rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-slate-200"
+      >
+        {copied ? "¡Copiado!" : "Copiar"}
+      </button>
+    </div>
+  );
+}
+
+function PaymentBox({ total }: { total: number }) {
+  return (
+    <div className="mt-5 space-y-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+      <h4 className="font-display text-2xl font-bold uppercase leading-none text-slate-950">
+        Cómo pagar
+      </h4>
+      <p className="text-sm text-slate-600">
+        Transferí <strong className="text-slate-900">{formatARS(total)}</strong> a esta cuenta de
+        Mercado Pago (también podés hacerlo desde cualquier banco):
+      </p>
+      <CopyRow label="Alias" value={PAY.alias} />
+      <CopyRow label="CVU" value={PAY.cvu} />
+      <p className="text-sm text-slate-600">
+        Titular: <strong className="text-slate-900">{PAY.holder}</strong>
+      </p>
+      <a
+        href={PAY.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-3.5 text-base font-bold text-white transition hover:bg-sky-400"
+      >
+        Pagar con Mercado Pago
+      </a>
+    </div>
   );
 }

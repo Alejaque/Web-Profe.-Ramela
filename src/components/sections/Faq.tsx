@@ -3,11 +3,11 @@ import { ArrowRightIcon } from "@/components/icons";
 const faqs = [
   {
     q: "¿Cómo accedo al material después de comprar?",
-    a: "Al confirmar tu pedido lo registramos y nos comunicamos con vos por WhatsApp o email para coordinar el pago y habilitarte el acceso a tus cursos, materiales y herramientas.",
+    a: "Al confirmar tu pedido se abre WhatsApp con el detalle de tu compra ya armado. Envialo y el Profe te responde para coordinar el pago y habilitarte el acceso a tus cursos, materiales y herramientas.",
   },
   {
     q: "¿En qué moneda están los precios y cómo puedo pagar?",
-    a: "Todos los valores están expresados en pesos argentinos (ARS). Cuando recibimos tu pedido te indicamos los medios de pago disponibles para que elijas el que más te convenga.",
+    a: "Todos los valores están expresados en pesos argentinos (ARS). Cuando recibimos tu mensaje por WhatsApp te indicamos los medios de pago disponibles para que elijas el que más te convenga.",
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
