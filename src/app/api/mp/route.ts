@@ -37,7 +37,11 @@ export async function POST(req: Request) {
       items,
       external_reference: String(orderId),
       statement_descriptor: "PROFE RAMELA",
-      back_urls: { success: origin, failure: origin, pending: origin },
+      back_urls: {
+        success: `${origin}/?pago=ok`,
+        failure: `${origin}/?pago=error`,
+        pending: `${origin}/?pago=pendiente`,
+      },
       auto_return: "approved",
     }),
   });

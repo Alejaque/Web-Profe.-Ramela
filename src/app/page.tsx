@@ -7,6 +7,7 @@ import { Catalog } from "@/components/sections/Catalog";
 import { Faq, FinalCta } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { Hero, StatsStrip } from "@/components/sections/Hero";
+import { PagoBanner } from "@/components/PagoBanner";
 import { WhatsappFloat } from "@/components/WhatsappFloat";
 import { Levels } from "@/components/sections/Levels";
 import { getActiveProducts } from "@/lib/catalog";
@@ -34,6 +35,7 @@ export default async function HomePage() {
       <Footer />
       <CartDrawer />
       <WhatsappFloat />
+      <PagoBanner />
     </CartProvider>
   );
 }
