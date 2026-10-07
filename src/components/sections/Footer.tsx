@@ -19,6 +19,7 @@ export function Footer() {
           <a href="#planificador-ia" className="transition hover:text-white">Planificador IA</a>
           <a href="#profe" className="transition hover:text-white">El Profe</a>
           <a href="#preguntas" className="transition hover:text-white">Preguntas</a>
+          <a href="/muestra-gratis" className="transition hover:text-white">Muestra gratis</a>
           <a href="/terminos" className="transition hover:text-white">Términos y condiciones</a>
         </nav>
       </div>
