@@ -17,6 +17,7 @@ import {
   setCart,
   subscribeToCart,
 } from "@/lib/cart-store";
+import { isAvailable } from "@/lib/availability";
 import type { Product } from "@/lib/types";
 
 type CartContextValue = {
@@ -61,6 +62,7 @@ export function CartProvider({
   // Productos válidos del carrito (sin los que ya incluye un pack).
   const lines = useMemo(() => {
     const present = slugs
+      .filter(isAvailable)
       .map((slug) => bySlug.get(slug))
       .filter((product): product is Product => Boolean(product));
     const covered = new Set(present.flatMap((product) => product.includesSlugs));
@@ -92,7 +94,7 @@ export function CartProvider({
   const add = useCallback(
     (slug: string) => {
       const product = bySlug.get(slug);
-      if (!product) return;
+      if (!product || !isAvailable(slug)) return;
 
       const current = getCartSnapshot();
       if (current.includes(slug)) {

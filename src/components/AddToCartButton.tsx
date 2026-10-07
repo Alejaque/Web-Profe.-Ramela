@@ -2,6 +2,7 @@
 
 import { useCart } from "@/components/CartProvider";
 import { CartIcon, CheckIcon } from "@/components/icons";
+import { isAvailable } from "@/lib/availability";
 
 type Props = {
   slug: string;
@@ -22,6 +23,19 @@ const variants = {
 export function AddToCartButton({ slug, variant = "solid", className = "", label }: Props) {
   const { add, inCart, openCart } = useCart();
   const added = inCart(slug);
+
+  if (!isAvailable(slug)) {
+    return (
+      <button
+        type="button"
+        disabled
+        aria-disabled="true"
+        className={`inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-slate-200 px-6 py-3.5 text-[15px] font-bold text-slate-600 ${className}`}
+      >
+        Próximamente
+      </button>
+    );
+  }
 
   return (
     <button

@@ -1,5 +1,6 @@
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { CheckIcon } from "@/components/icons";
+import { isAvailable } from "@/lib/availability";
 import { formatARS } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
@@ -10,6 +11,7 @@ function discountPercent(product: Product): number | null {
 
 /** Tarjeta destacada para el pack completo. */
 export function FeaturedProductCard({ product }: { product: Product }) {
+  const badge = isAvailable(product.slug) ? product.badge : "Próximamente";
   const discount = discountPercent(product);
   const saving =
     product.compareAtPriceArs && product.compareAtPriceArs > product.priceArs
@@ -25,9 +27,9 @@ export function FeaturedProductCard({ product }: { product: Product }) {
       <div className="relative grid gap-8 p-7 sm:p-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-12">
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            {product.badge ? (
+            {badge ? (
               <span className="rounded-full bg-amber-300 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-amber-950">
-                {product.badge}
+                {badge}
               </span>
             ) : null}
             <span className="text-xs font-bold uppercase tracking-[0.16em] text-sky-100">
@@ -79,6 +81,7 @@ export function FeaturedProductCard({ product }: { product: Product }) {
 
 /** Tarjeta estándar de curso. */
 export function ProductCard({ product, className = "" }: { product: Product; className?: string }) {
+  const badge = isAvailable(product.slug) ? product.badge : "Próximamente";
   return (
     <article
       className={`flex flex-col rounded-3xl bg-white p-7 text-slate-900 shadow-xl shadow-black/20 ring-1 ring-white/10 ${className}`}
@@ -87,9 +90,9 @@ export function ProductCard({ product, className = "" }: { product: Product; cla
         <span className="rounded-full bg-sky-100 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
           {product.level}
         </span>
-        {product.badge ? (
+        {badge ? (
           <span className="rounded-full bg-[#071634] px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-sky-300">
-            {product.badge}
+            {badge}
           </span>
         ) : null}
       </div>

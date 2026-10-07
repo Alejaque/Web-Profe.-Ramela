@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isAvailable } from "@/lib/availability";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
 
 export async function POST(req: Request) {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   // Los precios se toman del catálogo del servidor, nunca del navegador.
-  const items = SEED_PRODUCTS.filter((p) => slugs.includes(p.slug)).map((p) => ({
+  const items = SEED_PRODUCTS.filter((p) => slugs.includes(p.slug) && isAvailable(p.slug)).map((p) => ({
     id: p.slug,
     title: p.name,
     quantity: 1,
