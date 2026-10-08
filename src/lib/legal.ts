@@ -2,7 +2,7 @@
 export const LEGAL = {
   nombre: "Sergio Alejandro Ramela",
   marca: "Profe. Alejandro Ramela",
-  /** Completá con tu CUIT cuando estés inscripto. Si queda vacío, no se muestra. */
+  /**20-22864810-9 */
   cuit: "",
   domicilio: "Presidencia Roque Sáenz Peña, Chaco, Argentina",
   sitio: "ramelafutbol.vercel.app",
