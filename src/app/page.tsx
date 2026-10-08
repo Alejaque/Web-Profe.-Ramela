@@ -8,15 +8,15 @@ import { Faq, FinalCta } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
 import { Hero, StatsStrip } from "@/components/sections/Hero";
 import { PagoBanner } from "@/components/PagoBanner";
+import { isAvailable } from "@/lib/availability";
 import { WhatsappFloat } from "@/components/WhatsappFloat";
 import { Levels } from "@/components/sections/Levels";
 import { getActiveProducts } from "@/lib/catalog";
 
 export default async function HomePage() {
   const products = await getActiveProducts();
-  const fromPrice = products.length
-    ? Math.min(...products.map((product) => product.priceArs))
-    : null;
+  const available = products.filter((product) => isAvailable(product.slug));
+  const fromPrice = available.length ? Math.min(...available.map((product) => product.priceArs)) : null;
   const planner = products.find((product) => product.slug === "planificador-ia");
 
   return (

@@ -3,15 +3,15 @@ import { ArrowRightIcon } from "@/components/icons";
 const faqs = [
   {
     q: "¿Cómo accedo al material después de comprar?",
-    a: "Al confirmar tu pedido se abre WhatsApp con el detalle de tu compra ya armado. Envialo y el Profe te responde para coordinar el pago y habilitarte el acceso a tus cursos, materiales y herramientas.",
+    a: "Si pagás con Mercado Pago, al volver a la página ves los botones de acceso a tu material en el momento. Si pagás por transferencia, enviás el pedido por WhatsApp con el comprobante y el Profe te habilita el acceso, normalmente dentro de las 24 horas hábiles.",
   },
   {
     q: "¿En qué moneda están los precios y cómo puedo pagar?",
-    a: "Todos los valores están expresados en pesos argentinos (ARS). Cuando recibimos tu mensaje por WhatsApp te indicamos los medios de pago disponibles para que elijas el que más te convenga.",
+    a: "Todos los valores están expresados en pesos argentinos (ARS). Podés pagar con Mercado Pago (tarjeta, dinero en cuenta u otros medios) o por transferencia. Los dos medios te aparecen al confirmar tu pedido.",
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
-    a: "Podés comprar cada curso por separado. Si vas a trabajar con más de un nivel o querés el Planificador IA, el Pack Completo te sale bastante menos que comprar todo por separado.",
+    a: "Por ahora está disponible el curso de Fútbol Infantil. Los demás cursos, la Biblioteca, el Planificador IA y el Pack Completo llegan próximamente.",
   },
   {
     q: "¿Sirve si recién empiezo como entrenador?",
