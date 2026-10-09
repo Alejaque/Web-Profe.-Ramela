@@ -37,6 +37,7 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       items,
       external_reference: String(orderId),
+      metadata: { slugs: items.map((i) => i.id).join(","), order_id: String(orderId) },
       statement_descriptor: "PROFE RAMELA",
       back_urls: {
         success: `${origin}/?pago=ok`,

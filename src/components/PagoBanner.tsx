@@ -10,18 +10,21 @@ type Material = { slug: string; name: string; url: string | null };
 export function PagoBanner() {
   const [info, setInfo] = useState<Info | null>(null);
   const [material, setMaterial] = useState<Material[] | null>(null);
+  const [fallo, setFallo] = useState(false);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const estado = q.get("pago");
     if (estado) {
-      const pagoId = q.get("payment_id") ?? "";
+      const pagoId = q.get("payment_id") ?? q.get("collection_id") ?? "";
       setInfo({ estado, pedido: q.get("external_reference") ?? "", pagoId });
       if (estado === "ok" && pagoId) {
         fetch(`/api/entrega?payment_id=${encodeURIComponent(pagoId)}`)
           .then((r) => (r.ok ? r.json() : null))
-          .then((d) => setMaterial(d?.items ?? null))
-          .catch(() => setMaterial(null));
+          .then((d) => { if (d?.items?.length) setMaterial(d.items); else setFallo(true); })
+          .catch(() => setFallo(true));
+      } else if (estado === "ok") {
+        setFallo(true);
       }
     }
   }, []);
@@ -69,6 +72,11 @@ export function PagoBanner() {
         {titulo}
       </h3>
       <p className="mt-2 text-sm text-slate-600">{detalle}</p>
+      {ok && fallo ? (
+        <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900 ring-1 ring-amber-200">
+          No pudimos mostrar tu material automáticamente. No te preocupes: tu pago está registrado. Escribinos por WhatsApp con el comprobante y te lo enviamos enseguida.
+        </p>
+      ) : null}
       {ok && material && material.length > 0 ? (
         <div className="mt-4 space-y-2">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Tu material</p>
