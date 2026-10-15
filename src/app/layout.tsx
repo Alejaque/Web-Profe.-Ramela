@@ -24,13 +24,13 @@ const script = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "Profe. Alejandro Ramela | Cursos de formación en fútbol con IA",
+  title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
   description:
-    "Cursos de formación académica en fútbol, material de entrenamiento en todos los niveles y planificaciones con inteligencia artificial para fútbol infantil, juvenil y profesional. Más de 30 años de experiencia.",
+    "Curso de Formación en Fútbol Infantil: 4 guías y una planilla con metodología, 30 juegos con diagramas, planificación anual y gestión de familias. Más de 30 años de experiencia.",
   openGraph: {
-    title: "Profe. Alejandro Ramela | Cursos de formación en fútbol con IA",
+    title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
     description:
-      "Formación académica, material de entrenamiento y planificaciones con IA para fútbol infantil, juvenil y profesional.",
+      "Curso de Formación en Fútbol Infantil: metodología, 30 juegos con diagramas, planificación anual y gestión de familias.",
     locale: "es_AR",
     type: "website",
   },
