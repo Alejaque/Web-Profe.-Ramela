@@ -39,9 +39,10 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
           </h1>
 
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300">
-            Cursos de formación académica en fútbol, material de entrenamiento en todos los
-            niveles y planificaciones con inteligencia artificial para fútbol{" "}
-            <strong className="font-semibold text-white">infantil, juvenil y profesional</strong>.
+            El Curso de Formación en Fútbol Infantil ya está disponible: 4 guías y una planilla con
+            metodología, <strong className="font-semibold text-white">30 juegos con diagramas</strong>,
+            planificación anual y gestión de familias. Juvenil, profesional y Planificador IA,
+            próximamente.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -53,17 +54,17 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
               <ArrowRightIcon className="h-5 w-5" />
             </a>
             <a
-              href="#planificador-ia"
+              href="/muestra-gratis"
               className="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white ring-1 ring-inset ring-white/30 transition hover:bg-white/10"
             >
-              Conocé el Planificador IA
+              Descargá la muestra gratis
             </a>
           </div>
 
           <ul className="mt-9 flex flex-col gap-3 text-sm font-medium text-slate-300 sm:flex-row sm:flex-wrap sm:gap-x-7">
             {[
-              "Material para todos los niveles",
-              "Planificaciones con IA",
+              "Curso Infantil disponible ahora",
+              "Muestra gratis para probar",
               fromPrice ? `Desde ${formatARS(fromPrice)}` : "Precios en pesos argentinos",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2.5">
@@ -115,8 +116,8 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
 export function StatsStrip() {
   const stats = [
     { value: "+30", label: "años de experiencia en el fútbol argentino" },
-    { value: "3", label: "niveles: infantil, juvenil y profesional" },
-    { value: "IA", label: "planificaciones de entrenamiento en minutos" },
+    { value: "30", label: "juegos con diagrama de cancha en el curso infantil" },
+    { value: "36", label: "semanas de planificación listas por cada etapa" },
     { value: "24/7", label: "acceso a tu material, cuando lo necesites" },
   ];
 
