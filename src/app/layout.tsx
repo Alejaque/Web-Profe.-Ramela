@@ -1,36 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow_Condensed, Great_Vibes, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
+// Mismas familias, alojadas localmente: el build no depende de Google Fonts.
+const inter = localFont({
+  src: "./fonts/Inter[opsz,wght].ttf", weight: "100 900", variable: "--font-inter", display: "swap",
 });
-
-const barlow = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-barlow",
-  display: "swap",
+const barlow = localFont({
+  src: [
+    { path: "./fonts/BarlowCondensed-Medium.ttf", weight: "500" },
+    { path: "./fonts/BarlowCondensed-SemiBold.ttf", weight: "600" },
+    { path: "./fonts/BarlowCondensed-Bold.ttf", weight: "700" },
+    { path: "./fonts/BarlowCondensed-ExtraBold.ttf", weight: "800" },
+  ],
+  variable: "--font-barlow", display: "swap",
 });
-
-const script = Great_Vibes({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-great-vibes",
-  display: "swap",
+const script = localFont({
+  src: "./fonts/GreatVibes-Regular.ttf", weight: "400", variable: "--font-great-vibes", display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
   description:
-    "Curso de Formación en Fútbol Infantil: 4 guías y una planilla con metodología, 30 juegos con diagramas, planificación anual y gestión de familias. Más de 30 años de experiencia.",
+    "Cursos de Fútbol Infantil y Juvenil en oferta de lanzamiento. Guías, diagramas, sesiones y planillas de planificación. Pack de los dos cursos disponible.",
   openGraph: {
     title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
     description:
-      "Curso de Formación en Fútbol Infantil: metodología, 30 juegos con diagramas, planificación anual y gestión de familias.",
+      "Formación en Fútbol Infantil y Juvenil: metodología, modelo de juego, sesiones con diagramas y planificación. Elegí un curso o el pack de los dos.",
     locale: "es_AR",
     type: "website",
   },

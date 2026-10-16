@@ -71,7 +71,7 @@ export function AiPlanner({ product }: { product?: Product }) {
         </div>
 
         {/* Ejemplo ilustrativo de una planificación */}
-        <div className="relative">
+        <div className="relative min-w-0">
           <div
             aria-hidden="true"
             className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-sky-200 to-blue-200 blur-2xl"

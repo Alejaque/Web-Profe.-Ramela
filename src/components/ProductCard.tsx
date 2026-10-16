@@ -1,22 +1,12 @@
+import { ProductPrice, PreviousBuyerOffer } from "@/components/ProductPrice";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { CheckIcon } from "@/components/icons";
 import { isAvailable } from "@/lib/availability";
-import { formatARS } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
-function discountPercent(product: Product): number | null {
-  if (!product.compareAtPriceArs || product.compareAtPriceArs <= product.priceArs) return null;
-  return Math.round((1 - product.priceArs / product.compareAtPriceArs) * 100);
-}
-
-/** Tarjeta destacada para el pack completo. */
+/** Tarjeta destacada del pack de lanzamiento. */
 export function FeaturedProductCard({ product }: { product: Product }) {
   const badge = isAvailable(product.slug) ? product.badge : "Próximamente";
-  const discount = discountPercent(product);
-  const saving =
-    product.compareAtPriceArs && product.compareAtPriceArs > product.priceArs
-      ? product.compareAtPriceArs - product.priceArs
-      : null;
 
   return (
     <article className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-sky-500 via-sky-600 to-blue-800 text-white shadow-2xl shadow-sky-900/40 ring-1 ring-white/20">
@@ -55,23 +45,7 @@ export function FeaturedProductCard({ product }: { product: Product }) {
         </div>
 
         <div className="flex flex-col justify-end rounded-3xl bg-[#071634]/70 p-6 ring-1 ring-white/15 backdrop-blur">
-          {discount ? (
-            <span className="mb-3 w-fit rounded-full bg-emerald-400 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-emerald-950">
-              {discount}% de ahorro
-            </span>
-          ) : null}
-          {product.compareAtPriceArs ? (
-            <p className="text-lg font-medium text-sky-200/80 line-through">
-              {formatARS(product.compareAtPriceArs)}
-            </p>
-          ) : null}
-          <p className="font-display text-6xl font-extrabold leading-none">
-            {formatARS(product.priceArs)}
-          </p>
-          <p className="mt-2 text-sm text-sky-100/80">
-            Pago único · precio en pesos argentinos
-            {saving ? ` · ahorrás ${formatARS(saving)}` : ""}
-          </p>
+          <ProductPrice product={product} inverted />
           <AddToCartButton slug={product.slug} variant="light" className="mt-6 w-full" />
         </div>
       </div>
@@ -113,15 +87,11 @@ export function ProductCard({ product, className = "" }: { product: Product; cla
       </ul>
 
       <div className="mt-auto pt-7">
-        <div className="flex items-end justify-between gap-3 border-t border-slate-200 pt-5">
-          <div>
-            <p className="font-display text-4xl font-extrabold leading-none text-[#071634]">
-              {formatARS(product.priceArs)}
-            </p>
-            <p className="mt-1 text-xs text-slate-500">Pago único · ARS</p>
-          </div>
+        <div className="border-t border-slate-200 pt-5">
+          <ProductPrice product={product} />
         </div>
         <AddToCartButton slug={product.slug} className="mt-4 w-full" />
+        <PreviousBuyerOffer product={product} />
       </div>
     </article>
   );

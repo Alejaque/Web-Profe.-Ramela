@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAvailable } from "@/lib/availability";
+import { resolveCartProducts } from "@/lib/checkout";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
 
 export async function POST(req: Request) {
@@ -12,14 +13,20 @@ export async function POST(req: Request) {
   let orderId = 0;
   try {
     const body = await req.json();
-    slugs = Array.isArray(body.slugs) ? body.slugs.map(String) : [];
+    if (!Array.isArray(body.slugs) || !body.slugs.every((slug: unknown) => typeof slug === "string")) {
+      return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
+    }
+    slugs = body.slugs;
     orderId = Number(body.orderId) || 0;
   } catch {
     return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
   }
 
   // Los precios se toman del catálogo del servidor, nunca del navegador.
-  const items = SEED_PRODUCTS.filter((p) => slugs.includes(p.slug) && isAvailable(p.slug)).map((p) => ({
+  if (slugs.some((slug) => !isAvailable(slug) || !SEED_PRODUCTS.some((p) => p.slug === slug))) {
+    return NextResponse.json({ error: "Hay productos no disponibles en el pedido. Revisá tu carrito." }, { status: 400 });
+  }
+  const items = resolveCartProducts(slugs, SEED_PRODUCTS).map((p) => ({
     id: p.slug,
     title: p.name,
     quantity: 1,

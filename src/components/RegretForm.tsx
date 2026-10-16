@@ -53,7 +53,7 @@ export function RegretForm() {
         <input className={field} value={f.whatsapp} onChange={set("whatsapp")} inputMode="tel" placeholder="Ej: 3644 123456" /></label>
       <label className="block text-sm font-semibold text-slate-800">Producto comprado
         <select className={field} value={f.producto} onChange={set("producto")}>
-          <option>Formación en Fútbol Infantil</option><option>Otro</option></select></label>
+          <option>Formación en Fútbol Infantil</option><option>Formación en Fútbol Juvenil</option><option>Pack Infantil + Juvenil</option><option>Otro</option></select></label>
       <label className="block text-sm font-semibold text-slate-800">Medio de pago
         <select className={field} value={f.medio} onChange={set("medio")}>
           <option>Mercado Pago</option><option>Transferencia</option></select></label>

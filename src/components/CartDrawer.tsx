@@ -26,7 +26,7 @@ const fieldClass =
   "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-[15px] text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-500/15";
 
 export function CartDrawer() {
-  const { lines, total, isOpen, closeCart, remove, clear, toast, dismissToast, openCart } =
+  const { lines, total, isOpen, closeCart, remove, clear, toast, dismissToast, openCart, add, products } =
     useCart();
 
   const [view, setView] = useState<View>("cart");
@@ -37,6 +37,9 @@ export function CartDrawer() {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const pack = products.find((p) => p.slug === "pack-infantil-juvenil");
+  const packSaving = pack && lines.some((p) => p.slug === "curso-infantil") && lines.some((p) => p.slug === "curso-juvenil")
+    ? total - pack.priceArs : 0;
   const activeView: View = view === "checkout" && lines.length === 0 ? "cart" : view;
 
   function handleClose() {
@@ -297,6 +300,11 @@ export function CartDrawer() {
                 <p className="mt-1 text-right text-xs text-slate-500">
                   Precios en pesos argentinos (ARS)
                 </p>
+                {pack && packSaving > 0 ? (
+                  <button type="button" onClick={() => add(pack.slug)} className="mt-4 w-full rounded-xl bg-emerald-50 px-4 py-3 text-left text-sm font-bold text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100">
+                    Cambiar al pack de los dos por {formatARS(pack.priceArs)} y ahorrar {formatARS(packSaving)}
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   onClick={() => setView("checkout")}
@@ -399,8 +407,7 @@ export function CartDrawer() {
               </div>
 
               <p className="rounded-xl bg-sky-50 p-3 text-xs leading-relaxed text-sky-900 ring-1 ring-sky-100">
-                Al confirmar, registramos tu pedido y nos comunicamos con vos por WhatsApp o
-                email para coordinar el medio de pago y habilitarte el acceso.
+                Al confirmar, se arma tu pedido con los precios de lanzamiento. Después elegís Mercado Pago o transferencia. Si necesitás el precio para compradores previos del Infantil, verificá tu compra por WhatsApp antes de pagar.
               </p>
 
               {error ? (

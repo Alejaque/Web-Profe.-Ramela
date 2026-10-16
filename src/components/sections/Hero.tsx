@@ -30,7 +30,7 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
         <div>
           <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-300 ring-1 ring-white/15">
             <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-            Profesor y entrenador de fútbol
+            Infantil + Juvenil · Ofertas de lanzamiento
           </p>
 
           <h1 className="mt-6 font-display text-[3.4rem] font-extrabold uppercase leading-[0.92] tracking-tight sm:text-7xl lg:text-[5.6rem]">
@@ -39,10 +39,9 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
           </h1>
 
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300">
-            El Curso de Formación en Fútbol Infantil ya está disponible: 4 guías y una planilla con
-            metodología, <strong className="font-semibold text-white">30 juegos con diagramas</strong>,
-            planificación anual y gestión de familias. Juvenil, profesional y Planificador IA,
-            próximamente.
+            Ya podés formarte en <strong className="font-semibold text-white">Fútbol Infantil y Juvenil</strong>.
+            Guías, diagramas y planillas para enseñar y planificar de los 6 a los 19 años.
+            Elegí un curso o llevate los dos con el Pack Infantil + Juvenil.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -50,7 +49,7 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
               href="#cursos"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-8 py-4 text-base font-bold text-white shadow-xl shadow-sky-500/30 transition hover:bg-sky-400"
             >
-              Ver cursos y precios
+              Ver ofertas de lanzamiento
               <ArrowRightIcon className="h-5 w-5" />
             </a>
             <a
@@ -63,7 +62,7 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
 
           <ul className="mt-9 flex flex-col gap-3 text-sm font-medium text-slate-300 sm:flex-row sm:flex-wrap sm:gap-x-7">
             {[
-              "Curso Infantil disponible ahora",
+              "Infantil y Juvenil disponibles",
               "Muestra gratis para probar",
               fromPrice ? `Desde ${formatARS(fromPrice)}` : "Precios en pesos argentinos",
             ].map((item) => (

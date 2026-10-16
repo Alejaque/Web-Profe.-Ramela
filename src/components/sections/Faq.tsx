@@ -3,7 +3,7 @@ import { ArrowRightIcon } from "@/components/icons";
 const faqs = [
   {
     q: "¿Cómo accedo al material después de comprar?",
-    a: "Si pagás con Mercado Pago, al volver a la página ves los botones de acceso a tu material en el momento. Si pagás por transferencia, enviás el pedido por WhatsApp con el comprobante y el Profe te habilita el acceso, normalmente dentro de las 24 horas hábiles.",
+    a: "Con Mercado Pago, al volver al sitio con el pago aprobado, se muestran los enlaces de acceso disponibles. Si un enlace no aparece o pagás por transferencia, enviá el pedido y el comprobante por WhatsApp: te habilitamos el material, normalmente dentro de las 24 horas hábiles.",
   },
   {
     q: "¿En qué moneda están los precios y cómo puedo pagar?",
@@ -11,7 +11,11 @@ const faqs = [
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
-    a: "Por ahora está disponible el curso de Fútbol Infantil. Los demás cursos, la Biblioteca, el Planificador IA y el Pack Completo llegan próximamente.",
+    a: "Están disponibles Infantil y Juvenil con oferta de lanzamiento. Podés comprar cada uno por separado o elegir el Pack Infantil + Juvenil, que incluye ambos cursos completos. Profesional, Biblioteca, Planificador IA y el Pack Completo de todos los niveles siguen próximamente.",
+  },
+  {
+    q: "¿Tengo un beneficio si ya compré el Infantil?",
+    a: "Sí. Podés acceder al Juvenil por $34.900. Escribinos desde el botón de beneficio para compradores del Infantil y enviá el comprobante o los datos de tu compra anterior. Primero verificamos la compra y después coordinamos el pago con ese precio. No se aplica automáticamente en el carrito ni se acumula con el pack.",
   },
   {
     q: "¿Sirve si recién empiezo como entrenador?",
