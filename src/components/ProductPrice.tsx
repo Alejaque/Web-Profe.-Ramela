@@ -15,9 +15,12 @@ export function ProductPrice({ product, inverted = false }: { product: Product; 
   return (
     <div>
       {offer ? (
-        <p className={`mb-2 text-sm ${muted}`}>
-          Precio de lista <del className="ml-1 decoration-2">{formatARS(product.compareAtPriceArs!)}</del>
-        </p>
+        <div className={`mb-2 ${muted}`}>
+          <p className="text-sm">Precio de lista</p>
+          <del className="block font-display text-3xl font-bold leading-none decoration-[3px] sm:text-4xl">
+            {formatARS(product.compareAtPriceArs!)}
+          </del>
+        </div>
       ) : null}
       {isAvailable(product.slug) ? (
         <p className={`mb-2 text-xs font-extrabold uppercase tracking-wider ${inverted ? "text-amber-300" : "text-sky-700"}`}>
