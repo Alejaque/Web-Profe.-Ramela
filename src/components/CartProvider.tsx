@@ -17,6 +17,7 @@ import {
   setCart,
   subscribeToCart,
 } from "@/lib/cart-store";
+import { resolveCartProducts } from "@/lib/checkout";
 import { isAvailable } from "@/lib/availability";
 import type { Product } from "@/lib/types";
 
@@ -60,14 +61,10 @@ export function CartProvider({
   );
 
   // Productos válidos del carrito (sin los que ya incluye un pack).
-  const lines = useMemo(() => {
-    const present = slugs
-      .filter(isAvailable)
-      .map((slug) => bySlug.get(slug))
-      .filter((product): product is Product => Boolean(product));
-    const covered = new Set(present.flatMap((product) => product.includesSlugs));
-    return present.filter((product) => !covered.has(product.slug));
-  }, [slugs, bySlug]);
+  const lines = useMemo(
+    () => resolveCartProducts(slugs, products),
+    [slugs, products],
+  );
 
   const total = useMemo(
     () => lines.reduce((sum, product) => sum + product.priceArs, 0),
@@ -106,7 +103,7 @@ export function CartProvider({
         bySlug.get(existing)?.includesSlugs.includes(slug),
       );
       if (alreadyCovered) {
-        showToast("Ya está incluido en el Pack Completo de tu carrito.");
+        showToast("Ya está incluido en el pack de tu carrito.");
         return;
       }
 

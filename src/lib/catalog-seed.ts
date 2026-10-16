@@ -1,6 +1,5 @@
 /**
- * Catálogo inicial de cursos. Se carga automáticamente en la base de datos
- * la primera vez que la tabla `products` está vacía. Todos los precios están
+ * Catálogo compartido por la vitrina y el checkout del servidor. Los precios están
  * expresados en pesos argentinos (ARS).
  */
 export type SeedProduct = {
@@ -14,11 +13,33 @@ export type SeedProduct = {
   priceArs: number;
   compareAtPriceArs: number | null;
   badge: string | null;
+  previousBuyerPriceArs?: number;
   featured: boolean;
   sortOrder: number;
 };
 
 export const SEED_PRODUCTS: SeedProduct[] = [
+  {
+    slug: "pack-infantil-juvenil",
+    name: "Pack Infantil + Juvenil",
+    level: "Dos cursos completos",
+    audience: "Infantil 6–12 años · Juvenil 13–19 años",
+    summary:
+      "Acompañá al jugador desde sus primeros aprendizajes hasta el salto competitivo. Los dos cursos completos en un solo pedido.",
+    features: [
+      "Las 4 guías del curso Infantil y las 4 del Juvenil",
+      "30 juegos infantiles y 30 sesiones juveniles con diagramas",
+      "Planillas Excel de planificación y seguimiento",
+      "Formación personal, gestión del grupo y familias",
+    ],
+    includesSlugs: ["curso-infantil", "curso-juvenil"],
+    priceArs: 69900,
+    compareAtPriceArs: null,
+    badge: "Oferta lanzamiento",
+    featured: true,
+    sortOrder: 0,
+  },
+
   {
     slug: "pack-completo",
     name: "Pack Completo Profe. Alejandro Ramela",
@@ -43,8 +64,8 @@ export const SEED_PRODUCTS: SeedProduct[] = [
     priceArs: 169900,
     compareAtPriceArs: 259500,
     badge: "Más elegido",
-    featured: true,
-    sortOrder: 0,
+    featured: false,
+    sortOrder: 10,
   },
   {
     slug: "curso-infantil",
@@ -60,9 +81,9 @@ export const SEED_PRODUCTS: SeedProduct[] = [
       "Gestión de grupos y relación con las familias",
     ],
     includesSlugs: [],
-    priceArs: 44900,
-    compareAtPriceArs: null,
-    badge: null,
+    priceArs: 34900,
+    compareAtPriceArs: 44900,
+    badge: "Oferta lanzamiento",
     featured: false,
     sortOrder: 1,
   },
@@ -72,17 +93,19 @@ export const SEED_PRODUCTS: SeedProduct[] = [
     level: "Juvenil",
     audience: "Divisiones formativas de 13 a 19 años",
     summary:
-      "Del técnico-táctico a la formación personal: cómo preparar al jugador juvenil para dar el salto a la competencia exigente.",
+      "Modelo de juego, periodización y formación personal para preparar al jugador antes del salto competitivo.",
     features: [
       "Modelo de juego y principios tácticos",
       "Periodización y carga en etapas de crecimiento",
       "Sesiones de entrenamiento paso a paso",
-      "Transición hacia el fútbol de primera",
+      "Formación personal y transición hacia mayores",
+      "4 guías, 30 sesiones con diagramas, Excel y checklist",
     ],
     includesSlugs: [],
-    priceArs: 54900,
-    compareAtPriceArs: null,
-    badge: null,
+    priceArs: 39900,
+    compareAtPriceArs: 54900,
+    badge: "Oferta lanzamiento",
+    previousBuyerPriceArs: 34900,
     featured: false,
     sortOrder: 2,
   },

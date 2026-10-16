@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { resolveDeliveryProducts } from "@/lib/checkout";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
 
 export const dynamic = "force-dynamic";
@@ -40,20 +41,9 @@ export async function GET(req: Request) {
   const fromItems: string[] = (payment.additional_info?.items ?? []).map((i: { id: string }) => i.id).filter(Boolean);
   const bought: string[] = fromMeta.length ? fromMeta : fromItems;
   console.log("entrega", { paymentId, status: payment.status, metaSlugs: fromMeta.length, itemSlugs: fromItems.length });
-  const slugs = new Set<string>();
-  for (const slug of bought) {
-    const product = SEED_PRODUCTS.find((p) => p.slug === slug);
-    if (!product) continue;
-    if (product.includesSlugs.length) product.includesSlugs.forEach((s) => slugs.add(s));
-    slugs.add(product.slug);
-  }
-
   const links = readLinks();
-  console.log("entrega links", { claves: Object.keys(links) });
-
-  const items = [...slugs]
-    .map((slug) => ({ slug, name: SEED_PRODUCTS.find((p) => p.slug === slug)?.name ?? slug, url: links[slug] ?? null }))
-    .filter((i) => i.slug !== "pack-completo");
+  const items = resolveDeliveryProducts(bought, SEED_PRODUCTS)
+    .map((p) => ({ slug: p.slug, name: p.name, url: links[p.slug] ?? null }));
 
   if (items.length === 0) console.log("entrega: pago aprobado pero sin cursos reconocidos", { paymentId });
   return NextResponse.json({ items });

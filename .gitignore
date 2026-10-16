@@ -1,2 +1,19 @@
 git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
 git push -u origin main
+
+# Herramientas de edición del contenido (Python)
+__pycache__/
+*.py[cod]
+.venv/
+
+# Dependencias y salidas web locales
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.env*
+!.env.example
+
+# Resultados locales de pruebas de navegador
+test-results/
+playwright-report/

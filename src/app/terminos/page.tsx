@@ -15,9 +15,10 @@ export default function TerminosPage() {
       "El material tiene fines educativos y de formación deportiva. Salvo que se indique expresamente lo contrario, no otorga habilitaciones oficiales ni garantiza resultados deportivos o laborales."] },
     { titulo: "3. Precios y medios de pago", parrafos: [
       "Los precios están expresados en pesos argentinos (ARS) y se muestran antes de pagar. Se puede pagar con Mercado Pago (tarjetas, dinero en cuenta u otros medios que esa plataforma habilite) o por transferencia.",
-      "Los pagos con Mercado Pago son procesados por esa plataforma, con sus propias condiciones. Los datos de tu tarjeta no pasan por este sitio."] },
+      "Los pagos con Mercado Pago son procesados por esa plataforma, con sus propias condiciones. Los datos de tu tarjeta no pasan por este sitio.",
+      "El precio especial del Juvenil para compradores previos del Infantil requiere verificar la compra por WhatsApp antes del pago. No se aplica automáticamente al carrito ni se acumula con el pack."] },
     { titulo: "4. Entrega y acceso", parrafos: [
-      "Con Mercado Pago, cuando el pago se aprueba y volvés al sitio, se muestran los botones de acceso a tu material. Con transferencia, el acceso se envía por WhatsApp una vez acreditado el pago, normalmente dentro de las " + LEGAL.plazoEntregaTransferencia + ".",
+      "Con Mercado Pago, cuando el pago se aprueba y volvés al sitio, se muestran los enlaces de acceso disponibles. Si un enlace no aparece, o pagás por transferencia, enviá el comprobante por WhatsApp para habilitar el acceso, normalmente dentro de las " + LEGAL.plazoEntregaTransferencia + ".",
       "Guardá los enlaces de acceso. Si los perdés, escribinos por WhatsApp con tu comprobante de pago."] },
     { titulo: "5. Licencia de uso", parrafos: [
       "La compra otorga una licencia personal e intransferible. Podés usar el material con tus propios grupos y grabar copias impresas para tu uso.",

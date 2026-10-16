@@ -9,5 +9,6 @@ export type Product = {
   priceArs: number;
   compareAtPriceArs: number | null;
   badge: string | null;
+  previousBuyerPriceArs?: number;
   featured: boolean;
 };
