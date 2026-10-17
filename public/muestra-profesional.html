@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muestra gratis: 3 herramientas de fútbol profesional | Profe. Alejandro Ramela</title>
+<meta name="description" content="Descargá gratis la ficha de rival, el microciclo cada 3 días y la matriz de variantes tácticas del curso de Fútbol Profesional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:#050f26;color:#0f172a;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  h1,h2,h3,.display{font-family:Barlow,Barlow Fallback,Inter,ui-sans-serif,system-ui,sans-serif;
+    font-weight:800;letter-spacing:-.01em}
+  a{text-decoration:none}
+  .wrap{max-width:64rem;margin:0 auto;padding:0 1.25rem}
+  .hdr{border-bottom:1px solid rgba(255,255,255,.10)}
+  .hdr .in{display:flex;height:4rem;align-items:center;justify-content:space-between;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.75rem;color:#fff}
+  .logo{display:grid;place-items:center;width:2.25rem;height:2.25rem;border-radius:999px;
+    background:#0ea5e9;color:#fff;font-family:Barlow,Inter,sans-serif;font-size:1.125rem;font-weight:800}
+  .brand b{font-family:Barlow,Inter,sans-serif;font-size:1.25rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.02em;line-height:1}
+  .brand b span{color:#38bdf8}
+  .back{font-size:.875rem;font-weight:500;color:#cbd5e1}
+  .back:hover{color:#fff}
+  main{padding:2.5rem 0 4rem}
+  .grid2{display:grid;gap:2.5rem;align-items:center}
+  @media(min-width:768px){.grid2{grid-template-columns:1fr 1fr}}
+  .port{width:100%;max-width:24rem;margin:0 auto;display:block;border-radius:1rem;
+    box-shadow:0 25px 50px -12px rgba(14,165,233,.28);border:1px solid rgba(255,255,255,.10)}
+  .eyebrow{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:#38bdf8;margin:0}
+  h1{margin:.75rem 0 0;font-size:clamp(2.25rem,7vw,3.75rem);text-transform:uppercase;
+    line-height:.95;color:#fff;font-weight:800}
+  h1 em{font-style:normal;color:#38bdf8}
+  .lead{margin:1.25rem 0 0;font-size:1.125rem;line-height:1.7;color:#cbd5e1}
+  ul.check{list-style:none;margin:1.25rem 0 0;padding:0;color:#e2e8f0}
+  ul.check li{padding:.3rem 0;font-size:1rem;line-height:1.6}
+  ul.check li b{color:#fff}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+    border-radius:.75rem;padding:1rem 1.5rem;font-weight:700;font-size:1rem;
+    transition:background .15s,transform .15s;border:0;cursor:pointer}
+  .btn-primary{background:#0ea5e9;color:#fff}
+  .btn-primary:hover{background:#38bdf8;transform:translateY(-1px)}
+  .btn-ghost{border:1px solid rgba(56,189,248,.5);color:#7dd3fc;background:transparent}
+  .btn-ghost:hover{background:rgba(56,189,248,.10)}
+  .btn-wa{background:#25D366;color:#fff}
+  .btn-wa:hover{filter:brightness(.95)}
+  .btn-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+  .card{margin-top:2rem;border-radius:1rem;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);padding:1.25rem}
+  .card h2{margin:0;font-size:1rem;color:#fff;font-weight:600;font-family:Inter,sans-serif}
+  .card p{margin:.35rem 0 0;font-size:.875rem;line-height:1.6;color:#cbd5e1}
+  .card .btn-row{margin-top:1rem}
+  .card .btn{padding:.6rem 1.15rem;font-size:.875rem}
+
+  /* ---- oferta ---- */
+  .pricebox{margin-top:1.75rem;border-radius:1rem;background:rgba(255,255,255,.05);
+    border:1px solid rgba(56,189,248,.35);padding:1.5rem}
+  .was{font-size:1rem;color:#94a3b8;text-decoration:line-through;margin:0}
+  .now{font-family:Barlow,Inter,sans-serif;font-size:clamp(2.75rem,9vw,3.75rem);
+    font-weight:800;color:#fff;line-height:1;margin:.25rem 0 .35rem}
+  .off{display:inline-block;margin-top:.25rem;background:rgba(56,189,248,.15);color:#7dd3fc;
+    font-size:.8rem;font-weight:700;padding:.3rem .7rem;border-radius:.4rem;letter-spacing:.03em}
+  .finest{font-size:.875rem;color:#94a3b8;margin:.6rem 0 0}
+  .cd{display:flex;gap:.5rem;margin-top:1rem}
+  .cd div{background:rgba(255,255,255,.08);border-radius:.6rem;padding:.45rem .7rem;
+    text-align:center;min-width:3.6rem}
+  .cd b{display:block;font-family:Barlow,Inter,sans-serif;font-size:1.25rem;font-weight:800;color:#fff;line-height:1.1}
+  .cd span{font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:#94a3b8}
+  .sect{margin-top:3.5rem}
+  .sect h2{font-size:clamp(1.5rem,4vw,2rem);color:#fff;text-transform:uppercase;margin:0 0 1rem}
+  .cols{display:grid;gap:1rem}
+  @media(min-width:640px){.cols{grid-template-columns:repeat(2,1fr)}}
+  .tile{border-radius:1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);padding:1.25rem}
+  .tile h3{margin:0 0 .35rem;font-size:1rem;color:#fff;font-family:Inter,sans-serif;font-weight:600}
+  .tile p{margin:0;font-size:.9rem;line-height:1.6;color:#cbd5e1}
+  details{border-bottom:1px solid rgba(255,255,255,.10);padding:1rem 0}
+  summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:1rem;
+    align-items:center;font-weight:600;color:#fff;font-size:1.02rem}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:#38bdf8;font-size:1.5rem;font-weight:700;line-height:1;flex:none}
+  details[open] summary::after{content:"\2013"}
+  details p{margin:.7rem 0 0;font-size:.95rem;line-height:1.65;color:#cbd5e1}
+  footer{margin-top:3.5rem;border-top:1px solid rgba(255,255,255,.10);padding:1.75rem 0;
+    color:#7f8ea4;font-size:.8rem;line-height:1.7}
+  footer a{color:#7dd3fc}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="wrap in">
+    <a class="brand" href="/" aria-label="Volver al inicio">
+      <span class="logo">AR</span><b>Profe. <span>Alejandro Ramela</span></b>
+    </a>
+    <a class="back" href="/">&larr; Ir a la web</a>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+
+    <div class="grid2">
+      <div>
+        <img class="port" src="/images/muestra-profesional-portada.jpg"
+             alt="Portada de la muestra gratis del curso de F&uacute;tbol Profesional">
+      </div>
+      <div>
+        <p class="eyebrow">Muestra gratis &middot; F&uacute;tbol Profesional</p>
+        <h1>3 herramientas para preparar mejor <em>tu pr&oacute;ximo partido</em></h1>
+        <p class="lead">
+          Las tres planillas que se usan todas las semanas en un cuerpo t&eacute;cnico:
+          c&oacute;mo leer al rival en una p&aacute;gina, c&oacute;mo armar la semana cuando
+          jug&aacute;s cada tres d&iacute;as y c&oacute;mo tener la respuesta lista antes de necesitarla.
+        </p>
+        <ul class="check">
+          <li>&#10003; <b>Ficha de rival</b> en una p&aacute;gina, con escala de confianza</li>
+          <li>&#10003; <b>Microciclo cada 3 d&iacute;as</b> y control de carga RPE, con ejemplo resuelto</li>
+          <li>&#10003; <b>Matriz de variantes t&aacute;cticas</b>: disparador, respuesta, responsable y se&ntilde;al de &eacute;xito</li>
+          <li>&#10003; Todo tomado textualmente de las gu&iacute;as del curso</li>
+          <li>&#10003; PDF de 6 p&aacute;ginas, para imprimir o ver en el celular</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/muestra-profesional.pdf" download>
+            Descargar la muestra gratis (PDF)
+          </a>
+        </div>
+        <div class="card">
+          <h2>El curso Profesional sale en esta campa&ntilde;a</h2>
+          <p>
+            4 gu&iacute;as (modelo de juego, microciclos, preparaci&oacute;n de partidos y vestuario),
+            30 sesiones con diagrama, planificador en Excel y modelos editables.
+            Escribime y te aviso apenas se habilite la compra.
+          </p>
+          <div class="btn-row">
+            <a class="btn btn-ghost" href="/#cursos">Ver todos los cursos</a>
+            <a class="btn btn-wa" href="https://wa.me/5493644670461?text=Hola%20Profe!%20Descargu%C3%A9%20la%20muestra%20del%20curso%20Profesional%20y%20quiero%20que%20me%20avises%20cuando%20salga%20la%20venta." target="_blank" rel="noopener">Avisame cuando salga</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    &copy; Profe. Alejandro Ramela &middot; Material de uso exclusivo del comprador.
+    Prohibida su reproducci&oacute;n o reventa.<br>
+    WhatsApp 3644 670461 &middot; <a href="/">ramelafutbol.vercel.app</a>
+  </div>
+</footer>
+
+</body>
+</html>
