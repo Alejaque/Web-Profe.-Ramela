@@ -1,0 +1,109 @@
+import Link from "next/link";
+import { LEGAL } from "@/lib/legal";
+import { MUESTRAS, type Muestra } from "@/lib/muestras";
+
+/** Página de muestra gratis, compartida por las tres categorías. */
+export default function MuestraContent({ muestra }: { muestra: Muestra }) {
+  const wa = `https://wa.me/${LEGAL.whatsapp}?text=${encodeURIComponent(muestra.waTexto)}`;
+
+  return (
+    <div className="min-h-screen bg-[#050f26] pb-16">
+      <header className="border-b border-white/10">
+        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-5">
+          <Link href="/" className="flex items-center gap-3" aria-label="Volver al inicio">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-sky-500 font-display text-lg font-extrabold text-white">
+              AR
+            </span>
+            <span className="font-display text-xl font-bold uppercase leading-none tracking-wide text-white">
+              Profe. <span className="text-sky-400">Alejandro Ramela</span>
+            </span>
+          </Link>
+          <Link href="/" className="text-sm font-medium text-slate-300 transition hover:text-white">
+            ← Ir a la web
+          </Link>
+        </div>
+      </header>
+
+      {/* Selector de categoría */}
+      <nav aria-label="Elegí la categoría" className="mx-auto mt-8 max-w-5xl px-5">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
+          Elegí tu categoría
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {MUESTRAS.map((m) => {
+            const activo = m.slug === muestra.slug;
+            return (
+              <Link
+                key={m.slug}
+                href={m.href}
+                aria-current={activo ? "page" : undefined}
+                className={`rounded-xl px-4 py-2.5 text-sm font-bold transition ${
+                  activo
+                    ? "bg-sky-500 text-white"
+                    : "bg-white/5 text-slate-300 ring-1 ring-white/15 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {m.curso}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
+      <main className="mx-auto mt-8 grid max-w-5xl items-center gap-10 px-5 md:grid-cols-2">
+        <div className="mx-auto w-full max-w-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={muestra.portada}
+            alt={`Portada de la muestra gratis de ${muestra.curso}`}
+            className="w-full rounded-2xl shadow-2xl shadow-sky-500/20 ring-1 ring-white/10"
+          />
+        </div>
+
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-400">
+            {muestra.eyebrow}
+          </p>
+          <h1 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.95] text-white sm:text-6xl">
+            {muestra.titulo[0]}
+            <span className="text-sky-400">{muestra.titulo[1]}</span>
+          </h1>
+          <p className="mt-5 text-lg leading-relaxed text-slate-300">{muestra.bajada}</p>
+          <ul className="mt-5 space-y-2 text-slate-200">
+            {muestra.items.map((item) => (
+              <li key={item}>✓ {item}</li>
+            ))}
+          </ul>
+          <Link
+            href={muestra.pdf}
+            download
+            className="mt-7 flex w-full items-center justify-center rounded-xl bg-sky-500 px-6 py-4 text-base font-bold text-white transition hover:bg-sky-400 sm:w-auto"
+          >
+            Descargar la muestra gratis (PDF)
+          </Link>
+
+          <div className="mt-8 rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+            <p className="font-semibold text-white">¿Te gustó? Mirá el curso completo</p>
+            <p className="mt-1 text-sm text-slate-300">{muestra.cursoDesc}</p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/#cursos"
+                className="rounded-xl border border-sky-400/50 px-5 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-400/10"
+              >
+                Ver los cursos
+              </Link>
+              <a
+                href={wa}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-xl bg-[#25D366] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-95"
+              >
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

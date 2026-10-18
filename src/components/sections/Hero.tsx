@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { formatARS } from "@/lib/format";
 
@@ -52,18 +53,18 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
               Ver ofertas de lanzamiento
               <ArrowRightIcon className="h-5 w-5" />
             </a>
-            <a
+            <Link
               href="/muestra-gratis"
               className="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-bold text-white ring-1 ring-inset ring-white/30 transition hover:bg-white/10"
             >
-              Descargá la muestra gratis
-            </a>
+              Descargá muestras gratis
+            </Link>
           </div>
 
           <ul className="mt-9 flex flex-col gap-3 text-sm font-medium text-slate-300 sm:flex-row sm:flex-wrap sm:gap-x-7">
             {[
               "Infantil y Juvenil disponibles",
-              "Muestra gratis para probar",
+              "Muestras gratis de los 3 cursos",
               fromPrice ? `Desde ${formatARS(fromPrice)}` : "Precios en pesos argentinos",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2.5">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -19,7 +21,9 @@ export function Footer() {
           <a href="#planificador-ia" className="transition hover:text-white">Planificador IA</a>
           <a href="#profe" className="transition hover:text-white">El Profe</a>
           <a href="#preguntas" className="transition hover:text-white">Preguntas</a>
-          <a href="/muestra-gratis" className="transition hover:text-white">Muestra gratis</a>
+          <Link href="/muestra-gratis" className="transition hover:text-white">Muestra Infantil</Link>
+          <Link href="/muestra-gratis/juvenil" className="transition hover:text-white">Muestra Juvenil</Link>
+          <Link href="/muestra-gratis/profesional" className="transition hover:text-white">Muestra Profesional</Link>
           <a href="/terminos" className="transition hover:text-white">Términos y condiciones</a>
         </nav>
       </div>
