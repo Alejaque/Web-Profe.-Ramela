@@ -45,6 +45,15 @@ export function CheckIcon(props: IconProps) {
   );
 }
 
+export function LockIcon(props: IconProps) {
+  return (
+    <Base {...props}>
+      <rect x="4.5" y="10.5" width="15" height="9.5" rx="2" />
+      <path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
+    </Base>
+  );
+}
+
 export function TrashIcon(props: IconProps) {
   return (
     <Base {...props}>
