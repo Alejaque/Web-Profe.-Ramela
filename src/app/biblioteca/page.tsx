@@ -132,8 +132,8 @@ export default async function BibliotecaPage() {
                   Llevate las 120 fichas
                 </h2>
                 <p className="mt-4 text-lg text-slate-300">
-                  Pago único, sin suscripción. Te llega el PDF y el Excel por mail apenas se
-                  acredita el pago.
+                  Pago único, sin suscripción. Apenas se acredita el pago, los enlaces para
+                  bajar el PDF y el Excel aparecen en la pantalla.
                 </p>
                 <ul className="mt-7 space-y-3">
                   {INCLUYE.map((item) => (
@@ -163,8 +163,9 @@ export default async function BibliotecaPage() {
                   <AddToCartButton slug="biblioteca-entrenamiento" className="w-full" label="Agregar la biblioteca" />
                 </div>
                 <p className="mt-4 text-xs leading-relaxed text-slate-400">
-                  Al comprar recibís por mail el PDF con las 120 fichas y la planilla de Excel
-                  con el planificador de sesión.
+                  Apenas se aprueba el pago aparecen los enlaces de descarga en la pantalla:
+                  bajás el PDF con las 120 fichas y la planilla de Excel con el planificador
+                  de sesión. Sin mail, sin usuario y sin esperar a que te respondamos.
                 </p>
               </div>
             </div>

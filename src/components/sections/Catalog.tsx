@@ -16,7 +16,8 @@ export function Catalog({ products }: { products: Product[] }) {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-300">Ofertas de lanzamiento</p>
           <h2 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">Elegí tu formación</h2>
           <p className="mt-5 text-lg text-slate-300">
-            Infantil y Juvenil ya disponibles. Elegí un curso o llevate los dos en el pack.
+            Infantil, Juvenil, Profesional y la Biblioteca de Material ya están disponibles.
+            Elegí uno o llevate Infantil + Juvenil en el pack, que sale menos que los dos sueltos.
             Pago único, material digital y precios en pesos argentinos.
           </p>
         </div>
