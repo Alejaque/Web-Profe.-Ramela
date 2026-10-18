@@ -7,6 +7,7 @@ export const AVAILABLE_SLUGS = new Set<string>([
   "curso-juvenil",
   "pack-infantil-juvenil",
   "curso-profesional",
+  "biblioteca-entrenamiento",
 ]);
 
 export function isAvailable(slug: string): boolean {

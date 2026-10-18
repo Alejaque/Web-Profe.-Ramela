@@ -45,9 +45,11 @@ test("precios y lista tachada aprobados; el beneficio no sustituye el precio pú
   assert.equal(find("curso-infantil").priceArs + find("curso-juvenil").priceArs - find("pack-infantil-juvenil").priceArs, 4900);
 });
 
-test("Infantil, Juvenil, el pack de dos y Profesional están habilitados", () => {
-  assert.deepEqual(SEED_PRODUCTS.filter((p) => isAvailable(p.slug)).map((p) => p.slug).sort(), ["curso-infantil", "curso-juvenil", "curso-profesional", "pack-infantil-juvenil"]);
+test("Infantil, Juvenil, el pack de dos, Profesional y la Biblioteca están habilitados", () => {
+  assert.deepEqual(SEED_PRODUCTS.filter((p) => isAvailable(p.slug)).map((p) => p.slug).sort(), ["biblioteca-entrenamiento", "curso-infantil", "curso-juvenil", "curso-profesional", "pack-infantil-juvenil"]);
   assert.deepEqual(SEED_PRODUCTS.filter((p) => p.featured).map((p) => p.slug), ["pack-infantil-juvenil"]);
+  // El pack completo y el planificador siguen siendo anuncios, no productos cobrables.
+  assert.deepEqual(SEED_PRODUCTS.filter((p) => !isAvailable(p.slug)).map((p) => p.slug).sort(), ["pack-completo", "planificador-ia"]);
 });
 
 test("carrito único, sin doble cobro de cursos incluidos ni productos futuros", () => {
@@ -91,7 +93,7 @@ test("checkout del pack cobra una sola línea y cada curso individual su oferta"
 
 test("API rechaza carrito vacío, desconocidos, cursos futuros o estructura inválida", async () => {
   await withPaymentMock(async (requests) => {
-    for (const slugs of [[], ["pack-completo"], ["biblioteca-entrenamiento"], ["curso-infantil", "inventado"], ["curso-juvenil-compradores"], [1], null]) {
+    for (const slugs of [[], ["pack-completo"], ["planificador-ia"], ["curso-infantil", "inventado"], ["curso-juvenil-compradores"], [1], null]) {
       assert.equal((await POST(order(slugs))).status, 400);
     }
     assert.equal(requests.length, 0);
@@ -108,6 +110,23 @@ test("el Profesional se vende al precio de lanzamiento que fija el servidor", as
     assert.equal(sent.items[0].currency_id, "ARS");
     assert.equal(sent.metadata.slugs, "curso-profesional");
   }, { init_point: "https://example.com/payment" });
+});
+
+test("la Biblioteca se vende a 29900 y se entrega como cualquier otro curso", async () => {
+  assert.equal(find("biblioteca-entrenamiento").priceArs, 29900);
+  assert.deepEqual(find("biblioteca-entrenamiento").includesSlugs, []);
+  const carrito = resolveCartProducts(["biblioteca-entrenamiento", "curso-infantil"], SEED_PRODUCTS);
+  assert.deepEqual(carrito.map((p) => p.slug), ["curso-infantil", "biblioteca-entrenamiento"]);
+  assert.equal(carrito.reduce((sum, p) => sum + p.priceArs, 0), 34900 + 29900);
+  await withPaymentMock(async (requests) => {
+    const response = await POST(order(["biblioteca-entrenamiento"], { total: 1, priceArs: 1 }));
+    assert.equal(response.status, 200);
+    const sent = JSON.parse(String(requests.at(-1)?.init?.body));
+    assert.equal(sent.items.length, 1);
+    assert.equal(sent.items[0].unit_price, 29900);
+    assert.equal(sent.metadata.slugs, "biblioteca-entrenamiento");
+  }, { init_point: "https://example.com/payment" });
+  assert.deepEqual(resolveDeliveryProducts(["biblioteca-entrenamiento"], SEED_PRODUCTS).map((p) => p.slug), ["biblioteca-entrenamiento"]);
 });
 
 test("entrega del pack devuelve exactamente los dos cursos, sin contenedor", async () => {
