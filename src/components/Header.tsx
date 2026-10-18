@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useCart } from "@/components/CartProvider";
 import { CartIcon, CloseIcon } from "@/components/icons";
 
+// `ruta: true` = es una página propia (va con next/link), no un ancla de la home.
 const links = [
   { href: "#niveles", label: "Niveles" },
   { href: "#cursos", label: "Cursos" },
+  { href: "/biblioteca", label: "Biblioteca", ruta: true },
   { href: "#planificador-ia", label: "Planificador IA" },
   { href: "#profe", label: "El Profe" },
   { href: "#preguntas", label: "Preguntas" },
@@ -29,15 +32,25 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Principal">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-slate-300 transition hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) =>
+            "ruta" in link ? (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-slate-300 transition hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-slate-300 transition hover:text-white"
+              >
+                {link.label}
+              </a>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -81,13 +94,23 @@ export function Header() {
           <ul className="space-y-1">
             {links.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block rounded-lg px-3 py-3 text-base font-medium text-slate-200 transition hover:bg-white/10"
-                >
-                  {link.label}
-                </a>
+                {"ruta" in link ? (
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block rounded-lg px-3 py-3 text-base font-medium text-slate-200 transition hover:bg-white/10"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block rounded-lg px-3 py-3 text-base font-medium text-slate-200 transition hover:bg-white/10"
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
