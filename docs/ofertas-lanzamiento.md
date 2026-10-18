@@ -7,8 +7,9 @@ Precios y habilitación aprobados por el titular en la conversación. No se inve
 | Infantil | $44.900 | $34.900 |
 | Juvenil | $54.900 | $39.900 |
 | Pack Infantil + Juvenil | No se presenta un precio anterior ficticio | $69.900 |
+| Profesional | $89.900 | $69.900 |
 
-El pack se compara explícitamente con **las ofertas individuales actuales** ($74.800), con ahorro de $4.900. No es el Pack Completo de todos los niveles: solo incluye Infantil y Juvenil. Profesional, Biblioteca, Planificador IA y Pack Completo siguen deshabilitados.
+El pack se compara explícitamente con **las ofertas individuales actuales** ($74.800), con ahorro de $4.900. No es el Pack Completo de todos los niveles: solo incluye Infantil y Juvenil. El Profesional se habilitó el 18/10 con precio de lanzamiento de $69.900 (lista $89.900). Biblioteca, Planificador IA y Pack Completo siguen deshabilitados.
 
 ## Compradores previos del Infantil
 
@@ -17,7 +18,7 @@ Juvenil a $34.900, previa verificación por WhatsApp de la compra anterior. El b
 ## Precio y entrega
 
 - `src/lib/catalog-seed.ts` es la fuente de precios tanto de la vitrina como de `/api/mp`.
-- `src/lib/availability.ts` habilita Infantil, Juvenil y Pack Infantil + Juvenil.
+- `src/lib/availability.ts` habilita Infantil, Juvenil, Pack Infantil + Juvenil y Profesional.
 - El servidor ignora importes enviados por el navegador; rechaza productos desconocidos o futuros. Deduplica y evita cobrar de nuevo cursos incluidos en un pack.
 - Al agregar ambos cursos por separado, el carrito ofrece cambiarlos por el pack con el ahorro exacto.
 - `/api/entrega` verifica el pago con Mercado Pago antes de devolver los cursos. El pack resuelve dos cursos, sin un enlace adicional del contenedor.
@@ -27,7 +28,7 @@ Juvenil a $34.900, previa verificación por WhatsApp de la compra anterior. El b
 
 Se mantiene `MP_ACCESS_TOKEN` en el entorno del servidor. **No guardar credenciales en Git ni en documentación.** No se modificaron las variables del proyecto de producción desde esta sesión.
 
-`MATERIAL_LINKS` admite el enlace infantil existente o un JSON de enlaces por curso. Para entrega automática de ambos, configurar en el entorno del servidor las claves `curso-infantil` y `curso-juvenil`, con sus enlaces finales de acceso y permisos adecuados, y desplegar nuevamente. **No hace falta una clave de enlace para el pack.**
+`MATERIAL_LINKS` admite el enlace infantil existente o un JSON de enlaces por curso. Para entrega automática de ambos, configurar en el entorno del servidor las claves `curso-infantil`, `curso-juvenil` y `curso-profesional`, con sus enlaces finales de acceso y permisos adecuados, y desplegar nuevamente. **No hace falta una clave de enlace para el pack.**
 
 No se publicaron los archivos pagos en `public/`, no se incorporaron al commit web y no se cambiaron los permisos de Drive. Si falta el enlace de un curso, la pantalla indica que se habilita por WhatsApp. El acceso manual requiere revisar el pago y entregar al comprador el material correspondiente, normalmente dentro de las 24 horas hábiles, como se informa en FAQ y términos. Hasta configurar el enlace juvenil, su entrega utiliza ese circuito manual; esto no se anuncia como entrega automática completa.
 
