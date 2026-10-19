@@ -178,14 +178,19 @@ function puntaje(
     else if (AFINES[p.objetivo]?.includes(ej.objetivo)) s += 25;
   }
   if (rol === "activacion") {
-    if (ej.objetivo === "Físico") s += 40;
-    else if (ej.objetivo === "Técnica") s += 20;
+    // Preferencia leve: si pesa mucho, el mismo ejercicio de fuerza termina
+    // abriendo todas las sesiones de la semana, hasta la del día de descarga.
+    if (ej.objetivo === "Físico") s += 12;
+    else if (ej.objetivo === "Técnica") s += 8;
   }
   if (rol === "vuelta") {
     if (ej.objetivo === "Físico" || ej.objetivo === "Técnica") s += 20;
   }
   s -= Math.abs(ej.min - IDEAL[rol]) * 2;
   if (p.evitar?.includes(ej.id)) s -= 500;
+  // Nunca por encima del premio por acertar el objetivo (+100): la variedad
+  // está bien, pero no al precio de dejar de entrenar lo que se pidió.
+  if (p.yaVistos?.includes(ej.id)) s -= 90;
   s += hash01(`${ej.id}:${semilla}`) * 6;
   return s;
 }

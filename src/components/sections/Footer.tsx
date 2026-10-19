@@ -18,7 +18,7 @@ export function Footer() {
         <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           <a href="#niveles" className="transition hover:text-white">Niveles</a>
           <a href="#cursos" className="transition hover:text-white">Cursos</a>
-          <a href="#planificador-ia" className="transition hover:text-white">Planificador IA</a>
+          <Link href="/planificador" className="transition hover:text-white">Planificador</Link>
           <a href="#profe" className="transition hover:text-white">El Profe</a>
           <a href="#preguntas" className="transition hover:text-white">Preguntas</a>
           <Link href="/muestra-gratis" className="transition hover:text-white">Muestra Infantil</Link>

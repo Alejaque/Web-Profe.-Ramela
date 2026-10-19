@@ -51,7 +51,10 @@ export const DIAS_MICRO: Omit<DiaMicro, "minutos">[] = [
     id: "MD+1",
     diaSemana: "Lunes",
     tipo: "Recuperación",
-    objetivo: "Físico",
+    // Técnica suelta y no fuerza: la recuperación activa es rondo y posesión
+    // ligera, no un trabajo de gimnasio. Con "Físico" aparecían ejercicios de
+    // fuerza en el día que menos carga tiene que tener.
+    objetivo: "Técnica",
     intensidad: "baja",
     volumen: "bajo",
     nota: "Lo que jugó el partido baja la carga; lo que no jugó hace trabajo compensatorio. No es día de exigir.",
@@ -101,7 +104,9 @@ export const DIAS_MICRO: Omit<DiaMicro, "minutos">[] = [
     id: "MD-1",
     diaSemana: "Sábado",
     tipo: "Activación",
-    objetivo: "Cognitivo",
+    // Se repasa la idea del partido. No es día de estrenar contenido, así que
+    // va sobre lo táctico ya trabajado y no sobre lo cognitivo.
+    objetivo: "Táctica",
     intensidad: "baja",
     volumen: "bajo",
     nota: "Se activa y se repasa la idea del partido. Nada nuevo y nada que deje cansancio para mañana.",
@@ -172,16 +177,21 @@ export type Microciclo = {
  */
 export function armarMicrociclo(p: Parametros & { referencia?: number }): Microciclo {
   const referencia = p.referencia ?? 75;
+  // Lo que ya se usó en la semana, para que los días no sean todos iguales.
+  const vistos: string[] = [];
   const dias = DIAS_MICRO.map((d) => {
     const minutos = minutosDelDia(d.id, referencia);
     if (d.esPartido) return { ...d, minutos: 0, sesion: null };
+    const duracion = redondearAOfrecida(p.nivel, minutos);
     const sesion = armarSesion({
       ...p,
       objetivo: d.objetivo,
-      minutos: redondearAOfrecida(p.nivel, minutos),
+      minutos: duracion,
       sesgoEspacio: sesgoDelDia(d.id),
+      yaVistos: vistos,
     });
-    return { ...d, minutos: redondearAOfrecida(p.nivel, minutos), sesion };
+    for (const b of sesion.bloques) vistos.push(b.ejercicio.id);
+    return { ...d, minutos: duracion, sesion };
   });
 
   return {

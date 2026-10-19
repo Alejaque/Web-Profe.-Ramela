@@ -8,6 +8,7 @@ export const AVAILABLE_SLUGS = new Set<string>([
   "pack-infantil-juvenil",
   "curso-profesional",
   "biblioteca-entrenamiento",
+  "planificador-ia",
 ]);
 
 export function isAvailable(slug: string): boolean {

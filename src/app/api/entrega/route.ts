@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CODIGO_ACCESO } from "@/lib/planificador/acceso";
 import { resolveDeliveryProducts } from "@/lib/checkout";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
 
@@ -43,7 +44,14 @@ export async function GET(req: Request) {
   console.log("entrega", { paymentId, status: payment.status, metaSlugs: fromMeta.length, itemSlugs: fromItems.length });
   const links = readLinks();
   const items = resolveDeliveryProducts(bought, SEED_PRODUCTS)
-    .map((p) => ({ slug: p.slug, name: p.name, url: links[p.slug] ?? null }));
+    .map((p) => ({ slug: p.slug, name: p.name, url: links[p.slug] ?? null }))
+    // El planificador no es un archivo para bajar: es la herramienta con las
+    // descargas habilitadas. Se entrega el enlace ya con el código puesto.
+    .map((it) =>
+      it.slug === "planificador-ia"
+        ? { ...it, url: `/planificador?acceso=${encodeURIComponent(CODIGO_ACCESO)}` }
+        : it,
+    );
 
   if (items.length === 0) console.log("entrega: pago aprobado pero sin cursos reconocidos", { paymentId });
   return NextResponse.json({ items });

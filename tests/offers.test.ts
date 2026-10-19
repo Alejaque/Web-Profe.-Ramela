@@ -1,3 +1,4 @@
+import { tieneAcceso } from "../src/lib/planificador/acceso";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { SEED_PRODUCTS } from "../src/lib/catalog-seed";
@@ -45,11 +46,18 @@ test("precios y lista tachada aprobados; el beneficio no sustituye el precio pú
   assert.equal(find("curso-infantil").priceArs + find("curso-juvenil").priceArs - find("pack-infantil-juvenil").priceArs, 4900);
 });
 
-test("Infantil, Juvenil, el pack de dos, Profesional y la Biblioteca están habilitados", () => {
-  assert.deepEqual(SEED_PRODUCTS.filter((p) => isAvailable(p.slug)).map((p) => p.slug).sort(), ["biblioteca-entrenamiento", "curso-infantil", "curso-juvenil", "curso-profesional", "pack-infantil-juvenil"]);
+test("Infantil, Juvenil, el pack, Profesional, la Biblioteca y el Planificador están habilitados", () => {
+  assert.deepEqual(SEED_PRODUCTS.filter((p) => isAvailable(p.slug)).map((p) => p.slug).sort(), [
+    "biblioteca-entrenamiento",
+    "curso-infantil",
+    "curso-juvenil",
+    "curso-profesional",
+    "pack-infantil-juvenil",
+    "planificador-ia",
+  ]);
   assert.deepEqual(SEED_PRODUCTS.filter((p) => p.featured).map((p) => p.slug), ["pack-infantil-juvenil"]);
-  // El pack completo y el planificador siguen siendo anuncios, no productos cobrables.
-  assert.deepEqual(SEED_PRODUCTS.filter((p) => !isAvailable(p.slug)).map((p) => p.slug).sort(), ["pack-completo", "planificador-ia"]);
+  // El pack completo sigue siendo un anuncio, no un producto cobrable.
+  assert.deepEqual(SEED_PRODUCTS.filter((p) => !isAvailable(p.slug)).map((p) => p.slug).sort(), ["pack-completo"]);
 });
 
 test("carrito único, sin doble cobro de cursos incluidos ni productos futuros", () => {
@@ -93,7 +101,7 @@ test("checkout del pack cobra una sola línea y cada curso individual su oferta"
 
 test("API rechaza carrito vacío, desconocidos, cursos futuros o estructura inválida", async () => {
   await withPaymentMock(async (requests) => {
-    for (const slugs of [[], ["pack-completo"], ["planificador-ia"], ["curso-infantil", "inventado"], ["curso-juvenil-compradores"], [1], null]) {
+    for (const slugs of [[], ["pack-completo"], ["curso-infantil", "inventado"], ["curso-juvenil-compradores"], [1], null]) {
       assert.equal((await POST(order(slugs))).status, 400);
     }
     assert.equal(requests.length, 0);
@@ -110,6 +118,25 @@ test("el Profesional se vende al precio de lanzamiento que fija el servidor", as
     assert.equal(sent.items[0].currency_id, "ARS");
     assert.equal(sent.metadata.slugs, "curso-profesional");
   }, { init_point: "https://example.com/payment" });
+});
+
+/** Misma regla que la ruta de entrega: el planificador se entrega con el código puesto. */
+function entregaPlanificador(): string {
+  return `/planificador?acceso=${encodeURIComponent("ramela-planificador")}`;
+}
+
+test("el Planificador se vende a 39900 y se entrega como enlace con acceso", async () => {
+  assert.equal(find("planificador-ia").priceArs, 39900);
+  assert.equal(find("planificador-ia").compareAtPriceArs, 49900);
+  assert.deepEqual(find("planificador-ia").includesSlugs, []);
+  const carrito = resolveCartProducts(["planificador-ia", "curso-infantil"], SEED_PRODUCTS);
+  assert.deepEqual(carrito.map((p) => p.slug), ["curso-infantil", "planificador-ia"]);
+  assert.equal(carrito.reduce((sum, p) => sum + p.priceArs, 0), 34900 + 39900);
+  // La entrega no es un archivo: es la herramienta con las descargas ya habilitadas.
+  const url = entregaPlanificador();
+  assert.match(url, /^\/planificador\?acceso=/);
+  assert.equal(tieneAcceso(new URL("https://x" + url).searchParams.get("acceso") ?? undefined), true);
+  assert.equal(tieneAcceso("cualquier-cosa"), false);
 });
 
 test("la Biblioteca se vende a 29900 y se entrega como cualquier otro curso", async () => {

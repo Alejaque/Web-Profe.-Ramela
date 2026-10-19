@@ -34,6 +34,12 @@ export type Parametros = {
    * y MD-1 van en espacios chicos.
    */
   sesgoEspacio?: "grande" | "chico";
+  /**
+   * Ejercicios ya usados en los días anteriores del ciclo. La penalidad es
+   * suave: alcanza para que la semana no repita siempre lo mismo, pero no
+   * impide usar uno si es el único que cierra los minutos.
+   */
+  yaVistos?: string[];
 };
 
 export type Bloque = {
