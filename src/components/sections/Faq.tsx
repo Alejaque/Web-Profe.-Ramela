@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
-    a: "Comprás lo que quieras por separado: Infantil, Juvenil, Profesional o la Biblioteca de Material de Entrenamiento. Cada uno se paga una sola vez y es tuyo para siempre. Si querés Infantil y Juvenil, el Pack te sale $4.900 menos que comprarlos sueltos. El Planificador IA y el Pack Completo, que va a reunir todo en un solo precio, todavía están en preparación.",
+    a: "Comprás lo que quieras por separado: Infantil, Juvenil, Profesional, la Biblioteca de Material de Entrenamiento o el Planificador con IA. Cada uno se paga una sola vez y es tuyo para siempre. Si querés Infantil y Juvenil, el Pack te sale $4.900 menos que comprarlos sueltos. El Pack Completo, que va a reunir todo en un solo precio, todavía está en preparación.",
   },
   {
     q: "¿Tengo un beneficio si ya compré el Infantil?",
@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: "¿Necesito conocimientos de tecnología para usar el Planificador IA?",
-    a: "No. Elegís la categoría, el objetivo, la duración y la cantidad de jugadores, y la herramienta te arma la planificación para que la ajustes a tu manera.",
+    a: "No. Elegís el nivel (infantil, juvenil o profesional), el objetivo, la duración, el espacio, el material y la cantidad de jugadores: el motor arma la sesión con los 120 ejercicios de la biblioteca cerrando los minutos exactos, y la IA redacta las consignas para tu grupo. Podés probarlo gratis en la web todas las veces que quieras.",
   },
 ];
 

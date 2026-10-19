@@ -46,11 +46,11 @@ export const SEED_PRODUCTS: SeedProduct[] = [
     level: "Todos los niveles",
     audience: "Infantil · Juvenil · Profesional",
     summary:
-      "Toda la formación en un solo lugar: los tres cursos, la biblioteca de entrenamiento y el Planificador, los dos de acceso permanente.",
+      "Toda la formación en un solo lugar: los tres cursos, la biblioteca de entrenamiento y el Planificador con IA, los dos de acceso permanente.",
     features: [
       "Curso de Fútbol Infantil, Juvenil y Profesional",
       "Biblioteca completa de material de entrenamiento",
-      "Planificador de entrenamientos, acceso permanente",
+      "Planificador de entrenamientos con IA, acceso permanente",
       "Actualizaciones de contenido incluidas",
       "El mejor precio por nivel",
     ],
@@ -152,17 +152,17 @@ export const SEED_PRODUCTS: SeedProduct[] = [
   },
   {
     slug: "planificador-ia",
-    name: "Planificador de Entrenamientos",
-    level: "Planificación",
-    audience: "Infantil · Juvenil · Probá gratis desde la web",
+    name: "Planificador de Entrenamientos con IA",
+    level: "Planificación con IA",
+    audience: "Infantil · Juvenil · Profesional · Probá gratis desde la web",
     summary:
-      "Armá sesiones, microciclos MD-5 a MD+1 y mesociclos ATR con los 120 ejercicios de la biblioteca. Los minutos cierran exactos y los bajás en PDF y Excel.",
+      "Armá sesiones, microciclos MD-5 a MD+1 y mesociclos ATR para infantil, juvenil y profesional con los 120 ejercicios de la biblioteca. El motor cierra los minutos exactos, la IA redacta las consignas para tu grupo y bajás todo en PDF y Excel.",
     features: [
-      "Sesiones, microciclos MD-5 → MD+1 y mesociclos ATR",
+      "Infantil, Juvenil y Profesional: sesiones, microciclos MD-5 → MD+1 y mesociclos ATR",
+      "El motor elige los ejercicios y la IA redacta las consignas a medida",
       "Los minutos cierran exactos: si pedís 75', son 75'",
       "Respeta tu cancha, tus jugadores y tu material",
-      "PDF para imprimir y Excel para editar",
-      "Pago único: es tuyo para siempre, no vence",
+      "PDF para imprimir y Excel para editar · pago único, sin vencimiento",
     ],
     includesSlugs: [],
     // Precio de lista. La oferta vigente lo rebaja: ver src/lib/ofertas.ts.
