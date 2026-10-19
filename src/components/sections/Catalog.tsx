@@ -20,8 +20,13 @@ export function Catalog({ products }: { products: Product[] }) {
           <h2 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">Elegí tu formación</h2>
           <p className="mt-5 text-lg text-slate-300">
             Infantil, Juvenil, Profesional, la Biblioteca de Material y el Planificador con IA ya
-            están disponibles. Elegí uno o llevate Infantil + Juvenil en el pack, que sale menos que
-            los dos sueltos. Pago único, material digital y precios en pesos argentinos.
+            están disponibles. Elegí uno o llevate todo con el <strong className="text-white">Pack Completo</strong> por{" "}
+            {formatARS(available.find((p) => p.slug === "pack-completo")?.priceArs ?? 169900)} — ahorrás{" "}
+            {formatARS(
+              (available.find((p) => p.slug === "pack-completo")?.includesSlugs.reduce((sum, slug) => sum + (available.find((x) => x.slug === slug)?.priceArs ?? 0), 0) ?? 214500) -
+                (available.find((p) => p.slug === "pack-completo")?.priceArs ?? 169900),
+            )}{" "}
+            sobre el precio vigente por separado. Pago único, material digital y precios en pesos argentinos.
           </p>
         </div>
         {products.length === 0 ? (
