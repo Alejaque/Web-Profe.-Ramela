@@ -104,6 +104,43 @@ export default function MuestraContent({ muestra }: { muestra: Muestra }) {
           </div>
         </div>
       </main>
+
+      {/* Paso siguiente: los ejercicios de muestra de la Biblioteca, sin mail ni registro. */}
+      <section aria-labelledby="seguir-probando" className="mx-auto mt-16 max-w-5xl px-5">
+        <div className="flex flex-col gap-7 rounded-3xl bg-gradient-to-br from-[#0a1f4a] to-[#0b2a52] p-7 ring-1 ring-white/10 sm:p-9 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-400">
+              Seguí probando
+            </p>
+            <h2
+              id="seguir-probando"
+              className="mt-3 font-display text-3xl font-extrabold uppercase leading-[1] text-white sm:text-4xl"
+            >
+              15 ejercicios gratis,{" "}
+              <span className="text-sky-400">sin mail y sin registro</span>
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-slate-300">
+              Además de esta guía, la Biblioteca tiene 120 ejercicios con diagrama, desarrollo,
+              variantes y errores a corregir. Los 15 de muestra se abren directo en la web: los
+              filtrás por nivel y objetivo y los llevás al próximo entrenamiento.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row md:w-64 md:shrink-0 md:flex-col">
+            <Link
+              href="/biblioteca"
+              className="inline-flex items-center justify-center rounded-xl bg-sky-500 px-6 py-3.5 text-[15px] font-bold text-white transition hover:bg-sky-400"
+            >
+              Ver los 15 ejercicios gratis
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-[15px] font-bold text-white ring-1 ring-inset ring-white/30 transition hover:bg-white/10"
+            >
+              Volver a la web
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

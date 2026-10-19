@@ -6,6 +6,7 @@ import { PagoBanner } from "@/components/PagoBanner";
 import { WhatsappFloat } from "@/components/WhatsappFloat";
 import { BibliotecaCatalog } from "@/components/BibliotecaCatalog";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { CheckIcon } from "@/components/icons";
 import { getActiveProducts } from "@/lib/catalog";
 import { formatARS } from "@/lib/format";
 import { EJERCICIOS } from "@/lib/biblioteca";
@@ -30,6 +31,40 @@ const CIFRAS = [
   { valor: "31", label: "categorías" },
 ];
 
+/** Comparación de modelo, sin nombrar competidores: así no envejece ni depende de terceros. */
+const COMPARACION = [
+  {
+    aspecto: "Cuánto pagás",
+    nosotros: "$29.900, una sola vez",
+    ellos: "US$ 48 a 85 por año, todos los años",
+  },
+  {
+    aspecto: "Tarjeta y renovación",
+    nosotros: "No hacen falta: pagás por Mercado Pago en pesos",
+    ellos: "Renovación automática cada año, en divisa",
+  },
+  {
+    aspecto: "Los ejercicios",
+    nosotros: "120, tuyos para siempre y en PDF",
+    ellos: "Miles, pero los perdés si dejás de pagar",
+  },
+  {
+    aspecto: "Armar tus sesiones",
+    nosotros: "Planilla de Excel incluida",
+    ellos: "Según el plan, a veces se cobra aparte",
+  },
+  {
+    aspecto: "Para quién está escrito",
+    nosotros: "Fútbol argentino, de infantil a primera",
+    ellos: "Contenido europeo o traducido",
+  },
+  {
+    aspecto: "Probar antes de pagar",
+    nosotros: "15 ejercicios gratis, sin registro ni mail",
+    ellos: "Prueba de pocos días o plan gratuito muy limitado",
+  },
+];
+
 const INCLUYE = [
   "Las 120 fichas en PDF, una por página y lista para imprimir",
   "Planilla de Excel con autofiltro y planificador de sesión",
@@ -42,6 +77,7 @@ export default async function BibliotecaPage() {
   const products = await getActiveProducts();
   const product = products.find((p) => p.slug === "biblioteca-entrenamiento");
   const precio = product ? formatARS(product.priceArs) : null;
+  const lista = product?.compareAtPriceArs ? formatARS(product.compareAtPriceArs) : null;
 
   return (
     <CartProvider products={products}>
@@ -124,6 +160,61 @@ export default async function BibliotecaPage() {
             </div>
           </section>
 
+          {/* ------------------------------------------- pago único vs suscripción */}
+          <section className="border-t border-white/10 px-5 py-20 lg:px-8">
+            <div className="mx-auto max-w-7xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
+                La diferencia de fondo
+              </p>
+              <h2 className="mt-3 max-w-3xl font-display text-4xl font-extrabold uppercase leading-[1] sm:text-5xl">
+                Pago único, <span className="text-sky-400">no una suscripción</span>
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg text-slate-300">
+                Casi todas las plataformas de ejercicios trabajan por suscripción: pagás todos los
+                años y se renuevan solas. Acá pagás una vez y el material queda en tu poder, en
+                pesos y sin tarjeta en el exterior.
+              </p>
+
+              <dl
+                id="comparacion-pago-unico"
+                className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+              >
+                {COMPARACION.map((fila) => (
+                  <div
+                    key={fila.aspecto}
+                    className="rounded-2xl bg-white/[0.04] p-5 ring-1 ring-white/10"
+                  >
+                    <dt className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                      {fila.aspecto}
+                    </dt>
+                    <dd className="mt-4 space-y-3">
+                      <p className="flex gap-2.5 text-[15px] leading-snug text-white">
+                        <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
+                        <span>
+                          <strong className="font-semibold">Biblioteca:</strong> {fila.nosotros}
+                        </span>
+                      </p>
+                      <p className="flex gap-2.5 text-[15px] leading-snug text-slate-400">
+                        <span aria-hidden="true" className="mt-0.5 shrink-0 text-slate-600">
+                          —
+                        </span>
+                        <span>
+                          <strong className="font-medium text-slate-300">Plataformas:</strong>{" "}
+                          {fila.ellos}
+                        </span>
+                      </p>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className="mt-6 text-xs leading-relaxed text-slate-500">
+                Los valores de las plataformas son los publicados en octubre de 2026 y no incluyen
+                impuestos ni el recargo por compra en el exterior con tarjeta.
+              </p>
+            </div>
+          </section>
+
           {/* ---------------------------------------------------------- cierre */}
           <section className="border-t border-white/10 bg-[#071634] px-5 py-20 lg:px-8">
             <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
@@ -151,9 +242,21 @@ export default async function BibliotecaPage() {
                 {precio ? (
                   <>
                     <p className="text-sm text-slate-400">Biblioteca completa</p>
-                    <p className="mt-1 font-display text-6xl font-extrabold leading-none text-white">
-                      {precio}
-                    </p>
+                    <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <p className="font-display text-6xl font-extrabold leading-none text-white">
+                        {precio}
+                      </p>
+                      {lista ? (
+                        <p className="text-xl font-semibold text-slate-500 line-through">
+                          {lista}
+                        </p>
+                      ) : null}
+                      {product?.badge ? (
+                        <span className="rounded-full bg-amber-400/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-amber-300 ring-1 ring-inset ring-amber-400/30">
+                          {product.badge}
+                        </span>
+                      ) : null}
+                    </div>
                     <p className="mt-2 text-xs text-slate-400">
                       Pago único · pesos argentinos (ARS)
                     </p>

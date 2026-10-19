@@ -31,7 +31,7 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
         <div>
           <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-300 ring-1 ring-white/15">
             <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-            Infantil + Juvenil · Ofertas de lanzamiento
+            Infantil · Juvenil · Profesional · Biblioteca
           </p>
 
           <h1 className="mt-6 font-display text-[3.4rem] font-extrabold uppercase leading-[0.92] tracking-tight sm:text-7xl lg:text-[5.6rem]">
@@ -40,9 +40,9 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
           </h1>
 
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-slate-300">
-            Ya podés formarte en <strong className="font-semibold text-white">Fútbol Infantil y Juvenil</strong>.
-            Guías, diagramas y planillas para enseñar y planificar de los 6 a los 19 años.
-            Elegí un curso o llevate los dos con el Pack Infantil + Juvenil.
+            Ya podés formarte en <strong className="font-semibold text-white">Fútbol Infantil, Juvenil y Profesional</strong>,
+            o llevarte la Biblioteca con 120 ejercicios listos para usar.
+            Guías, diagramas y planillas para enseñar y planificar de los 6 años a la primera división.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">

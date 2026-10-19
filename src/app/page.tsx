@@ -3,6 +3,7 @@ import { CartProvider } from "@/components/CartProvider";
 import { Header } from "@/components/Header";
 import { About } from "@/components/sections/About";
 import { AiPlanner } from "@/components/sections/AiPlanner";
+import { BibliotecaStrip } from "@/components/sections/BibliotecaStrip";
 import { Catalog } from "@/components/sections/Catalog";
 import { Faq, FinalCta } from "@/components/sections/Faq";
 import { Footer } from "@/components/sections/Footer";
@@ -18,6 +19,7 @@ export default async function HomePage() {
   const available = products.filter((product) => isAvailable(product.slug));
   const fromPrice = available.length ? Math.min(...available.map((product) => product.priceArs)) : null;
   const planner = products.find((product) => product.slug === "planificador-ia");
+  const biblioteca = products.find((product) => product.slug === "biblioteca-entrenamiento");
 
   return (
     <CartProvider products={products}>
@@ -27,6 +29,7 @@ export default async function HomePage() {
         <StatsStrip />
         <Levels />
         <Catalog products={products} />
+        <BibliotecaStrip product={biblioteca} />
         <AiPlanner product={planner} />
         <About />
         <Faq />

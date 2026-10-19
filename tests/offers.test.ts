@@ -114,6 +114,9 @@ test("el Profesional se vende al precio de lanzamiento que fija el servidor", as
 
 test("la Biblioteca se vende a 29900 y se entrega como cualquier otro curso", async () => {
   assert.equal(find("biblioteca-entrenamiento").priceArs, 29900);
+  assert.equal(find("biblioteca-entrenamiento").compareAtPriceArs, 39900);
+  assert.equal(find("biblioteca-entrenamiento").badge, "Oferta lanzamiento");
+  assert.equal(find("biblioteca-entrenamiento").priceArs < find("curso-infantil").priceArs, true);
   assert.deepEqual(find("biblioteca-entrenamiento").includesSlugs, []);
   const carrito = resolveCartProducts(["biblioteca-entrenamiento", "curso-infantil"], SEED_PRODUCTS);
   assert.deepEqual(carrito.map((p) => p.slug), ["curso-infantil", "biblioteca-entrenamiento"]);
