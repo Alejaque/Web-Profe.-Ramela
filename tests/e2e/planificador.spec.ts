@@ -119,3 +119,33 @@ test("la descarga de Excel llega con contenido", async ({ page }) => {
   const { statSync } = await import("node:fs");
   expect(statSync(ruta!).size).toBeGreaterThan(2000);
 });
+
+/**
+ * La franja y el contador de la oferta.
+ *
+ * Ojo: estos tests asumen que la oferta está vigente. Si algún día fallan por
+ * eso, no es un bug: es que se vencieron los tramos de src/lib/ofertas.ts y
+ * hay que renovarlos.
+ */
+test("la home muestra la franja de oferta con precio y cuenta regresiva", async ({ page }) => {
+  await page.goto("/");
+
+  const franja = page.getByTestId("franja-oferta");
+  await expect(franja).toContainText(/Faltan \d+ días|Falta 1 día|Termina en/);
+
+  // El precio de la oferta y el de lista, los dos visibles.
+  await expect(franja).toContainText(/\$\s*29\.900/);
+  await expect(franja).toContainText(/\$\s*39\.900/);
+  // Y lleva al producto.
+  await expect(franja.getByRole("link", { name: "Ver" })).toHaveAttribute("href", "/biblioteca");
+});
+
+test("el bloque de la biblioteca y su página dicen cuánto falta", async ({ page }) => {
+  await page.goto("/");
+  const bloque = page.locator("section#biblioteca");
+  await expect(bloque).toContainText(/Cierre de temporada/);
+  await expect(bloque).toContainText(/Faltan \d+ días|Falta 1 día|Termina en/);
+
+  await page.goto("/biblioteca");
+  await expect(page.getByText(/Faltan \d+ días|Falta 1 día|Termina en/).first()).toBeVisible();
+});

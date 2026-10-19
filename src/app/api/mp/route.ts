@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isAvailable } from "@/lib/availability";
 import { resolveCartProducts } from "@/lib/checkout";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
+import { aplicarOfertas } from "@/lib/ofertas";
 
 export async function POST(req: Request) {
   const token = process.env.MP_ACCESS_TOKEN;
@@ -26,7 +27,9 @@ export async function POST(req: Request) {
   if (slugs.some((slug) => !isAvailable(slug) || !SEED_PRODUCTS.some((p) => p.slug === slug))) {
     return NextResponse.json({ error: "Hay productos no disponibles en el pedido. Revisá tu carrito." }, { status: 400 });
   }
-  const items = resolveCartProducts(slugs, SEED_PRODUCTS).map((p) => ({
+  // Se aplican las ofertas antes de armar los ítems: si esto se hiciera sólo en
+  // la vitrina, la página mostraría un precio y Mercado Pago cobraría otro.
+  const items = resolveCartProducts(slugs, aplicarOfertas(SEED_PRODUCTS)).map((p) => ({
     id: p.slug,
     title: p.name,
     quantity: 1,

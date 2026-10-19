@@ -8,7 +8,9 @@ import { BibliotecaCatalog } from "@/components/BibliotecaCatalog";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { CheckIcon } from "@/components/icons";
 import { getActiveProducts } from "@/lib/catalog";
+import { ContadorOferta } from "@/components/ContadorOferta";
 import { formatARS } from "@/lib/format";
+import { cuantoFalta } from "@/lib/ofertas";
 import { EJERCICIOS } from "@/lib/biblioteca";
 
 export const metadata: Metadata = {
@@ -260,6 +262,15 @@ export default async function BibliotecaPage() {
                     <p className="mt-2 text-xs text-slate-400">
                       Pago único · pesos argentinos (ARS)
                     </p>
+                    {product?.ofertaTermina ? (
+                      <p className="mt-2 text-sm font-semibold text-amber-300">
+                        {product.ofertaExcusa} ·{" "}
+                        <ContadorOferta
+                          termina={product.ofertaTermina}
+                          inicial={cuantoFalta(product.ofertaTermina)}
+                        />
+                      </p>
+                    ) : null}
                   </>
                 ) : null}
                 <div className="mt-6">

@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
+
+import { FranjaOferta } from "@/components/FranjaOferta";
+import { getActiveProducts } from "@/lib/catalog";
 import "./globals.css";
 
 // Mismas familias, alojadas localmente: el build no depende de Google Fonts.
@@ -37,10 +40,25 @@ export const viewport: Viewport = {
   themeColor: "#050f26",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+/**
+ * La franja de oferta se resuelve en el servidor, y las páginas son estáticas:
+ * sin esto, la fecha quedaría congelada en el valor que tenía el build y la
+ * oferta nunca vencería sola. Con una hora alcanza: el contador de días lo
+ * mueve el navegador, y el cambio de tramo lo recoge la revalidación.
+ */
+export const revalidate = 3600;
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // La franja se resuelve una sola vez para todo el sitio: si ninguna oferta
+  // está vigente, el componente no dibuja nada.
+  const productos = await getActiveProducts();
+
   return (
     <html lang="es-AR" className={`${inter.variable} ${barlow.variable} ${script.variable}`}>
-      <body className="bg-[#050f26] font-sans text-slate-900 antialiased">{children}</body>
+      <body className="bg-[#050f26] font-sans text-slate-900 antialiased">
+        <FranjaOferta productos={productos} />
+        {children}
+      </body>
     </html>
   );
 }

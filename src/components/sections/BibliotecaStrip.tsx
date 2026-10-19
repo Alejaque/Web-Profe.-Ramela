@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ArrowRightIcon, CheckIcon, FolderIcon } from "@/components/icons";
+import { ContadorOferta } from "@/components/ContadorOferta";
 import { formatARS } from "@/lib/format";
+import { cuantoFalta } from "@/lib/ofertas";
 import type { Product } from "@/lib/types";
 
 /** Tres ejercicios reales de muestra, uno por nivel. Los SVG salen del mismo motor que el PDF. */
@@ -118,6 +120,15 @@ export function BibliotecaStrip({ product }: { product?: Product }) {
             <p className="mt-2 text-sm text-slate-400">
               Pago único en pesos argentinos · sin suscripción y sin renovación
             </p>
+            {product.ofertaTermina ? (
+              <p className="mt-2 text-sm font-semibold text-amber-300">
+                {product.ofertaExcusa} ·{" "}
+                <ContadorOferta
+                  termina={product.ofertaTermina}
+                  inicial={cuantoFalta(product.ofertaTermina)}
+                />
+              </p>
+            ) : null}
             <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
               {[
                 "PDF con las 120 fichas",

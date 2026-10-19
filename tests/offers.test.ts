@@ -1,3 +1,4 @@
+import { aplicarOfertas, cuantoFalta } from "../src/lib/ofertas";
 import { tieneAcceso } from "../src/lib/planificador/acceso";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -8,6 +9,13 @@ import { POST } from "../src/app/api/mp/route";
 import { GET } from "../src/app/api/entrega/route";
 
 const find = (slug: string) => SEED_PRODUCTS.find((p) => p.slug === slug)!;
+
+/** Una fecha fija, para que los tramos se prueben sin esperar a que lleguen. */
+const HOY = new Date("2026-10-19T12:00:00-03:00");
+
+/** El producto tal como se vende en esa fecha: con la oferta ya aplicada. */
+const vigente = (slug: string, cuando: Date) =>
+  aplicarOfertas(SEED_PRODUCTS, cuando).find((p) => p.slug === slug)!;
 const origin = "https://example.com";
 
 // Ninguna prueba llama a Mercado Pago: respuestas controladas y credencial ficticia.
@@ -126,10 +134,13 @@ function entregaPlanificador(): string {
 }
 
 test("el Planificador se vende a 39900 y se entrega como enlace con acceso", async () => {
-  assert.equal(find("planificador-ia").priceArs, 39900);
-  assert.equal(find("planificador-ia").compareAtPriceArs, 49900);
+  const planificador = vigente("planificador-ia", HOY);
+  assert.equal(planificador.priceArs, 39900);
+  assert.equal(planificador.compareAtPriceArs, 49900);
+  // El seed guarda el precio de lista: la oferta es una capa con vencimiento.
+  assert.equal(find("planificador-ia").priceArs, 49900);
   assert.deepEqual(find("planificador-ia").includesSlugs, []);
-  const carrito = resolveCartProducts(["planificador-ia", "curso-infantil"], SEED_PRODUCTS);
+  const carrito = resolveCartProducts(["planificador-ia", "curso-infantil"], aplicarOfertas(SEED_PRODUCTS, HOY));
   assert.deepEqual(carrito.map((p) => p.slug), ["curso-infantil", "planificador-ia"]);
   assert.equal(carrito.reduce((sum, p) => sum + p.priceArs, 0), 34900 + 39900);
   // La entrega no es un archivo: es la herramienta con las descargas ya habilitadas.
@@ -140,12 +151,15 @@ test("el Planificador se vende a 39900 y se entrega como enlace con acceso", asy
 });
 
 test("la Biblioteca se vende a 29900 y se entrega como cualquier otro curso", async () => {
-  assert.equal(find("biblioteca-entrenamiento").priceArs, 29900);
-  assert.equal(find("biblioteca-entrenamiento").compareAtPriceArs, 39900);
-  assert.equal(find("biblioteca-entrenamiento").badge, "Oferta lanzamiento");
-  assert.equal(find("biblioteca-entrenamiento").priceArs < find("curso-infantil").priceArs, true);
+  const biblioteca = vigente("biblioteca-entrenamiento", HOY);
+  assert.equal(biblioteca.priceArs, 29900);
+  assert.equal(biblioteca.compareAtPriceArs, 39900);
+  assert.equal(biblioteca.badge, "Oferta lanzamiento");
+  // El seed guarda el precio de lista: la oferta es una capa con vencimiento.
+  assert.equal(find("biblioteca-entrenamiento").priceArs, 39900);
+  assert.equal(biblioteca.priceArs < find("curso-infantil").priceArs, true);
   assert.deepEqual(find("biblioteca-entrenamiento").includesSlugs, []);
-  const carrito = resolveCartProducts(["biblioteca-entrenamiento", "curso-infantil"], SEED_PRODUCTS);
+  const carrito = resolveCartProducts(["biblioteca-entrenamiento", "curso-infantil"], aplicarOfertas(SEED_PRODUCTS, HOY));
   assert.deepEqual(carrito.map((p) => p.slug), ["curso-infantil", "biblioteca-entrenamiento"]);
   assert.equal(carrito.reduce((sum, p) => sum + p.priceArs, 0), 34900 + 29900);
   await withPaymentMock(async (requests) => {
@@ -190,4 +204,76 @@ test("pago pendiente o identificación inválida no revela enlaces de entrega", 
     assert.equal((await GET(new Request(`${origin}/api/entrega?payment_id=bad`))).status, 400);
     assert.equal(requests.length, 1);
   }, { status: "pending", metadata: { slugs: "pack-infantil-juvenil" } });
+});
+
+
+/* ------------------------------------------------------------------------- */
+/* Ofertas con fecha de cierre                                               */
+/* ------------------------------------------------------------------------- */
+
+const T1 = new Date("2026-10-19T12:00:00-03:00");
+const T1_BORDE = new Date("2026-11-30T22:00:00-03:00");
+const T2 = new Date("2026-12-01T10:00:00-03:00");
+const T2_BORDE = new Date("2026-12-18T22:00:00-03:00");
+const DESPUES = new Date("2026-12-20T10:00:00-03:00");
+
+test("la Biblioteca pasa por los dos tramos y vuelve a su precio de lista", () => {
+  const en = (cuando: Date) => vigente("biblioteca-entrenamiento", cuando);
+
+  // Tramo 1: cierre de temporada, hasta el 30 de noviembre.
+  assert.equal(en(T1).priceArs, 29900);
+  assert.equal(en(T1).compareAtPriceArs, 39900);
+  assert.equal(en(T1_BORDE).priceArs, 29900, "el 30/11 a la noche todavía rige el tramo 1");
+
+  // Tramo 2: con el aguinaldo, hasta el 18 de diciembre. Sube, pero sigue debajo de lista.
+  assert.equal(en(T2).priceArs, 32900);
+  assert.equal(en(T2).compareAtPriceArs, 39900);
+  assert.equal(en(T2_BORDE).priceArs, 32900, "el 18/12 a la noche todavía rige el tramo 2");
+
+  // Vencido: vuelve a lista y deja de prometer un descuento que ya no existe.
+  assert.equal(en(DESPUES).priceArs, 39900);
+  assert.equal(en(DESPUES).compareAtPriceArs, null);
+  assert.equal(en(DESPUES).badge, null);
+  assert.equal(en(DESPUES).ofertaTermina, undefined);
+});
+
+test("el Planificador mantiene los 39900 hasta el 18 de diciembre y después va a lista", () => {
+  const en = (cuando: Date) => vigente("planificador-ia", cuando);
+  assert.equal(en(T1).priceArs, 39900);
+  assert.equal(en(T2).priceArs, 39900);
+  assert.equal(en(DESPUES).priceArs, 49900);
+  assert.equal(en(DESPUES).compareAtPriceArs, null);
+});
+
+test("cada tramo dice cuándo termina, para poder mostrarlo en la página", () => {
+  const t1 = vigente("biblioteca-entrenamiento", T1);
+  assert.ok(t1.ofertaTermina, "el tramo 1 no trae fecha de cierre");
+  assert.equal(t1.ofertaExcusa, "Cierre de temporada");
+
+  const t2 = vigente("biblioteca-entrenamiento", T2);
+  assert.ok(t2.ofertaTermina, "el tramo 2 no trae fecha de cierre");
+  assert.equal(t2.ofertaExcusa, "Antes de la pretemporada");
+});
+
+test("el checkout cobra lo mismo que muestra la vitrina", async () => {
+  await withPaymentMock(async (requests) => {
+    const response = await POST(order(["biblioteca-entrenamiento"], { total: 1, priceArs: 1 }));
+    assert.equal(response.status, 200);
+    const enviado = JSON.parse(String(requests.at(-1)?.init?.body));
+    const cobrado = enviado.items[0].unit_price;
+
+    // La vitrina y Mercado Pago tienen que leer el precio del mismo lugar. Si
+    // esto se rompe, la página muestra un número y se cobra otro.
+    const enVitrina = vigente("biblioteca-entrenamiento", new Date()).priceArs;
+    assert.equal(cobrado, enVitrina);
+  }, { init_point: "https://example.com/payment" });
+});
+
+test("el contador dice cuánto falta, en palabras", () => {
+  const termina = "2026-11-30T23:59:59-03:00";
+  assert.equal(cuantoFalta(termina, new Date("2026-11-20T12:00:00-03:00")), "Faltan 10 días");
+  assert.equal(cuantoFalta(termina, new Date("2026-11-29T12:00:00-03:00")), "Falta 1 día");
+  assert.equal(cuantoFalta(termina, new Date("2026-11-30T14:00:00-03:00")), "Termina en 9 h");
+  assert.equal(cuantoFalta(termina, new Date("2026-11-30T23:30:00-03:00")), "Termina en 29 min");
+  assert.equal(cuantoFalta(termina, new Date("2026-12-01T00:00:00-03:00")), "La oferta terminó");
 });

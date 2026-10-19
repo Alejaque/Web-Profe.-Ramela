@@ -9,7 +9,9 @@ import { PagoBanner } from "@/components/PagoBanner";
 import { PlanificadorApp } from "@/components/PlanificadorApp";
 import { WhatsappFloat } from "@/components/WhatsappFloat";
 import { getActiveProducts } from "@/lib/catalog";
+import { ContadorOferta } from "@/components/ContadorOferta";
 import { formatARS } from "@/lib/format";
+import { cuantoFalta } from "@/lib/ofertas";
 import { tieneAcceso } from "@/lib/planificador/acceso";
 
 export const metadata: Metadata = {
@@ -131,6 +133,15 @@ export default async function PlanificadorPage({
                     <p className="mt-2 text-sm text-slate-400">
                       Pago único. No es una suscripción: pagás una vez y no vence.
                     </p>
+                    {producto?.ofertaTermina ? (
+                      <p className="mt-2 text-sm font-semibold text-amber-300">
+                        {producto.ofertaExcusa} ·{" "}
+                        <ContadorOferta
+                          termina={producto.ofertaTermina}
+                          inicial={cuantoFalta(producto.ofertaTermina)}
+                        />
+                      </p>
+                    ) : null}
                     <div className="mt-7">
                       <AddToCartButton slug={producto.slug} className="w-full" />
                     </div>
