@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
-    a: "Comprás lo que quieras por separado: Infantil, Juvenil, Profesional, la Biblioteca de Material de Entrenamiento o el Planificador con IA. Cada uno se paga una sola vez y es tuyo para siempre. Si querés Infantil y Juvenil, el Pack te sale $4.900 menos que comprarlos sueltos. El Pack Completo, que va a reunir todo en un solo precio, todavía está en preparación.",
+    a: "Comprás lo que quieras por separado: Infantil, Juvenil, Profesional, la Biblioteca de Material de Entrenamiento o el Planificador con IA. Cada uno se paga una sola vez y es tuyo para siempre. Si querés Infantil y Juvenil, el Pack te sale $4.900 menos que comprarlos sueltos. Y si querés todo — los tres cursos, la Biblioteca y el Planificador con IA — el Pack Completo te deja $44.600 de ahorro sobre el precio vigente por separado.",
   },
   {
     q: "¿Tengo un beneficio si ya compré el Infantil?",

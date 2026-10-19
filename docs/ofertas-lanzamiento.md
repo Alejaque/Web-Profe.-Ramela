@@ -9,7 +9,7 @@ Precios y habilitación aprobados por el titular en la conversación. No se inve
 | Pack Infantil + Juvenil | No se presenta un precio anterior ficticio | $69.900 |
 | Profesional | $89.900 | $69.900 |
 
-El pack se compara explícitamente con **las ofertas individuales actuales** ($74.800), con ahorro de $4.900. No es el Pack Completo de todos los niveles: solo incluye Infantil y Juvenil. El Profesional se habilitó el 18/10 con precio de lanzamiento de $69.900 (lista $89.900). Biblioteca, Planificador IA y Pack Completo siguen deshabilitados.
+El pack se compara explícitamente con **las ofertas individuales actuales** ($74.800), con ahorro de $4.900. El Profesional se habilitó el 18/10 con precio de lanzamiento de $69.900 (lista $89.900). Biblioteca y Planificador IA se habilitaron con oferta por tramos hasta el 18/12. El **Pack Completo** (todos los niveles + Biblioteca + Planificador con IA) quedó habilitado el 19/10 a **$169.900** (por separado vigente $214.500, ahorro $44.600), sin precio tachado y como tarjeta destacada de la portada.
 
 ## Compradores previos del Infantil
 
@@ -18,10 +18,10 @@ Juvenil a $34.900, previa verificación por WhatsApp de la compra anterior. El b
 ## Precio y entrega
 
 - `src/lib/catalog-seed.ts` es la fuente de precios tanto de la vitrina como de `/api/mp`.
-- `src/lib/availability.ts` habilita Infantil, Juvenil, Pack Infantil + Juvenil y Profesional.
-- El servidor ignora importes enviados por el navegador; rechaza productos desconocidos o futuros. Deduplica y evita cobrar de nuevo cursos incluidos en un pack.
+- `src/lib/availability.ts` habilita Infantil, Juvenil, Pack Infantil + Juvenil, Profesional, Biblioteca, Planificador con IA y **Pack Completo**.
+- El servidor ignora importes enviados por el navegador; rechaza productos desconocidos o futuros. Deduplica y evita cobrar de nuevo cursos incluidos en un pack (el Pack Completo absorbe al Pack chico).
 - Al agregar ambos cursos por separado, el carrito ofrece cambiarlos por el pack con el ahorro exacto.
-- `/api/entrega` verifica el pago con Mercado Pago antes de devolver los cursos. El pack resuelve dos cursos, sin un enlace adicional del contenedor.
+- `/api/entrega` verifica el pago con Mercado Pago antes de devolver los cursos. El pack resuelve sus cursos incluidos (2 para el chico, 5 para el Completo), sin un enlace adicional del contenedor.
 - El banner no da por confirmado un pago solo porque la URL diga `pago=ok`.
 
 ### Configuración existente del vendedor

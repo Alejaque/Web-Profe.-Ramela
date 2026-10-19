@@ -36,8 +36,8 @@ export const SEED_PRODUCTS: SeedProduct[] = [
     priceArs: 69900,
     compareAtPriceArs: null,
     badge: "Oferta lanzamiento",
-    featured: true,
-    sortOrder: 0,
+    featured: false,
+    sortOrder: 1,
   },
 
   {
@@ -64,8 +64,8 @@ export const SEED_PRODUCTS: SeedProduct[] = [
     priceArs: 169900,
     compareAtPriceArs: null,
     badge: "Más elegido",
-    featured: false,
-    sortOrder: 10,
+    featured: true,
+    sortOrder: 0,
   },
   {
     slug: "curso-infantil",

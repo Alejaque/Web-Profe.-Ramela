@@ -81,7 +81,7 @@ test("Infantil, Juvenil, el pack, Profesional, la Biblioteca, el Planificador y 
     "pack-infantil-juvenil",
     "planificador-ia",
   ]);
-  assert.deepEqual(SEED_PRODUCTS.filter((p) => p.featured).map((p) => p.slug), ["pack-infantil-juvenil"]);
+  assert.deepEqual(SEED_PRODUCTS.filter((p) => p.featured).map((p) => p.slug), ["pack-completo"]);
   assert.deepEqual(SEED_PRODUCTS.filter((p) => !isAvailable(p.slug)).map((p) => p.slug).sort(), []);
 });
 
