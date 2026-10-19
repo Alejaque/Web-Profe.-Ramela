@@ -1,12 +1,10 @@
 import { WhatsappIcon } from "@/components/icons";
-
-const NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493644670461").replace(/\D/g, "");
-const TEXT = encodeURIComponent("Hola Profe! Quiero hacerte una consulta sobre los cursos.");
+import { whatsappUrl } from "@/components/TrustStrip";
 
 export function WhatsappFloat() {
   return (
     <a
-      href={`https://wa.me/${NUMBER}?text=${TEXT}`}
+      href={whatsappUrl("Hola Profe! Quiero hacerte una consulta sobre los cursos.")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Consultar por WhatsApp"

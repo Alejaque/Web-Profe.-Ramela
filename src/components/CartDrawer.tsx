@@ -8,10 +8,13 @@ import {
   CartIcon,
   CheckIcon,
   CloseIcon,
+  RefreshIcon,
   TrashIcon,
   WhatsappIcon,
 } from "@/components/icons";
+import { TrustMini, whatsappUrl } from "@/components/TrustStrip";
 import { formatARS } from "@/lib/format";
+import { LEGAL } from "@/lib/legal";
 
 type View = "cart" | "checkout" | "done";
 
@@ -110,13 +113,11 @@ export function CartDrawer() {
       ]
         .filter((line) => line !== "")
         .join("\n");
-      const number = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493644670461").replace(/\D/g, "");
-
       setResult({
         orderId,
         total: orderTotal,
         items,
-        whatsappUrl: `https://wa.me/${number}?text=${encodeURIComponent(text)}`,
+        whatsappUrl: whatsappUrl(text),
       });
       clear();
       setView("done");
@@ -313,6 +314,7 @@ export function CartDrawer() {
                   Continuar con la compra
                   <ArrowRightIcon className="h-5 w-5" />
                 </button>
+                <TrustMini tone="light" className="mt-3" />
                 <button
                   type="button"
                   onClick={clear}
@@ -421,6 +423,7 @@ export function CartDrawer() {
             </div>
 
             <footer className="border-t border-slate-200 bg-white px-5 py-4">
+              <TrustMini tone="light" className="mb-3" />
               <button
                 type="submit"
                 disabled={submitting}
@@ -577,6 +580,13 @@ function PaymentBox({
       </button>
       {payError ? <p className="text-sm font-medium text-red-600">{payError}</p> : null}
       <p className="text-xs text-slate-500">Tarjeta, dinero en cuenta o efectivo. Después enviá el pedido por WhatsApp.</p>
+      <p className="flex items-start gap-2 rounded-xl bg-emerald-50 p-3 text-xs leading-relaxed text-slate-700">
+        <RefreshIcon className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+        <span>
+          Tenés {LEGAL.plazoArrepentimiento} para arrepentirte y te devolvemos el 100%. Si algo
+          sale mal, escribinos por WhatsApp al {LEGAL.whatsappVisible} y lo resolvemos.
+        </span>
+      </p>
       <div className="border-t border-slate-200 pt-3">
         <p className="mb-3 text-sm text-slate-600">
           O transferí <strong className="text-slate-900">{formatARS(total)}</strong> desde

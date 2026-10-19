@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { RefreshIcon, WhatsappIcon } from "@/components/icons";
+import { whatsappUrl } from "@/components/TrustStrip";
+import { LEGAL } from "@/lib/legal";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -12,6 +15,12 @@ export function Footer() {
           </p>
           <p className="mt-1 text-sm">
             Profesor y entrenador de fútbol · Más de 30 años de experiencia
+          </p>
+          <p className="mt-3 flex items-start gap-2 text-sm">
+            <RefreshIcon className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
+            <span>
+              Garantía de devolución: {LEGAL.plazoArrepentimiento} para arrepentirte, sin costo
+            </span>
           </p>
         </div>
 
@@ -28,12 +37,23 @@ export function Footer() {
         </nav>
       </div>
       <div className="mx-auto mt-8 max-w-7xl px-5 lg:px-8">
-        <a
-          href="/arrepentimiento"
-          className="inline-flex items-center rounded-xl border border-sky-400/50 px-5 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-400/10"
-        >
-          Botón de arrepentimiento
-        </a>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="/arrepentimiento"
+            className="inline-flex items-center rounded-xl border border-sky-400/50 px-5 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-400/10"
+          >
+            Botón de arrepentimiento
+          </a>
+          <a
+            href={whatsappUrl("Hola Profe! Tengo una duda antes de comprar.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
+          >
+            <WhatsappIcon className="h-4 w-4" />
+            WhatsApp {LEGAL.whatsappVisible}
+          </a>
+        </div>
       </div>
       <div className="mx-auto mt-8 max-w-7xl border-t border-white/10 px-5 pt-6 text-xs lg:px-8">
         © {year} Profe. Alejandro Ramela. Todos los derechos reservados. Los precios están

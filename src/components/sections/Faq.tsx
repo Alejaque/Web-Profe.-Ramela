@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from "@/components/icons";
+import { LEGAL } from "@/lib/legal";
 
 const faqs = [
   {
@@ -8,6 +9,10 @@ const faqs = [
   {
     q: "¿En qué moneda están los precios y cómo puedo pagar?",
     a: "Todos los valores están expresados en pesos argentinos (ARS). Podés pagar con Mercado Pago (tarjeta, dinero en cuenta u otros medios) o por transferencia. Los dos medios te aparecen al confirmar tu pedido.",
+  },
+  {
+    q: "¿Y si me arrepiento de la compra?",
+    a: `Tenés ${LEGAL.plazoArrepentimiento} desde la compra para arrepentirte sin dar motivos y sin costo. Usá el botón de arrepentimiento o escribinos por WhatsApp al ${LEGAL.whatsappVisible}, y te devolvemos el 100% de lo pagado dentro de ${LEGAL.plazoReintegro}. Si un material tiene un problema que no logramos solucionar, también te devolvemos el pago.`,
   },
   {
     q: "¿Puedo comprar sólo un curso o conviene el pack?",
