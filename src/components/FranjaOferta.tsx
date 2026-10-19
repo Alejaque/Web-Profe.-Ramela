@@ -8,7 +8,7 @@ import type { Product } from "@/lib/types";
 /** A dónde va cada producto cuando alguien toca la franja. */
 const DESTINO: Record<string, { href: string; corto: string }> = {
   "biblioteca-entrenamiento": { href: "/biblioteca", corto: "Biblioteca" },
-  "planificador-ia": { href: "/planificador", corto: "Planificador" },
+  "planificador-ia": { href: "/planificador", corto: "Planificador con IA" },
 };
 
 /**
