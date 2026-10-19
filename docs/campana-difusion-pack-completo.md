@@ -63,11 +63,11 @@ Las piezas de `docs/campana/` se generaron con el número del primer tramo ($44.
 
 | Semana | Fechas | Eje de la semana | Pieza | Canal |
 | --- | --- | --- | --- | --- |
-| 1 | Lun 19/10 → Dom 25/10 | **Anuncio**: ya está el Pack Completo | `placa-01` | WhatsApp 1 · IG feed · historia |
+| 1 | Lun 19/10 → Dom 25/10 | **Anuncio**: ya está el Pack Completo | `placa-01` + `placa-01-historia-pack-completo` | WhatsApp 1 · IG feed · historia 9:16 |
 | 2 | Lun 26/10 → Dom 01/11 | **Qué incluye**: los 5 productos, uno por uno | `placa-02` | IG feed · WhatsApp 3 |
-| 3 | Lun 02/11 → Dom 08/11 | **El número**: $214.500 suelto vs $169.900 | `placa-03` | IG feed · historia |
+| 3 | Lun 02/11 → Dom 08/11 | **El número**: $214.500 suelto vs $169.900 | `placa-03` + `placa-03-historia-ahorro` | IG feed · historia 9:16 |
 | 4 | Lun 09/11 → Dom 15/11 | **Planificador con IA**: probalo gratis, llevá el PDF | `placa-02` | IG historia · WhatsApp 4 |
-| 5 | Lun 16/11 → Dom 22/11 | **Biblioteca**: 120 ejercicios, 15 gratis para probar | `placa-01` | IG historia · WhatsApp 3 |
+| 5 | Lun 16/11 → Dom 22/11 | **Biblioteca**: 120 ejercicios, 15 gratis para probar | `placa-01-historia-pack-completo` | IG historia · WhatsApp 3 |
 | 6 | Lun 23/11 → Dom 29/11 | **Cierra el primer tramo** el 30/11: la Biblioteca sube | `placa-extra-historia` | IG historia con cuenta atrás |
 | 7 | Lun 30/11 → Dom 06/12 | **Pretemporada**: llega el momento de planificar | `placa-03` | IG feed · WhatsApp 5 |
 | 8 | Lun 07/12 → Dom 13/12 | **Aguinaldo**: pago único y queda para siempre | `placa-04` | WhatsApp 5 · IG feed |
@@ -155,8 +155,8 @@ Repetir `placa-04` (la del QR) como cierre fijo de cualquier conversación de Wh
 
 ### Historias (3)
 
-1. `placa-01` — *"Ya está el Pack Completo"* + sticker de link a `/#cursos`.
-2. `placa-03` — *"Suelto $214.500 → Pack $169.900"* + sticker *"¿Cuánto te ahorrás?"* (encuesta: $44.600 / $0).
+1. `placa-01-historia-pack-completo` (9:16, 1080 × 1920) — *"Ya está el Pack Completo"* + sticker de link a `/#cursos`.
+2. `placa-03-historia-ahorro` (9:16, 1080 × 1920) — *"Suelto $214.500 → Pack $169.900"* + sticker *"¿Cuánto te ahorrás?"* (encuesta: $44.600 / $0).
 3. `placa-04` — *"Escaneá y entrá directo"* + sticker de link.
 
 ### Cuenta atrás (`placa-extra-historia`)
@@ -180,18 +180,29 @@ Repetir `placa-04` (la del QR) como cierre fijo de cualquier conversación de Wh
 
 Carpeta: `docs/campana/`. Se generaron a partir de la **foto real** del Profe (`public/images/profe-alejandro.jpg`), sin inventar rostros.
 
+### Digital (redes y WhatsApp)
+
 | Archivo | Medida | Uso | Texto fijo que lleva |
 | --- | --- | --- | --- |
 | `placa-01-pack-completo-portada.jpg` | 1080 × 1080 | Feed IG · apertura de la campaña | MÁS ELEGIDO · PACK COMPLETO · Profe. Alejandro Ramela · **$169.900** · Pago único · Pesos argentinos |
+| `placa-01-historia-pack-completo.jpg` | 1080 × 1920 | Historia IG (9:16) · semanas 1 y 5 | MÁS ELEGIDO · PACK COMPLETO · Profe. Alejandro Ramela · **$169.900** · Pago único · Pesos argentinos · *Quiero el Pack Completo* · `ramelafutbol.vercel.app/#cursos` |
 | `placa-02-que-incluye.jpg` | 1080 × 1080 | Feed IG · semana 2 | Los 5 productos incluidos, uno por uno |
 | `placa-03-ahorro.jpg` | 1080 × 1080 | Feed IG · semanas 3 y 7 | $214.500 → **$169.900** · Ahorrás $44.600 |
+| `placa-03-historia-ahorro.jpg` | 1080 × 1920 | Historia IG (9:16) · semana 3 | $214.500 por separado → **$169.900** con el pack · Ahorrás $44.600 · los 5 ítems con check · `ramelafutbol.vercel.app/#cursos` |
 | `placa-04-cta-qr.jpg` | 1080 × 1080 | Cierre de todas las piezas | QR a `/#cursos` · $169.900 · *Quiero el Pack Completo* · ramelafutbol.vercel.app/#cursos · 10 días para arrepentirte · WhatsApp 3644 670461 |
 | `placa-extra-historia-countdown.jpg` | 1080 × 1920 | Historia IG · semanas 6 y 9 | Cuenta atrás al 18/12 · $169.900 |
 | `qr-cursos.png` | 1160 × 1160 | Respaldo del QR real | Código verificable a `https://ramelafutbol.vercel.app/#cursos` |
 
+### Impreso (A4 · 300 dpi)
+
+| Archivo | Medida | Uso | Texto fijo que lleva |
+| --- | --- | --- | --- |
+| `flyer-a4-pack-completo.pdf` | 2480 × 3508 (A4 · 300 dpi) | **Original para imprenta** · clubes, clínicas y cartelera | Foto real del Profe · MÁS ELEGIDO · PACK COMPLETO · **$169.900** · los 5 productos con check · Por separado $214.500 · Ahorrás $44.600 · QR verificable a `/#cursos` · 10 días para arrepentirte · WhatsApp 3644 670461 · aclaración legal del ahorro |
+| `flyer-a4-pack-completo.jpg` | 2480 × 3508 (A4 · 300 dpi) | Vista previa y envío digital del flyer | Mismo contenido que el PDF |
+
 Paleta: azul **#071634** (el mismo de la web), amarillo para el badge y acentos, césped en la base, tipografía condensada y en mayúsculas.
 
-> **Sobre el QR:** `qr-cursos.png` es el código real, generado y verificado por lectura (apunta a `https://ramelafutbol.vercel.app/#cursos`). Si se imprime o se publica una placa cuyo QR no se lea bien, reemplazarlo por ese archivo antes de difundir.
+> **Sobre el QR:** `qr-cursos.png` y el QR del flyer A4 son códigos reales, generados y verificados por lectura (apuntan a `https://ramelafutbol.vercel.app/#cursos`). Si se imprime o se publica una placa cuyo QR no se lea bien, reemplazarlo por ese archivo antes de difundir.
 
 ---
 
@@ -207,6 +218,7 @@ Paleta: azul **#071634** (el mismo de la web), amarillo para el badge y acentos,
 - [ ] El QR se escanea y abre la sección `#cursos`.
 - [ ] El número de WhatsApp de la pieza es 3644 670461.
 - [ ] Ninguna pieza promete cupo, fecha de cierre del pack ni entrega por mail.
+- [ ] Si se imprime el flyer A4, mandar el PDF (`flyer-a4-pack-completo.pdf`) y no el JPG.
 
 ### Al publicar
 
