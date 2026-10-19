@@ -10,7 +10,7 @@ const links = [
   { href: "#niveles", label: "Niveles" },
   { href: "#cursos", label: "Cursos" },
   { href: "/biblioteca", label: "Biblioteca", ruta: true },
-  { href: "/planificador", label: "Planificador", ruta: true },
+  { href: "/planificador", label: "Planificador con IA", ruta: true },
   { href: "#profe", label: "El Profe" },
   { href: "#preguntas", label: "Preguntas" },
 ];
