@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AddToCartButton } from "@/components/AddToCartButton";
-import { ArrowRightIcon, CheckIcon, FolderIcon } from "@/components/icons";
+import { ArrowRightIcon, CheckIcon, FolderIcon, SparkIcon } from "@/components/icons";
+import { TrustStrip } from "@/components/TrustStrip";
 import { ContadorOferta } from "@/components/ContadorOferta";
 import { formatARS } from "@/lib/format";
 import { cuantoFalta } from "@/lib/ofertas";
@@ -50,10 +51,16 @@ export function BibliotecaStrip({ product }: { product?: Product }) {
 
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="max-w-3xl">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-300 ring-1 ring-white/15">
-            <FolderIcon className="h-4 w-4" />
-            Biblioteca de Material · Novedad
-          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-300 ring-1 ring-white/15">
+              <FolderIcon className="h-4 w-4" />
+              Biblioteca de Material · Novedad
+            </p>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-amber-950">
+              <SparkIcon className="h-4 w-4" />
+              Empezá por acá
+            </span>
+          </div>
           <h2
             id="biblioteca-titulo"
             className="mt-6 font-display text-4xl font-extrabold uppercase leading-[0.95] sm:text-5xl"
@@ -159,6 +166,7 @@ export function BibliotecaStrip({ product }: { product?: Product }) {
             </Link>
           </div>
         </div>
+        <TrustStrip tone="dark" className="mt-6" />
       </div>
     </section>
   );

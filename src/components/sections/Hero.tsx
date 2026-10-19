@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, CheckIcon } from "@/components/icons";
 import { formatARS } from "@/lib/format";
+import { LEGAL } from "@/lib/legal";
 
 export function Hero({ fromPrice }: { fromPrice: number | null }) {
   return (
@@ -66,6 +67,7 @@ export function Hero({ fromPrice }: { fromPrice: number | null }) {
               "Infantil, Juvenil y Profesional disponibles",
               "Muestras gratis de los 3 cursos",
               fromPrice ? `Desde ${formatARS(fromPrice)}` : "Precios en pesos argentinos",
+              `Devolución garantizada: ${LEGAL.plazoArrepentimiento} · WhatsApp ${LEGAL.whatsappVisible}`,
             ].map((item) => (
               <li key={item} className="flex items-center gap-2.5">
                 <span className="grid h-5 w-5 place-items-center rounded-full bg-sky-500/20 text-sky-300">

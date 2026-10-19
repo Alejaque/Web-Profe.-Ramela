@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "5493644670461").replace(/\D/g, "");
+import { whatsappUrl } from "@/components/TrustStrip";
 
 type Info = { estado: string; pedido: string; pagoId: string };
 type Material = { slug: string; name: string; url: string | null };
@@ -113,7 +112,7 @@ export function PagoBanner() {
         </div>
       ) : null}
       <a
-        href={`https://wa.me/${NUMBER}?text=${encodeURIComponent(texto)}`}
+        href={whatsappUrl(texto)}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-3 flex w-full items-center justify-center rounded-xl bg-[#25D366] px-6 py-3.5 text-base font-bold text-white transition hover:brightness-95"

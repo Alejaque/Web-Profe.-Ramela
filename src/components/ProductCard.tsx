@@ -1,6 +1,7 @@
 import { ProductPrice, PreviousBuyerOffer } from "@/components/ProductPrice";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { CheckIcon } from "@/components/icons";
+import { TrustMini } from "@/components/TrustStrip";
 import { isAvailable } from "@/lib/availability";
 import type { Product } from "@/lib/types";
 
@@ -47,6 +48,7 @@ export function FeaturedProductCard({ product }: { product: Product }) {
         <div className="flex flex-col justify-end rounded-3xl bg-[#071634]/70 p-6 ring-1 ring-white/15 backdrop-blur">
           <ProductPrice product={product} inverted />
           <AddToCartButton slug={product.slug} variant="light" className="mt-6 w-full" />
+          <TrustMini tone="dark" className="mt-4" />
         </div>
       </div>
     </article>
@@ -54,16 +56,31 @@ export function FeaturedProductCard({ product }: { product: Product }) {
 }
 
 /** Tarjeta estándar de curso. */
-export function ProductCard({ product, className = "" }: { product: Product; className?: string }) {
+export function ProductCard({
+  product,
+  className = "",
+  startHere = false,
+}: {
+  product: Product;
+  className?: string;
+  startHere?: boolean;
+}) {
   const badge = isAvailable(product.slug) ? product.badge : "Próximamente";
   return (
     <article
       className={`flex flex-col rounded-3xl bg-white p-7 text-slate-900 shadow-xl shadow-black/20 ring-1 ring-white/10 ${className}`}
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="rounded-full bg-sky-100 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
-          {product.level}
-        </span>
+        <div className="flex min-w-0 flex-col items-start gap-2">
+          {startHere ? (
+            <span className="inline-flex w-fit rounded-full bg-amber-300 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-amber-950">
+              Empezá por acá
+            </span>
+          ) : null}
+          <span className="rounded-full bg-sky-100 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-sky-700">
+            {product.level}
+          </span>
+        </div>
         {badge ? (
           <span className="rounded-full bg-[#071634] px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-sky-300">
             {badge}

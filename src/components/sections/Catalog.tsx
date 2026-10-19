@@ -1,9 +1,12 @@
 import { FeaturedProductCard, ProductCard } from "@/components/ProductCard";
+import { ArrowRightIcon } from "@/components/icons";
+import { formatARS } from "@/lib/format";
 import { isAvailable } from "@/lib/availability";
 import type { Product } from "@/lib/types";
 
 export function Catalog({ products }: { products: Product[] }) {
   const available = products.filter((p) => isAvailable(p.slug));
+  const biblioteca = available.find((p) => p.slug === "biblioteca-entrenamiento");
   const featured = available.find((p) => p.featured);
   const courses = available.filter((p) => p.slug !== featured?.slug);
   const upcoming = products.filter((p) => !isAvailable(p.slug));
@@ -25,16 +28,48 @@ export function Catalog({ products }: { products: Product[] }) {
           <p className="mt-14 rounded-2xl bg-white/5 p-8 text-center text-slate-300 ring-1 ring-white/10">Estamos actualizando el catálogo. Volvé en unos minutos.</p>
         ) : (
           <div className="mt-14 space-y-6">
+            {biblioteca ? (
+              <a
+                href="#biblioteca"
+                className="flex w-full flex-wrap flex-col gap-4 rounded-2xl bg-amber-300/10 p-5 ring-1 ring-amber-300/40 transition hover:bg-amber-300/15 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="flex min-w-0 flex-wrap flex-col gap-3 sm:flex-row sm:items-center">
+                  <span className="inline-flex w-fit shrink-0 rounded-full bg-amber-300 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-amber-950">
+                    Empezá por acá
+                  </span>
+                  <p className="min-w-0 break-words text-sm leading-relaxed text-sky-50">
+                    ¿No sabés por dónde arrancar? Llevate la <strong>Biblioteca de Material</strong> por{" "}
+                    {formatARS(biblioteca.priceArs)} (pago único) y probá 15 ejercicios gratis antes de decidir.
+                  </p>
+                </div>
+                <span className="inline-flex shrink-0 flex-wrap items-center gap-2 font-bold text-amber-200">
+                  Ver la Biblioteca
+                  <ArrowRightIcon className="h-5 w-5" />
+                </span>
+              </a>
+            ) : null}
             {featured ? <FeaturedProductCard product={featured} /> : null}
             <div className="grid gap-6 md:grid-cols-2">
-              {courses.map((product) => <ProductCard key={product.slug} product={product} />)}
+              {courses.map((product) => (
+                <ProductCard
+                  key={product.slug}
+                  product={product}
+                  startHere={product.slug === biblioteca?.slug}
+                />
+              ))}
             </div>
             {upcoming.length ? (
               <div className="pt-12">
                 <h3 className="font-display text-3xl font-bold uppercase">Próximos lanzamientos</h3>
                 <p className="mt-2 text-sm text-slate-300">Estos productos todavía no están disponibles para comprar. No están incluidos en el Pack Infantil + Juvenil.</p>
                 <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  {upcoming.map((product) => <ProductCard key={product.slug} product={product} />)}
+                  {upcoming.map((product) => (
+                    <ProductCard
+                      key={product.slug}
+                      product={product}
+                      startHere={product.slug === biblioteca?.slug}
+                    />
+                  ))}
                 </div>
               </div>
             ) : null}
