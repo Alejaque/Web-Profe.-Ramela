@@ -18,7 +18,16 @@ export type Ejercicio = {
   duracion: string;
   min: number;
   abierta: boolean;
+  // Derivados para el Planificador, ya resueltos aca: el motor compara
+  // numeros y conjuntos, y no deberia parsear texto en el navegador.
+  jugMin: number;
+  jugMax: number;
+  largo: number;
+  ancho: number;
+  mats: Material[];
 };
+
+export type Material = "balon" | "conos" | "petos" | "arco" | "aros" | "vallas" | "arquero";
 
 export type Ficha = {
   desarrollo: string;
@@ -44,7 +53,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos de dos colores",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 5,
+    "jugMax": 8,
+    "largo": 12.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-02",
@@ -57,7 +75,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 10 conos, 2 aros",
     "duracion": "15 min",
     "min": 15,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "aros"
+    ]
   },
   {
     "id": "INF-03",
@@ -70,7 +97,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "4 conos, petos de dos colores",
     "duracion": "10 min",
     "min": 10,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 15.0,
+    "ancho": 15.0,
+    "mats": [
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-04",
@@ -83,7 +118,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "6 conos, 4 petos, balones",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "conos",
+      "petos",
+      "balon"
+    ]
   },
   {
     "id": "INF-05",
@@ -96,7 +140,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 2 conos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 16,
+    "largo": 10.0,
+    "ancho": 10.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-06",
@@ -109,7 +161,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 14.0,
+    "ancho": 14.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-07",
@@ -122,7 +183,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por pareja, 4 conos",
     "duracion": "8 min",
     "min": 8,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 12.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-08",
@@ -135,7 +204,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, 1 portería",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 52.5,
+    "ancho": 68.0,
+    "mats": [
+      "balon",
+      "conos",
+      "arco"
+    ]
   },
   {
     "id": "INF-09",
@@ -148,7 +226,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 6 conos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-10",
@@ -161,7 +247,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 3 conos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 3,
+    "jugMax": 12,
+    "largo": 12.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-11",
@@ -174,7 +268,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 4 conos, petos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 20,
+    "largo": 10.0,
+    "ancho": 10.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-12",
@@ -187,7 +290,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 6 conos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 20,
+    "largo": 15.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-13",
@@ -200,7 +311,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por equipo, 4 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 24,
+    "largo": 25.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-14",
@@ -213,7 +333,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 1 arco, conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 16,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-15",
@@ -226,7 +356,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-16",
@@ -239,7 +378,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos, 4 miniporterías",
     "duracion": "14 min",
     "min": 14,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos",
+      "arco"
+    ]
   },
   {
     "id": "INF-17",
@@ -252,7 +401,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "6 aros, 8 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 15.0,
+    "ancho": 12.0,
+    "mats": [
+      "aros",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-18",
@@ -265,7 +423,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "8 conos de cuatro colores, 1 balón",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 5,
+    "jugMax": 20,
+    "largo": 15.0,
+    "ancho": 15.0,
+    "mats": [
+      "conos",
+      "balon"
+    ]
   },
   {
     "id": "INF-19",
@@ -278,7 +444,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-20",
@@ -291,7 +466,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por equipo, 2 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 24,
+    "largo": 25.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-21",
@@ -304,7 +488,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por pareja, 4 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 12.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-22",
@@ -317,7 +510,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 1 arco, conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 12,
+    "largo": 18.0,
+    "ancho": 14.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-23",
@@ -330,7 +533,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 6 conos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 4,
+    "jugMax": 16,
+    "largo": 12.0,
+    "ancho": 10.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-24",
@@ -343,7 +554,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 14.0,
+    "ancho": 14.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-25",
@@ -356,7 +576,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 8 conos, 3 aros",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "aros"
+    ]
   },
   {
     "id": "INF-26",
@@ -369,7 +598,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 6 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 18.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-27",
@@ -382,7 +620,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 4 conos de colores",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 20.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-28",
@@ -395,7 +641,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "2 balones, 8 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 30.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-29",
@@ -408,7 +663,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 6 vallas, 6 aros, 8 conos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 16,
+    "largo": 18.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "vallas",
+      "aros",
+      "conos"
+    ]
   },
   {
     "id": "INF-30",
@@ -421,7 +686,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "2 balones, 6 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 25.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-31",
@@ -434,7 +708,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, 2 arcos chicos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 30.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos",
+      "arco",
+      "petos"
+    ]
   },
   {
     "id": "INF-32",
@@ -447,7 +731,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos chicos, 8 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 28.0,
+    "ancho": 22.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-33",
@@ -460,7 +754,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 1 arco, 6 conos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 24.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos"
+    ]
   },
   {
     "id": "INF-34",
@@ -473,7 +776,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada cuatro, 4 conos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 16.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-35",
@@ -486,7 +797,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 6 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 22.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-36",
@@ -499,7 +819,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 8 conos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 18,
+    "largo": 20.0,
+    "ancho": 14.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "INF-37",
@@ -512,7 +840,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "8 conos, 2 balones, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 24.0,
+    "ancho": 18.0,
+    "mats": [
+      "conos",
+      "balon",
+      "petos"
+    ]
   },
   {
     "id": "INF-38",
@@ -525,7 +862,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 8 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 20.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-39",
@@ -538,7 +884,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 14,
+    "largo": 16.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "INF-40",
@@ -551,7 +906,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, 8 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 26.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-01",
@@ -564,7 +929,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 8 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-02",
@@ -577,7 +951,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 6 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 16,
+    "largo": 18.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-03",
@@ -590,7 +973,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 52.5,
+    "ancho": 68.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-04",
@@ -603,7 +995,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 12 conos, 2 aros",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 30.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "aros"
+    ]
   },
   {
     "id": "JUV-05",
@@ -616,7 +1017,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, 1 portería, arquero",
     "duracion": "18 min",
     "min": 18,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 52.5,
+    "ancho": 68.0,
+    "mats": [
+      "balon",
+      "conos",
+      "arco",
+      "arquero"
+    ]
   },
   {
     "id": "JUV-06",
@@ -629,7 +1040,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 6 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 20.0,
+    "ancho": 12.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-07",
@@ -642,7 +1062,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-08",
@@ -655,7 +1084,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "10 min",
     "min": 10,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 16.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-09",
@@ -668,7 +1106,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos de dos colores",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 30.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-10",
@@ -681,7 +1128,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-11",
@@ -694,7 +1151,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 6 conos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "JUV-12",
@@ -707,7 +1172,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 18.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-13",
@@ -720,7 +1194,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 45.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-14",
@@ -733,7 +1217,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 4 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 5,
+    "jugMax": 15,
+    "largo": 20.0,
+    "ancho": 15.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-15",
@@ -746,7 +1239,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 1 arco, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 35.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-16",
@@ -759,7 +1262,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 1 arco, conos, petos",
     "duracion": "16 min",
     "min": 16,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 35.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-17",
@@ -772,7 +1285,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 8 conos",
     "duracion": "16 min",
     "min": 16,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "JUV-18",
@@ -785,7 +1306,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "2 balones, 4 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 16.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-19",
@@ -798,7 +1328,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 28.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-20",
@@ -811,7 +1351,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón por jugador, 4 conos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 30.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "JUV-21",
@@ -824,7 +1372,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 6 conos, petos",
     "duracion": "16 min",
     "min": 16,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 30.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-22",
@@ -837,7 +1394,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 45.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-23",
@@ -850,7 +1417,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 1 arco, conos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 5,
+    "jugMax": 15,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos"
+    ]
   },
   {
     "id": "JUV-24",
@@ -863,7 +1439,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 22,
+    "largo": 50.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-25",
@@ -876,7 +1462,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 10 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 22.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-26",
@@ -889,7 +1484,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 45.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-27",
@@ -902,7 +1507,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 12 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-28",
@@ -915,7 +1529,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "8 conos, 1 balón cada dos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 18,
+    "largo": 20.0,
+    "ancho": 20.0,
+    "mats": [
+      "conos",
+      "balon",
+      "petos"
+    ]
   },
   {
     "id": "JUV-29",
@@ -928,7 +1551,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada dos, 12 conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 20,
+    "largo": 35.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-30",
@@ -941,7 +1573,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "2 balones, 8 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 14,
+    "largo": 16.0,
+    "ancho": 16.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-31",
@@ -954,7 +1595,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 50.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-32",
@@ -967,7 +1618,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-33",
@@ -980,7 +1641,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 1 arco, 8 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 30.0,
+    "ancho": 22.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-34",
@@ -993,7 +1664,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 12 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-35",
@@ -1006,7 +1686,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 1 arco, 8 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 35.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-36",
@@ -1019,7 +1709,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "6 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 20,
+    "largo": 18.0,
+    "ancho": 14.0,
+    "mats": [
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-37",
@@ -1032,7 +1730,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "6 conos, 1 balón cada dos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 14,
+    "largo": 16.0,
+    "ancho": 12.0,
+    "mats": [
+      "conos",
+      "balon",
+      "petos"
+    ]
   },
   {
     "id": "JUV-38",
@@ -1045,7 +1752,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 8 conos, petos",
     "duracion": "14 min",
     "min": 14,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 25.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-39",
@@ -1058,7 +1774,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "JUV-40",
@@ -1071,7 +1797,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 50.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-01",
@@ -1084,7 +1820,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 8 conos, petos",
     "duracion": "12 min",
     "min": 12,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 20.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-02",
@@ -1097,7 +1842,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 70.0,
+    "ancho": 50.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-03",
@@ -1110,7 +1864,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "25 min",
     "min": 25,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 16,
+    "jugMax": 24,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-04",
@@ -1123,7 +1886,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos, 2 porterías",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 105.0,
+    "ancho": 68.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos",
+      "arco"
+    ]
   },
   {
     "id": "PRO-05",
@@ -1136,7 +1909,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, 1 portería, arquero",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "arco",
+      "arquero"
+    ]
   },
   {
     "id": "PRO-06",
@@ -1149,7 +1932,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "25 min",
     "min": 25,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 70.0,
+    "ancho": 50.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-07",
@@ -1162,7 +1954,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-08",
@@ -1175,7 +1976,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 12,
+    "jugMax": 22,
+    "largo": 50.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-09",
@@ -1188,7 +1998,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 20,
+    "largo": 50.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-10",
@@ -1201,7 +2021,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 4 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 5,
+    "jugMax": 15,
+    "largo": 25.0,
+    "ancho": 18.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-11",
@@ -1214,7 +2043,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 8 conos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": true
+    "abierta": true,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 30.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "PRO-12",
@@ -1227,7 +2064,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-13",
@@ -1240,7 +2087,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 20.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-14",
@@ -1253,7 +2109,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-15",
@@ -1266,7 +2132,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 1 arco, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 45.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-16",
@@ -1279,7 +2155,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-17",
@@ -1292,7 +2178,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 8 conos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 40.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "PRO-18",
@@ -1305,7 +2199,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 4 conos, petos",
     "duracion": "16 min",
     "min": 16,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 7,
+    "jugMax": 14,
+    "largo": 20.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-19",
@@ -1318,7 +2221,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 20,
+    "largo": 60.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-20",
@@ -1331,7 +2244,15 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 8 conos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 6,
+    "jugMax": 18,
+    "largo": 35.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos"
+    ]
   },
   {
     "id": "PRO-21",
@@ -1344,7 +2265,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 22,
+    "largo": 45.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-22",
@@ -1357,7 +2287,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 9,
+    "jugMax": 18,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-23",
@@ -1370,7 +2310,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "Balones, 1 arco, conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 7,
+    "jugMax": 16,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-24",
@@ -1383,7 +2333,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-25",
@@ -1396,7 +2356,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 8 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 16,
+    "largo": 25.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-26",
@@ -1409,7 +2378,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 20,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-27",
@@ -1422,7 +2401,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 11,
+    "jugMax": 20,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-28",
@@ -1435,7 +2424,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "8 conos, 2 balones, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 18,
+    "largo": 25.0,
+    "ancho": 20.0,
+    "mats": [
+      "conos",
+      "balon",
+      "petos"
+    ]
   },
   {
     "id": "PRO-29",
@@ -1448,7 +2446,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "3 balones, 12 conos, 2 arcos chicos, petos",
     "duracion": "25 min",
     "min": 25,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "conos",
+      "arco",
+      "petos"
+    ]
   },
   {
     "id": "PRO-30",
@@ -1461,7 +2469,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón cada tres, 10 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 10,
+    "jugMax": 16,
+    "largo": 30.0,
+    "ancho": 25.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-31",
@@ -1474,7 +2491,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 12 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 18,
+    "largo": 35.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-32",
@@ -1487,7 +2513,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-33",
@@ -1500,7 +2536,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 1 arco, 6 conos, petos",
     "duracion": "15 min",
     "min": 15,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 8,
+    "jugMax": 16,
+    "largo": 28.0,
+    "ancho": 20.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-34",
@@ -1513,7 +2559,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-35",
@@ -1526,7 +2582,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "3 balones, 8 conos, petos",
     "duracion": "25 min",
     "min": 25,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-36",
@@ -1539,7 +2604,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 8 conos, petos",
     "duracion": "18 min",
     "min": 18,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 45.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-37",
@@ -1552,7 +2626,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 10 conos, petos",
     "duracion": "16 min",
     "min": 16,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 12,
+    "jugMax": 20,
+    "largo": 40.0,
+    "ancho": 30.0,
+    "mats": [
+      "balon",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-38",
@@ -1565,7 +2648,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "22 min",
     "min": 22,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 16,
+    "jugMax": 22,
+    "largo": 45.0,
+    "ancho": 35.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-39",
@@ -1578,7 +2671,17 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 55.0,
+    "ancho": 40.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   },
   {
     "id": "PRO-40",
@@ -1591,6 +2694,16 @@ export const EJERCICIOS: Ejercicio[] = [
     "material": "1 balón, 2 arcos, conos, petos",
     "duracion": "20 min",
     "min": 20,
-    "abierta": false
+    "abierta": false,
+    "jugMin": 14,
+    "jugMax": 22,
+    "largo": 60.0,
+    "ancho": 45.0,
+    "mats": [
+      "balon",
+      "arco",
+      "conos",
+      "petos"
+    ]
   }
 ];
