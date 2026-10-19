@@ -108,6 +108,13 @@ function plantillasPara(minutos: number): Rol[][] {
   return out.map((o) => o.roles);
 }
 
+/** Superficie mediana del conjunto: el punto de comparación del sesgo. */
+function areaMedianaDe(pool: Ejercicio[]): number {
+  if (pool.length === 0) return 0;
+  const areas = pool.map((e) => e.largo * e.ancho).sort((a, b) => a - b);
+  return areas[Math.floor(areas.length / 2)];
+}
+
 /** ¿El espacio del ejercicio entra en la cancha? Se puede rotar. */
 function entra(ej: Ejercicio, largo: number, ancho: number): boolean {
   return (
@@ -152,8 +159,20 @@ function filtrar(p: Parametros, r: Relajacion): Ejercicio[] {
   });
 }
 
-function puntaje(ej: Ejercicio, rol: Rol, p: Parametros, semilla: number): number {
+function puntaje(
+  ej: Ejercicio,
+  rol: Rol,
+  p: Parametros,
+  semilla: number,
+  areaMediana: number,
+): number {
   let s = 0;
+  if (p.sesgoEspacio && areaMediana > 0) {
+    const area = ej.largo * ej.ancho;
+    // Hasta 60 puntos: inclina la elección sin tapar el objetivo pedido.
+    const desvio = (area - areaMediana) / areaMediana;
+    s += Math.max(-1, Math.min(1, desvio)) * 60 * (p.sesgoEspacio === "grande" ? 1 : -1);
+  }
   if (rol === "principal") {
     if (ej.objetivo === p.objetivo) s += 100;
     else if (AFINES[p.objetivo]?.includes(ej.objetivo)) s += 25;
@@ -171,9 +190,6 @@ function puntaje(ej: Ejercicio, rol: Rol, p: Parametros, semilla: number): numbe
   return s;
 }
 
-const TOPE_VISITAS = 25000;
-const TOPE_SOLUCIONES = 300;
-
 type Solucion = { elegidos: Ejercicio[]; roles: Rol[]; n: number; puntos: number };
 
 /**
@@ -187,8 +203,21 @@ function calidad(sol: Solucion, minutos: number): number {
 }
 
 /**
- * Busca combinaciones que sumen exacto. Poda con el mínimo y el máximo
- * alcanzable desde cada posición, así no explora ramas sin salida.
+ * Busca la mejor combinación que suma exacto.
+ *
+ * Se resuelve en dos pasos y no con una búsqueda en profundidad, porque la
+ * búsqueda tiene un problema serio: es a lo ancho antes de llegar al fondo, así
+ * que con un tope de nodos se queda sin presupuesto explorando la primera rama
+ * y nunca llega a una hoja. Cuando eso pasa devuelve "no hay solución" para un
+ * pedido que sí la tiene.
+ *
+ * Paso 1, programación dinámica sobre (bloque, minutos): encuentra la tupla de
+ * duraciones que suma exacto con el mejor puntaje posible. El estado es chico
+ * (hasta 8 bloques × 90 minutos) y da el óptimo global, no el primero que
+ * aparece.
+ *
+ * Paso 2, reparto: con las duraciones ya fijas, elegir qué ejercicio va en cada
+ * bloque es un problema de asignación sin repeticiones, chico y con backtracking.
  */
 function buscarExacta(
   roles: Rol[],
@@ -198,57 +227,134 @@ function buscarExacta(
   rangosRol: Rangos,
 ): Solucion | null {
   const n = roles.length;
+  const areaMediana = areaMedianaDe(pool);
+  const objetivoT = p.minutos;
 
-  const cands: Ejercicio[][] = roles.map((rol) =>
+  // Candidatos por bloque, agrupados por duración y ordenados por calidad.
+  const porDuracion: Map<number, Ejercicio[]>[] = roles.map((rol) => {
+    const mapa = new Map<number, Ejercicio[]>();
     pool
       .filter((ej) => ej.min >= rangosRol[rol][0] && ej.min <= rangosRol[rol][1])
-      .sort((a, b) => puntaje(b, rol, p, semilla) - puntaje(a, rol, p, semilla)),
-  );
-  if (cands.some((c) => c.length === 0)) return null;
+      .sort(
+        (a, b) =>
+          puntaje(b, rol, p, semilla, areaMediana) - puntaje(a, rol, p, semilla, areaMediana),
+      )
+      .forEach((ej) => {
+        const lista = mapa.get(ej.min) ?? [];
+        lista.push(ej);
+        mapa.set(ej.min, lista);
+      });
+    return mapa;
+  });
+  if (porDuracion.some((m) => m.size === 0)) return null;
 
-  const minDesde = new Array<number>(n + 1).fill(0);
-  const maxDesde = new Array<number>(n + 1).fill(0);
-  for (let i = n - 1; i >= 0; i -= 1) {
-    minDesde[i] = minDesde[i + 1] + Math.min(...cands[i].map((e) => e.min));
-    maxDesde[i] = maxDesde[i + 1] + Math.max(...cands[i].map((e) => e.min));
-  }
-  if (minDesde[0] > p.minutos || maxDesde[0] < p.minutos) return null;
+  // Cuántos ejercicios hay de cada duración en todo el conjunto. Sirve para
+  // descartar tuplas imposibles: si en Infantil hay un solo ejercicio de 8',
+  // ninguna sesión puede usarlo en dos bloques.
+  const stock = new Map<number, number>();
+  for (const ej of pool) stock.set(ej.min, (stock.get(ej.min) ?? 0) + 1);
 
-  let visitas = 0;
-  let halladas = 0;
-  // Se guarda en un objeto: TypeScript no sigue las asignaciones que ocurren
-  // dentro del closure y si no estrecha el tipo a null y se pierde el acceso.
-  const mejor: { val: { elegidos: Ejercicio[]; puntaje: number } | null } = { val: null };
-  const usados = new Set<string>();
-  const elegidos: Ejercicio[] = [];
+  // Duraciones vetadas por bloque. Se van llenando cuando una tupla resulta
+  // imposible de repartir, para que el próximo intento elija otra.
+  const vetado: Set<number>[] = roles.map(() => new Set<number>());
 
-  const dfs = (i: number, suma: number, puntos: number) => {
-    if (visitas > TOPE_VISITAS || halladas >= TOPE_SOLUCIONES) return;
-    visitas += 1;
+  for (let intento = 0; intento < 30; intento += 1) {
+    // Paso 1: mejor puntaje usando los bloques i..n-1 para sumar s.
+    const mejor: (number | null)[][] = Array.from({ length: n + 1 }, () =>
+      new Array<number | null>(objetivoT + 1).fill(null),
+    );
+    const elegida: (number | null)[][] = Array.from({ length: n + 1 }, () =>
+      new Array<number | null>(objetivoT + 1).fill(null),
+    );
+    mejor[n][0] = 0;
 
-    if (i === n) {
-      if (suma === p.minutos) {
-        halladas += 1;
-        if (!mejor.val || puntos > mejor.val.puntaje)
-          mejor.val = { elegidos: [...elegidos], puntaje: puntos };
+    for (let i = n - 1; i >= 0; i -= 1) {
+      for (let s = 0; s <= objetivoT; s += 1) {
+        for (const [dur, ejercicios] of porDuracion[i]) {
+          if (dur > s || vetado[i].has(dur)) continue;
+          const previo = mejor[i + 1][s - dur];
+          if (previo === null) continue;
+          const total = previo + puntaje(ejercicios[0], roles[i], p, semilla, areaMediana);
+          if (mejor[i][s] === null || total > (mejor[i][s] as number)) {
+            mejor[i][s] = total;
+            elegida[i][s] = dur;
+          }
+        }
       }
-      return;
     }
-    if (suma + minDesde[i] > p.minutos) return;
-    if (suma + maxDesde[i] < p.minutos) return;
+    if (mejor[0][objetivoT] === null) return null;
 
-    for (const ej of cands[i]) {
-      if (usados.has(ej.id)) continue;
-      usados.add(ej.id);
-      elegidos.push(ej);
-      dfs(i + 1, suma + ej.min, puntos + puntaje(ej, roles[i], p, semilla));
-      elegidos.pop();
-      usados.delete(ej.id);
+    // Reconstruye la tupla de duraciones.
+    const durs: number[] = [];
+    let s = objetivoT;
+    for (let i = 0; i < n; i += 1) {
+      const d = elegida[i][s];
+      if (d === null) return null;
+      durs.push(d);
+      s -= d;
     }
-  };
 
-  dfs(0, 0, 0);
-  return mejor.val ? { elegidos: mejor.val.elegidos, roles, n, puntos: mejor.val.puntaje } : null;
+    // ¿Alcanza el stock? Si una duración se pide más veces de lo que hay,
+    // la tupla no se puede repartir y hay que probar otra.
+    const pedido = new Map<number, number>();
+    for (const d of durs) pedido.set(d, (pedido.get(d) ?? 0) + 1);
+    let agotada: number | null = null;
+    for (const [d, cuantos] of pedido) {
+      if ((stock.get(d) ?? 0) < cuantos) agotada = d;
+    }
+    if (agotada !== null) {
+      // Se la veta en el último bloque que la pedía: es el más fácil de cambiar.
+      for (let i = n - 1; i >= 0; i -= 1) {
+        if (durs[i] === agotada) {
+          vetado[i].add(agotada);
+          break;
+        }
+      }
+      continue;
+    }
+
+    // Paso 2: reparte ejercicios concretos sin repetir ninguno.
+    let mejorReparto: { elegidos: Ejercicio[]; puntos: number } | null = null;
+    const usados = new Set<string>();
+    const elegidos: Ejercicio[] = [];
+    let nodos = 0;
+    let masProfundo = -1;
+    let atasco = -1;
+
+    const asignar = (i: number, puntos: number) => {
+      if (nodos > 20000 || mejorReparto !== null) return;
+      nodos += 1;
+      if (i === n) {
+        // Con las duraciones fijas, cualquier reparto completo suma exacto.
+        mejorReparto = { elegidos: [...elegidos], puntos };
+        return;
+      }
+      if (i > masProfundo) masProfundo = i;
+      let probe = false;
+      for (const ej of porDuracion[i].get(durs[i]) ?? []) {
+        if (usados.has(ej.id)) continue;
+        probe = true;
+        usados.add(ej.id);
+        elegidos.push(ej);
+        asignar(i + 1, puntos + puntaje(ej, roles[i], p, semilla, areaMediana));
+        elegidos.pop();
+        usados.delete(ej.id);
+        if (mejorReparto !== null) return;
+      }
+      if (!probe && i >= masProfundo) atasco = i;
+    };
+    asignar(0, 0);
+
+    if (mejorReparto) {
+      const exito = mejorReparto as { elegidos: Ejercicio[]; puntos: number };
+      return { elegidos: exito.elegidos, roles, n, puntos: exito.puntos };
+    }
+    // No se pudo repartir: se veta la duración del bloque que se quedó sin
+    // opciones y se vuelve a armar la tupla.
+    if (atasco >= 0) vetado[atasco].add(durs[atasco]);
+    else return null;
+  }
+  return null;
 }
 
 /**
@@ -263,6 +369,7 @@ function buscarAproximada(
   semilla: number,
   rangosRol: Rangos,
 ): Solucion | null {
+  const areaMediana = areaMedianaDe(pool);
   const usados = new Set<string>();
   const elegidos: Ejercicio[] = [];
   let puntos = 0;
@@ -271,11 +378,13 @@ function buscarAproximada(
       .filter(
         (ej) => !usados.has(ej.id) && ej.min >= rangosRol[rol][0] && ej.min <= rangosRol[rol][1],
       )
-      .sort((a, b) => puntaje(b, rol, p, semilla) - puntaje(a, rol, p, semilla))[0];
+      .sort(
+        (a, b) => puntaje(b, rol, p, semilla, areaMediana) - puntaje(a, rol, p, semilla, areaMediana),
+      )[0];
     if (!candidato) return null;
     usados.add(candidato.id);
     elegidos.push(candidato);
-    puntos += puntaje(candidato, rol, p, semilla);
+    puntos += puntaje(candidato, rol, p, semilla, areaMediana);
   }
   return { elegidos, roles, n: roles.length, puntos };
 }

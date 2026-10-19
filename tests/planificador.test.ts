@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { EJERCICIOS, type Material } from "../src/lib/biblioteca";
+import { armarMesociclo, armarMicrociclo } from "../src/lib/planificador/ciclos";
 import { armarSesion, duracionesPosibles } from "../src/lib/planificador/motor";
 import { CANCHAS, DURACIONES, type Parametros } from "../src/lib/planificador/tipos";
 
@@ -10,7 +11,9 @@ const NIVELES = ["Infantil", "Juvenil", "Profesional"] as const;
 const OBJETIVOS = ["Técnica", "Táctica", "Físico", "Cognitivo", "Transición"] as const;
 const PLANTILLAS_JUGADORES = [8, 12, 16, 20, 24];
 
-function base(over: Partial<Parametros> = {}): Parametros {
+type Extra = { referencia?: number; semanas?: number };
+
+function base(over: Partial<Parametros> & Extra = {}): Parametros & Extra {
   return {
     nivel: "Juvenil",
     objetivo: "Táctica",
@@ -268,4 +271,102 @@ test("los datos derivados están completos en los 120 ejercicios", () => {
     assert.ok(e.min > 0, `${e.id}: sin duración`);
   }
   assert.equal(EJERCICIOS.length, 120);
+});
+
+/* ------------------------------------------------------------------------- */
+/* Microciclo MD-5 → MD+1 y mesociclo ATR                                    */
+/* ------------------------------------------------------------------------- */
+
+test("el microciclo cierra exacto en los siete días y en los tres niveles", () => {
+  let sesiones = 0;
+  for (const nivel of NIVELES) {
+    for (const jugadores of [8, 12, 16, 20, 24]) {
+      for (const referencia of [45, 60, 75, 90]) {
+        const micro = armarMicrociclo(base({ nivel, jugadores, referencia }));
+        assert.equal(micro.dias.length, 7, `${nivel}: la semana no tiene siete días`);
+        for (const d of micro.dias) {
+          if (d.esPartido) {
+            assert.equal(d.sesion, null, `${d.id} es partido y armó sesión`);
+            continue;
+          }
+          assert.ok(d.sesion, `${nivel}/${jugadores}j/${d.id}: sin sesión`);
+          sesiones += 1;
+          assert.ok(
+            d.sesion!.exacta,
+            `${nivel}/${jugadores}j/ref${referencia} ${d.id}: ${d.sesion!.minutosReales}' en vez de ${d.sesion!.minutosPedidos}'`,
+          );
+          assert.equal(d.sesion!.minutosReales, d.minutos);
+        }
+      }
+    }
+  }
+  assert.equal(sesiones, 3 * 5 * 4 * 6, "faltaron sesiones por revisar");
+});
+
+test("el microciclo respeta la lógica de la semana: MD-3 en espacios grandes y sin partido entrenando", () => {
+  for (const nivel of NIVELES) {
+    const micro = armarMicrociclo(base({ nivel, referencia: 75 }));
+    const area = (id: string) => {
+      const d = micro.dias.find((x) => x.id === id)!;
+      const bloques = d.sesion!.bloques;
+      return bloques.reduce((t, b) => t + b.ejercicio.largo * b.ejercicio.ancho, 0) / bloques.length;
+    };
+    // MD-3 es el día de mayor intensidad: va en espacios grandes.
+    assert.ok(
+      area("MD-3") > area("MD+1"),
+      `${nivel}: MD-3 (${Math.round(area("MD-3"))}m²) debería usar más espacio que MD+1 (${Math.round(area("MD+1"))}m²)`,
+    );
+    // MD-2 es el día de velocidad: también necesita espacio.
+    assert.ok(
+      area("MD-2") > area("MD-1"),
+      `${nivel}: MD-2 (${Math.round(area("MD-2"))}m²) debería usar más espacio que MD-1 (${Math.round(area("MD-1"))}m²)`,
+    );
+    // El día del partido no entrena.
+    const md = micro.dias.find((d) => d.id === "MD")!;
+    assert.equal(md.esPartido, true);
+    assert.equal(md.sesion, null);
+    // MD-1 activa: es la sesión más corta o empatada con MD-2.
+    const md1 = micro.dias.find((d) => d.id === "MD-1")!.minutos;
+    const md5 = micro.dias.find((d) => d.id === "MD-5")!.minutos;
+    assert.ok(md1 <= md5, `${nivel}: MD-1 (${md1}') debería ser más corto que MD-5 (${md5}')`);
+  }
+});
+
+test("el mesociclo ATR arma de 2 a 6 semanas, todas exactas, y descarga al final", () => {
+  let sesiones = 0;
+  for (const nivel of NIVELES) {
+    for (const semanas of [2, 3, 4, 5, 6]) {
+      const meso = armarMesociclo(base({ nivel, semanas, referencia: 75 }));
+      assert.equal(meso.semanas.length, semanas, `${nivel}: pidió ${semanas} semanas y dio ${meso.semanas.length}`);
+      // La última semana siempre es de realización: se llega fresco al final.
+      assert.equal(meso.semanas[meso.semanas.length - 1].fase, "Realización");
+      // La primera siempre acumula.
+      assert.equal(meso.semanas[0].fase, "Acumulación");
+      for (const s of meso.semanas) {
+        for (const d of s.microciclo.dias) {
+          if (!d.sesion) continue;
+          sesiones += 1;
+          assert.ok(
+            d.sesion.exacta,
+            `${nivel}/${semanas}s/sem${s.numero}/${d.id}: ${d.sesion.minutosReales}' en vez de ${d.sesion.minutosPedidos}'`,
+          );
+        }
+      }
+    }
+  }
+  // 3 niveles × (2+3+4+5+6) semanas × 6 días de entrenamiento, sin contar el partido.
+  assert.equal(sesiones, 3 * 20 * 6);
+});
+
+test("el mesociclo baja la carga hacia la competencia", () => {
+  const meso = armarMesociclo(base({ nivel: "Juvenil", semanas: 4, referencia: 75 }));
+  const minutosPorSemana = meso.semanas.map(
+    (s) => s.microciclo.minutosTotales,
+  );
+  // La semana de realización entrena menos que la de acumulación.
+  assert.ok(
+    minutosPorSemana[3] < minutosPorSemana[0],
+    `la última semana (${minutosPorSemana[3]}') debería cargar menos que la primera (${minutosPorSemana[0]}')`,
+  );
+  assert.ok(meso.resumen.includes("4 semanas"), "el resumen no describe el bloque");
 });

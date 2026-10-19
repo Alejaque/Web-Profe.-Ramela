@@ -28,6 +28,12 @@ export type Parametros = {
    * estado en ningún lado.
    */
   evitar?: string[];
+  /**
+   * Hacia dónde empujar el tamaño de los espacios. Lo usa el microciclo: MD-3
+   * es el día de mayor intensidad y va en espacios grandes, mientras que MD+1
+   * y MD-1 van en espacios chicos.
+   */
+  sesgoEspacio?: "grande" | "chico";
 };
 
 export type Bloque = {
