@@ -25,17 +25,23 @@ test("la sesión se arma sola y los minutos cierran exactos", async ({ page }) =
   expect(minutos(bloques)).toBe(pedidos);
 });
 
-test("cada bloque trae ejercicio, consigna y material", async ({ page }) => {
+test("cada bloque trae su consigna propia, las medidas y el material", async ({ page }) => {
   await page.goto("/planificador");
   const bloques = page.locator("ol").first().locator("li");
   const total = await bloques.count();
+  const consignas = new Set<string>();
 
   for (let i = 0; i < total; i += 1) {
     const texto = await bloques.nth(i).innerText();
-    expect(texto, `bloque ${i} sin consigna`).toMatch(/(Entrada en calor|El plato fuerte|Bajamos la intensidad)/);
+    // La consigna viene del desarrollo de la ficha: es larga y específica.
+    const consigna = texto.split("\n").find((l) => /^[A-ZÁÉÍÓÚÑ][^.]+\./.test(l) && l.length > 60);
+    expect(consigna, `bloque ${i} sin consigna`).toBeTruthy();
+    consignas.add(consigna!);
     expect(texto, `bloque ${i} sin medidas`).toMatch(/\d+\s*×\s*\d+\s*m/);
-    expect(texto, `bloque ${i} sin material`).toMatch(/jugadores/);
+    expect(texto, `bloque ${i} sin jugadores`).toMatch(/jugadores/);
   }
+  // Ningún bloque repite la consigna de otro: no son plantillas.
+  expect(consignas.size).toBe(total);
 });
 
 test("pedir otra opción cambia la sesión sin romper los minutos", async ({ page }) => {

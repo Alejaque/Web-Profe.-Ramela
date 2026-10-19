@@ -1,4 +1,5 @@
 import { EJERCICIOS, type Ejercicio } from "@/lib/biblioteca";
+import { CONSIGNAS } from "./consignas";
 import type { Bloque, Parametros, Rol, Sesion } from "./tipos";
 
 /**
@@ -394,15 +395,22 @@ function buscarAproximada(
   return { elegidos, roles, n: roles.length, puntos };
 }
 
-/** Texto breve por rol. Capa 1: escrito una vez, no generado en el momento. */
+/**
+ * La consigna de cada bloque.
+ *
+ * El cuerpo es el desarrollo de la ficha de ese ejercicio: está escrito para
+ * esa tarea concreta, no es una plantilla que se repite. El rol sólo le pone
+ * una frase de marco arriba, que es lo único que cambia según el momento.
+ */
 function consigna(ej: Ejercicio, rol: Rol): string {
+  const cuerpo = CONSIGNAS[ej.id] ?? `${ej.categoria}.`;
   if (rol === "activacion") {
-    return `Entrada en calor con ${ej.categoria.toLowerCase()}. Que la pelota se mueva desde el primer minuto y todos toquen.`;
+    return `Para entrar en calor. ${cuerpo} Que la pelota se mueva desde el primer minuto y todos toquen.`;
   }
   if (rol === "vuelta") {
-    return `Bajamos la intensidad con ${ej.categoria.toLowerCase()}. Cerrá con dos preguntas al grupo: qué salió bien y qué hay que repetir.`;
+    return `Para bajar. ${cuerpo} Cerrá con dos preguntas al grupo: qué salió bien y qué hay que repetir.`;
   }
-  return `El plato fuerte: ${ej.categoria.toLowerCase()}. Acá está el trabajo del día, no lo apures.`;
+  return cuerpo;
 }
 
 export function armarSesion(p: Parametros): Sesion {

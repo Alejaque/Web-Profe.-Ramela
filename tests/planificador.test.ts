@@ -238,11 +238,28 @@ test("un pedido imposible avisa en vez de devolver cualquier cosa", () => {
   assert.ok(s.avisos.length > 0 || s.exacta);
 });
 
-test("cada bloque trae su consigna escrita", () => {
-  const s = armarSesion(base());
-  for (const b of s.bloques) {
-    assert.ok(b.consigna.length > 30, `${b.ejercicio.id} sin consigna útil`);
+test("cada bloque trae la consigna de su ejercicio, no una plantilla repetida", () => {
+  for (const nivel of NIVELES) {
+    const s = armarSesion(base({ nivel }));
+    const vistas = new Set<string>();
+    for (const b of s.bloques) {
+      assert.ok(b.consigna.length > 40, `${b.ejercicio.id} sin consigna útil`);
+      // La consigna viene del desarrollo de la ficha: dos bloques distintos no
+      // pueden decir lo mismo. Si se repite, volvió la plantilla genérica.
+      vistas.add(b.consigna);
+    }
+    assert.equal(vistas.size, s.bloques.length, `${nivel}: hay consignas repetidas`);
   }
+});
+
+test("las 120 consignas existen y no son el nombre del ejercicio", async () => {
+  const { CONSIGNAS } = await import("../src/lib/planificador/consignas");
+  for (const e of EJERCICIOS) {
+    const texto = CONSIGNAS[e.id];
+    assert.ok(texto && texto.length > 40, `${e.id} sin consigna generada`);
+    assert.notEqual(texto.trim(), e.nombre.trim(), `${e.id}: la consigna es sólo el nombre`);
+  }
+  assert.equal(Object.keys(CONSIGNAS).length, 120);
 });
 
 /**
