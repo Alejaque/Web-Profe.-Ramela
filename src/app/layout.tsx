@@ -26,11 +26,11 @@ const script = localFont({
 export const metadata: Metadata = {
   title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
   description:
-    "Cursos de Fútbol Infantil y Juvenil en oferta de lanzamiento. Guías, diagramas, sesiones y planillas de planificación. Pack de los dos cursos disponible.",
+    "Cursos de Fútbol Infantil, Juvenil y Profesional, Biblioteca de 120 ejercicios y Planificador de entrenamientos con IA. Guías, diagramas, sesiones y planillas.",
   openGraph: {
     title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
     description:
-      "Formación en Fútbol Infantil y Juvenil: metodología, modelo de juego, sesiones con diagramas y planificación. Elegí un curso o el pack de los dos.",
+      "Formación en Fútbol Infantil, Juvenil y Profesional, Biblioteca de 120 ejercicios y Planificador con IA. Elegí un curso, una herramienta o el pack.",
     locale: "es_AR",
     type: "website",
   },

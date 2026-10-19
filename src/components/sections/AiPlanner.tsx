@@ -15,7 +15,7 @@ const steps = [
   },
   {
     title: "Decile con qué contás",
-    text: "Objetivo, duración, cuántos jugadores tenés, qué cancha y qué material. Nada de eso se asume.",
+    text: "Objetivo, duración, cuántos jugadores tenés, qué cancha y qué material. El motor elige los ejercicios y la IA redacta la consigna para tu grupo.",
   },
   {
     title: "Llevate la planificación",
@@ -48,16 +48,18 @@ export function AiPlanner({ product }: { product?: Product }) {
         <div>
           <p className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">
             <SparkIcon className="h-4 w-4" />
-            Planificador
+            Planificador con IA · Infantil · Juvenil · Profesional
           </p>
           <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">
             Dejá de armar la práctica a mano
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-slate-600">
-            Elegís categoría, objetivo, cancha, jugadores y material. El planificador arma la
-            sesión con los 120 ejercicios de la biblioteca, y los minutos{" "}
-            <strong className="font-semibold text-[#071634]">cierran exactos</strong>: si pedís 60,
-            son 60. También arma la semana completa y el mesociclo entero.
+            Para <strong className="font-semibold text-[#071634]">fútbol infantil, juvenil y profesional</strong>.
+            Elegís categoría, objetivo, cancha, jugadores y material: el motor arma la
+            sesión con los 120 ejercicios de la biblioteca para que los minutos{" "}
+            <strong className="font-semibold text-[#071634]">cierren exactos</strong> (si pedís 60,
+            son 60) y la IA redacta las consignas a medida de tu plantel. También arma la semana
+            completa y el mesociclo entero.
           </p>
 
           <ol className="mt-9 space-y-6">
@@ -141,8 +143,9 @@ export function AiPlanner({ product }: { product?: Product }) {
             </ul>
 
             <p className="border-t border-white/10 px-6 py-3 text-xs text-slate-400">
-              Esta sesión la armó el planificador recién, con los ejercicios de la biblioteca.
-              Entrá y armá la tuya: es gratis mirarla todas las veces que quieras.
+              Esta sesión la armó el motor recién con los ejercicios de la biblioteca, y la IA
+              redacta las consignas para tu grupo. Entrá y armá la tuya: es gratis mirarla todas las
+              veces que quieras.
             </p>
           </div>
         </div>

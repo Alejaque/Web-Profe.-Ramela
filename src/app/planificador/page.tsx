@@ -15,21 +15,22 @@ import { cuantoFalta } from "@/lib/ofertas";
 import { tieneAcceso } from "@/lib/planificador/acceso";
 
 export const metadata: Metadata = {
-  title: "Planificador de entrenamientos | Profe. Alejandro Ramela",
+  title: "Planificador de entrenamientos con IA | Profe. Alejandro Ramela",
   description:
-    "Armá sesiones, microciclos MD-5 a MD+1 y mesociclos ATR con los 120 ejercicios de la biblioteca. Los minutos cierran exactos. Bajalo en PDF y Excel.",
+    "Armá sesiones, microciclos MD-5 a MD+1 y mesociclos ATR para fútbol infantil, juvenil y profesional con los 120 ejercicios de la biblioteca e inteligencia artificial. Los minutos cierran exactos. Bajalo en PDF y Excel.",
   openGraph: {
-    title: "Planificador de entrenamientos | Profe. Alejandro Ramela",
+    title: "Planificador de entrenamientos con IA | Profe. Alejandro Ramela",
     description:
-      "Sesiones, microciclos y mesociclos armados con los 120 ejercicios de la biblioteca. Los minutos cierran exactos.",
+      "Sesiones, microciclos y mesociclos para infantil, juvenil y profesional con los 120 ejercicios de la biblioteca y redacción con IA. Los minutos cierran exactos.",
     locale: "es_AR",
     type: "website",
   },
 };
 
 const QUE_HACE = [
-  "Arma la sesión con ejercicios reales de la biblioteca, no con texto inventado",
-  "Los minutos cierran exactos: si pedís 75&apos;, son 75&apos;",
+  "Infantil, Juvenil y Profesional: usa los 120 ejercicios reales de la biblioteca",
+  "El motor arma la estructura y la IA redacta las consignas para tu grupo",
+  "Los minutos cierran exactos: si pedís 75', son 75'",
   "Respeta tu cancha, tus jugadores y el material que tengas",
   "Microciclo MD-5 → MD+1, con el día de mayor carga donde va",
   "Mesociclo ATR de 2 a 6 semanas, con la descarga antes de competir",
@@ -53,15 +54,16 @@ export default async function PlanificadorPage({
             <div className="mx-auto max-w-7xl">
               <p className="inline-flex items-center gap-2 rounded-full bg-sky-500/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-sky-300 ring-1 ring-inset ring-sky-400/30">
                 <SparkIcon className="h-4 w-4" />
-                Planificador
+                Planificador con IA · Infantil · Juvenil · Profesional
               </p>
               <h1 className="mt-5 max-w-3xl font-display text-5xl font-extrabold uppercase leading-[0.95] sm:text-6xl">
                 Armá la práctica en lo que tardás en leer esto
               </h1>
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">
-                Elegís categoría, objetivo, cuántos jugadores tenés, qué cancha y qué material.
-                El planificador arma la sesión con los 120 ejercicios de la biblioteca, la semana
-                completa MD-5 → MD+1 o el mesociclo entero.
+                Para fútbol infantil, juvenil y profesional. Elegís categoría, objetivo, cuántos
+                jugadores tenés, qué cancha y qué material: el motor arma la sesión con los 120
+                ejercicios de la biblioteca y la IA redacta las consignas y notas a medida de tu
+                plantel. También arma la semana completa MD-5 → MD+1 o el mesociclo entero.
               </p>
 
               <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
