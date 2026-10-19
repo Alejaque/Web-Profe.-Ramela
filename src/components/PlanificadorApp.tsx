@@ -22,7 +22,20 @@ import {
   pdfDeMicrociclo,
   pdfDeSesion,
 } from "@/lib/planificador/exportar";
-import { DownloadIcon, RefreshIcon } from "@/components/icons";
+import {
+  mezclarMesociclo,
+  mezclarMicrociclo,
+  mezclarSesion,
+  payloadDeMesociclo,
+  payloadDeMicrociclo,
+  payloadDeSesion,
+  type PayloadIA,
+  type RespuestaMeso,
+  type RespuestaMicro,
+  type RespuestaSesion,
+} from "@/lib/planificador/ia";
+import { useTextoIA } from "@/lib/planificador/useTextoIA";
+import { DownloadIcon, RefreshIcon, SparkIcon } from "@/components/icons";
 
 type Modo = "sesion" | "microciclo" | "mesociclo";
 
@@ -128,6 +141,30 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
     [modo, params, semanas, referencia],
   );
 
+  /**
+   * Capa de IA: el motor pone la estructura (ejercicios, minutos, orden) y
+   * Groq redacta el texto para el pedido concreto. Si la IA no está o falla,
+   * `texto` es null y todo se muestra con el texto del motor: la página nunca
+   * se bloquea por eso.
+   */
+  const payload = useMemo<PayloadIA | null>(() => {
+    if (modo === "sesion") return sesion.bloques.length ? payloadDeSesion(sesion, params) : null;
+    if (modo === "microciclo" && micro) return payloadDeMicrociclo(micro, { ...params, referencia });
+    if (modo === "mesociclo" && meso) return payloadDeMesociclo(meso, { ...params, referencia });
+    return null;
+  }, [modo, sesion, micro, meso, params, referencia]);
+
+  const { iaDisponible, cargando, texto } = useTextoIA(payload);
+
+  // Si el texto llegó para ESTE pedido, se mezcla; si no, se queda el del motor.
+  const sesionIA = modo === "sesion" && texto ? mezclarSesion(sesion, texto as RespuestaSesion) : sesion;
+  const microIA = modo === "microciclo" && micro && texto
+    ? mezclarMicrociclo(micro, texto as RespuestaMicro)
+    : micro;
+  const mesoIA = modo === "mesociclo" && meso && texto
+    ? mezclarMesociclo(meso, texto as RespuestaMeso)
+    : meso;
+
   function alternarMaterial(m: Material) {
     setEvitar([]);
     setMaterial((prev) => (prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]));
@@ -144,23 +181,25 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
   const sufijo = nombreSeguro(`${nivel}-${objetivo}`);
 
   function exportarPdf() {
+    // Se exporta el objeto ya mezclado: si llegó el texto de la IA, va en el
+    // PDF; si no, va el del motor. Los minutos son los mismos en los dos.
     if (modo === "sesion") {
-      pdfDeSesion(sesion).save(`sesion-${sufijo}-${minutosEfectivos}min.pdf`);
-    } else if (modo === "microciclo" && micro) {
-      pdfDeMicrociclo(micro).save(`microciclo-${sufijo}.pdf`);
-    } else if (modo === "mesociclo" && meso) {
-      pdfDeMesociclo(meso).save(`mesociclo-${sufijo}-${semanas}semanas.pdf`);
+      pdfDeSesion(sesionIA).save(`sesion-${sufijo}-${minutosEfectivos}min.pdf`);
+    } else if (modo === "microciclo" && microIA) {
+      pdfDeMicrociclo(microIA).save(`microciclo-${sufijo}.pdf`);
+    } else if (modo === "mesociclo" && mesoIA) {
+      pdfDeMesociclo(mesoIA).save(`mesociclo-${sufijo}-${semanas}semanas.pdf`);
     }
   }
 
   function exportarExcel() {
     const hojas =
       modo === "sesion"
-        ? hojasDeSesion(sesion)
-        : modo === "microciclo" && micro
-          ? hojasDeMicrociclo(micro)
-          : meso
-            ? hojasDeMesociclo(meso)
+        ? hojasDeSesion(sesionIA)
+        : modo === "microciclo" && microIA
+          ? hojasDeMicrociclo(microIA)
+          : mesoIA
+            ? hojasDeMesociclo(mesoIA)
             : [];
     const nombre =
       modo === "sesion"
@@ -332,15 +371,29 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
         {/* Resultado */}
         <div className="min-w-0 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white/5 px-5 py-4 ring-1 ring-inset ring-white/10">
-            <p className="text-sm text-slate-300">
-              {modo === "sesion"
-                ? `${sesion.bloques.length} bloques · ${sesion.minutosReales} minutos`
-                : modo === "microciclo" && micro
-                  ? `7 días · ${micro.minutosTotales} minutos de entrenamiento`
-                  : meso
-                    ? `${meso.semanas.length} semanas · ${meso.semanas.reduce((t, s) => t + s.microciclo.minutosTotales, 0)} minutos`
-                    : ""}
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-sm text-slate-300">
+                {modo === "sesion"
+                  ? `${sesionIA.bloques.length} bloques · ${sesionIA.minutosReales} minutos`
+                  : modo === "microciclo" && microIA
+                    ? `7 días · ${microIA.minutosTotales} minutos de entrenamiento`
+                    : mesoIA
+                      ? `${mesoIA.semanas.length} semanas · ${mesoIA.semanas.reduce((t, s) => t + s.microciclo.minutosTotales, 0)} minutos`
+                      : ""}
+              </p>
+              {iaDisponible && (cargando || texto) ? (
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset ${
+                    texto
+                      ? "bg-emerald-500/15 text-emerald-300 ring-emerald-400/30"
+                      : "animate-pulse bg-sky-500/15 text-sky-300 ring-sky-400/30"
+                  }`}
+                >
+                  <SparkIcon className="h-3.5 w-3.5" />
+                  {cargando ? "La IA está redactando el texto…" : "Texto generado por IA"}
+                </span>
+              ) : null}
+            </div>
             <div className="flex flex-wrap gap-2">
               {modo === "sesion" ? (
                 <button
@@ -383,7 +436,7 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
             </div>
           </div>
 
-          {sesion.avisos.length > 0 && modo === "sesion" ? (
+          {sesionIA.avisos.length > 0 && modo === "sesion" ? (
             <div className="rounded-2xl bg-amber-500/10 p-5 ring-1 ring-inset ring-amber-400/30">
               <p className="text-sm font-bold text-amber-200">Concesiones para poder armarla</p>
               <ul className="mt-2 space-y-1">
@@ -400,12 +453,15 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
             <div className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-inset ring-white/10">
               <div className="border-b border-white/10 px-6 py-5">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-300">
-                  {sesion.nivel} · {sesion.objetivo} · {`${sesion.minutosReales}'`}
+                  {sesionIA.nivel} · {sesionIA.objetivo} · {`${sesionIA.minutosReales}'`}
                 </p>
-                <h3 className="mt-1 font-display text-3xl font-bold uppercase">{sesion.titulo}</h3>
+                <h3 className="mt-1 font-display text-3xl font-bold uppercase">{sesionIA.titulo}</h3>
+                {sesionIA.intro ? (
+                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">{sesionIA.intro}</p>
+                ) : null}
               </div>
               <ol className="divide-y divide-white/10">
-                {sesion.bloques.map((b) => (
+                {sesionIA.bloques.map((b) => (
                   <li key={`${b.ejercicio.id}-${b.rol}`} className="px-6 py-5">
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <span className="font-display text-3xl font-bold text-sky-300">{`${b.min}'`}</span>
@@ -416,6 +472,11 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
                       <span className="text-sm text-slate-400">{b.ejercicio.categoria}</span>
                     </div>
                     <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">{b.consigna}</p>
+                    {b.porQue ? (
+                      <p className="mt-1.5 max-w-3xl text-xs leading-relaxed text-sky-300/80">
+                        Por qué va acá: {b.porQue}
+                      </p>
+                    ) : null}
                     <p className="mt-2 text-xs text-slate-500">
                       {b.ejercicio.espacio} · {b.ejercicio.jugadores} jugadores ·{" "}
                       {b.ejercicio.mats.map((m) => MATERIALES_ETIQUETA[m]).join(", ")}
@@ -423,12 +484,22 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
                   </li>
                 ))}
               </ol>
+              {sesionIA.cierre ? (
+                <div className="border-t border-white/10 bg-sky-500/5 px-6 py-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-300">
+                    Nota del profe
+                  </p>
+                  <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-slate-300">
+                    {sesionIA.cierre}
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : null}
 
-          {modo === "microciclo" && micro ? (
+          {modo === "microciclo" && microIA ? (
             <div className="space-y-3">
-              {micro.dias.map((d) => (
+              {microIA.dias.map((d) => (
                 <div
                   key={d.id}
                   className={`rounded-2xl p-5 ring-1 ring-inset ${
@@ -468,12 +539,12 @@ export function PlanificadorApp({ acceso }: { acceso: boolean }) {
             </div>
           ) : null}
 
-          {modo === "mesociclo" && meso ? (
+          {modo === "mesociclo" && mesoIA ? (
             <div className="space-y-4">
               <div className="rounded-2xl bg-white/5 p-5 ring-1 ring-inset ring-white/10">
-                <p className="text-sm leading-relaxed text-slate-300">{meso.resumen}</p>
+                <p className="text-sm leading-relaxed text-slate-300">{mesoIA.resumen}</p>
               </div>
-              {meso.semanas.map((s) => (
+              {mesoIA.semanas.map((s) => (
                 <div key={s.numero} className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-inset ring-white/10">
                   <div className="flex flex-wrap items-center gap-3 border-b border-white/10 px-5 py-4">
                     <h3 className="font-display text-2xl font-bold uppercase">Semana {s.numero}</h3>

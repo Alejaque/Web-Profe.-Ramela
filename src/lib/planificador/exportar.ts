@@ -175,6 +175,7 @@ export function hojasDeSesion(s: Sesion): Hoja[] {
         ["Objetivo", s.objetivo],
         ["Duración", `${s.minutosReales} minutos`],
         ["Jugadores", s.jugadores],
+        ...(s.intro ? [["Introducción", s.intro]] : []),
         [],
         ["Bloque", "Ejercicio", "Categoría", "Minutos", "Espacio", "Jugadores", "Material", "Consigna"],
         ...s.bloques.map((b) => [
@@ -301,9 +302,9 @@ function escribir(
   texto: string,
   x: number,
   y: number,
-  opciones: { maxWidth?: number; negrita?: boolean; size?: number; gris?: boolean } = {},
+  opciones: { maxWidth?: number; negrita?: boolean; cursiva?: boolean; size?: number; gris?: boolean } = {},
 ): number {
-  doc.setFont("helvetica", opciones.negrita ? "bold" : "normal");
+  doc.setFont("helvetica", opciones.negrita ? "bold" : opciones.cursiva ? "italic" : "normal");
   doc.setFontSize(opciones.size ?? 10);
   doc.setTextColor(opciones.gris ? 120 : 0, opciones.gris ? 120 : 0, opciones.gris ? 120 : 0);
   const lineas = doc.splitTextToSize(texto, opciones.maxWidth ?? ANCHO - MARGEN * 2);
@@ -334,7 +335,13 @@ export function pdfDeSesion(s: Sesion): jsPDF {
     y,
     { gris: true },
   );
-  y += 4;
+  y += 2;
+
+  // La intro la escribe la IA para el pedido concreto; si no llegó, no hay nada.
+  if (s.intro) {
+    y = escribir(doc, s.intro, MARGEN, y, { size: 9.5, cursiva: true, maxWidth: ANCHO - MARGEN * 2 });
+    y += 3;
+  }
 
   for (const b of s.bloques) {
     if (y > 240) {

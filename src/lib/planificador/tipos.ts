@@ -48,6 +48,12 @@ export type Bloque = {
   min: number;
   /** Texto de la capa 1: escrito una vez y guardado, no generado en el momento. */
   consigna: string;
+  /**
+   * Texto de la capa 2: por qué este bloque va acá, escrito por la IA para
+   * este pedido concreto. Opcional: si la IA no está, no hay porQué y no
+   * pasa nada.
+   */
+  porQue?: string;
 };
 
 export type Sesion = {
@@ -65,6 +71,10 @@ export type Sesion = {
   avisos: string[];
   /** False si no cerraron los minutos exactos: la UI lo muestra y no lo esconde. */
   exacta: boolean;
+  /** Texto de la capa 2: intro para el profe, escrita por la IA (si llegó). */
+  intro?: string;
+  /** Texto de la capa 2: nota de cierre, escrita por la IA (si llegó). */
+  cierre?: string;
 };
 
 /** Duraciones que el motor sabe armar. */
