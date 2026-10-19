@@ -62,7 +62,7 @@ export const SEED_PRODUCTS: SeedProduct[] = [
       "planificador-ia",
     ],
     priceArs: 169900,
-    compareAtPriceArs: 259500,
+    compareAtPriceArs: null,
     badge: "Más elegido",
     featured: false,
     sortOrder: 10,

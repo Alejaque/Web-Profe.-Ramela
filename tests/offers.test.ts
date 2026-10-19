@@ -52,6 +52,23 @@ test("precios y lista tachada aprobados; el beneficio no sustituye el precio pú
   assert.equal(find("pack-infantil-juvenil").priceArs, 69900);
   assert.deepEqual(find("pack-infantil-juvenil").includesSlugs, ["curso-infantil", "curso-juvenil"]);
   assert.equal(find("curso-infantil").priceArs + find("curso-juvenil").priceArs - find("pack-infantil-juvenil").priceArs, 4900);
+  // Pack Completo: sin precio tachado, se compara contra la suma vigente.
+  assert.equal(find("pack-completo").priceArs, 169900);
+  assert.equal(find("pack-completo").compareAtPriceArs, null);
+  assert.deepEqual(find("pack-completo").includesSlugs, [
+    "curso-infantil",
+    "curso-juvenil",
+    "curso-profesional",
+    "biblioteca-entrenamiento",
+    "planificador-ia",
+  ]);
+  const vigentePack = vigente("pack-completo", HOY);
+  assert.equal(vigentePack.compareAtPriceArs, null);
+  const sumaVigente = ["curso-infantil", "curso-juvenil", "curso-profesional", "biblioteca-entrenamiento", "planificador-ia"]
+    .map((s) => vigente(s, HOY).priceArs)
+    .reduce((a, b) => a + b, 0);
+  assert.equal(sumaVigente, 214500);
+  assert.equal(sumaVigente - find("pack-completo").priceArs, 44600);
 });
 
 test("Infantil, Juvenil, el pack, Profesional, la Biblioteca, el Planificador y el Pack Completo están habilitados", () => {

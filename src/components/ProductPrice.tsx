@@ -1,5 +1,6 @@
 import { isAvailable } from "@/lib/availability";
 import { SEED_PRODUCTS } from "@/lib/catalog-seed";
+import { aplicarOfertas } from "@/lib/ofertas";
 import { formatARS } from "@/lib/format";
 import { LEGAL } from "@/lib/legal";
 import type { Product } from "@/lib/types";
@@ -7,9 +8,14 @@ import type { Product } from "@/lib/types";
 /** Un solo bloque de precio para las tarjetas estándar y el pack destacado. */
 export function ProductPrice({ product, inverted = false }: { product: Product; inverted?: boolean }) {
   const offer = isAvailable(product.slug) && product.compareAtPriceArs != null && product.compareAtPriceArs > product.priceArs;
-  const separatePrice = product.slug === "pack-infantil-juvenil"
-    ? SEED_PRODUCTS.filter((p) => product.includesSlugs.includes(p.slug)).reduce((sum, p) => sum + p.priceArs, 0)
-    : null;
+  const vigentes = aplicarOfertas(SEED_PRODUCTS);
+  const separatePrice =
+    product.includesSlugs.length > 0
+      ? product.includesSlugs.reduce((sum, slug) => {
+          const p = vigentes.find((pr) => pr.slug === slug);
+          return sum + (p?.priceArs ?? 0);
+        }, 0)
+      : null;
   const muted = inverted ? "text-sky-100/80" : "text-slate-500";
 
   return (

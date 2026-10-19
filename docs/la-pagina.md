@@ -16,7 +16,7 @@ Todos los precios están en pesos argentinos (ARS) y son de **pago único** (sin
 | Formación en Fútbol Profesional (`curso-profesional`) | Habilitado | $89.900 | **$69.900** | Fijo en `src/lib/catalog-seed.ts` |
 | Biblioteca de Material (`biblioteca-entrenamiento`) | Habilitado | $39.900 | **$29.900** (hasta 30/11) → **$32.900** (hasta 18/12) → $39.900 | Por tramos con fecha en `src/lib/ofertas.ts` |
 | Planificador con IA (`planificador-ia`) | Habilitado | $49.900 | **$39.900** (hasta 18/12) → $49.900 | Por tramos con fecha en `src/lib/ofertas.ts` |
-| Pack Completo (`pack-completo`) | Próximamente | $259.500 | $169.900 | No está en `AVAILABLE_SLUGS` (`src/lib/availability.ts`) |
+| Pack Completo (`pack-completo`) | Habilitado (destacado) | — | **$169.900** (por separado vigente $214.500, ahorro $44.600) | Sin precio tachado; compara contra la suma vigente de sus 5 productos (`src/components/ProductPrice.tsx` + `src/lib/ofertas.ts`) |
 
 ### Ofertas con vencimiento automático (`src/lib/ofertas.ts`)
 
