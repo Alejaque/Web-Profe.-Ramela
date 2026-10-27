@@ -828,6 +828,13 @@ function UserManual({ goTab, showToast }: ManualProps) {
 export default function App() {
   const [initial] = useState<PersistedState>(loadPersisted);
   const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [compactHeader, setCompactHeader] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setCompactHeader((previous) => window.scrollY > 160 ? true : window.scrollY < 40 ? false : previous);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const [planTier, setPlanTier] = useState<PlanTier>(initial.planTier);
   const [audience, setAudience] = useState<Audience>(initial.audience);
   const [clips, setClips] = useState<Clip[]>(initial.clips);
@@ -974,7 +981,7 @@ export default function App() {
         <MessageCircle size={27} />
       </a>
 
-      <header className="topbar">
+      <header className={`topbar${compactHeader ? " is-compact" : ""}`}>
         <div className="topbar-inner">
           <button className="brand-lockup" onClick={() => goTab('home')} aria-label="Ir al inicio del Laboratorio Táctico">
             <img src={dorado} alt="Escudo dorado RamelaFútbol" className="official-lab-crest" />
@@ -1194,4 +1201,4 @@ export default function App() {
       </footer>
     </div>
   );
-                      }
+}
