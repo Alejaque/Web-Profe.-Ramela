@@ -11,6 +11,7 @@ const links = [
   { href: "#cursos", label: "Cursos" },
   { href: "/biblioteca", label: "Biblioteca", ruta: true },
   { href: "/planificador", label: "Planificador con IA", ruta: true },
+  { href: "/laboratorio-tactico", label: "Laboratorio Táctico", ruta: true },
   { href: "#profe", label: "El Profe" },
   { href: "#preguntas", label: "Preguntas" },
 ];
