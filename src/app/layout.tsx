@@ -24,6 +24,7 @@ const script = localFont({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: [{ url: "/icon.png", type: "image/png", sizes: "96x96" }], apple: [{ url: "/icon.png", sizes: "96x96" }] },
   title: "Profe. Alejandro Ramela | Cursos de formación en fútbol",
   description:
     "Cursos de Fútbol Infantil, Juvenil y Profesional, Biblioteca de 120 ejercicios y Planificador de entrenamientos con IA. Guías, diagramas, sesiones y planillas.",
