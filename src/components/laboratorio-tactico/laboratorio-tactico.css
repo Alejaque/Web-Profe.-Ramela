@@ -1693,3 +1693,23 @@ input[type='checkbox'] { width: 18px; height: 18px; accent-color: var(--cyan); }
   .brand-lockup { gap: 10px; }
   .topbar-actions { flex-shrink: 0; }
 }
+
+/* Keep the approved full identity at the top, reclaim space while scrolling. */
+.topbar-inner, .official-lab-crest, .mobile-web-return { transition: padding .2s ease, height .2s ease, min-height .2s ease; }
+.topbar.is-compact .topbar-inner { min-height: 60px; padding-top: 6px; padding-bottom: 6px; }
+.topbar.is-compact .official-lab-crest { width: 44px; height: 44px; }
+.topbar.is-compact .brand-copy small { display: none; }
+.topbar.is-compact .brand-copy strong { font-size: .88rem; }
+.topbar.is-compact .site-link { padding: 8px 10px; }
+@media (max-width: 1380px) {
+  .topbar.is-compact .mobile-web-return { padding-bottom: 6px; }
+  .topbar.is-compact .mobile-web-return a { min-height: 32px; padding: 5px 12px; }
+  .topbar.is-compact .mobile-nav { padding-top: 6px; padding-bottom: 6px; }
+}
+@media (max-width: 640px) {
+  .topbar.is-compact .brand-copy strong { font-size: .78rem; }
+  .topbar.is-compact .topbar-inner { min-height: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar-inner, .official-lab-crest, .mobile-web-return { transition: none; }
+}
