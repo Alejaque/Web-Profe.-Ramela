@@ -1000,12 +1000,14 @@ export default function App() {
             <a className="site-link" href="/"><ArrowLeft size={16} /> Volver a la web</a>
           </div>
         </div>
+        <div className="mobile-lab-row">
         <div className="mobile-web-return"><a href="/"><ArrowLeft size={16} /> Volver a la web</a></div>
         <nav className="mobile-nav" aria-label="Navegación móvil">
           {navItems.map((item) => (
             <button key={item.id} className={activeTab === item.id ? 'active' : ''} onClick={() => goTab(item.id)}>{item.icon} {item.label}</button>
           ))}
         </nav>
+        </div>
       </header>
 
       <main className="main-container">
