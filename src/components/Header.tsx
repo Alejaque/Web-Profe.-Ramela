@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useCart } from "@/components/CartProvider";
 import { CartIcon, CloseIcon } from "@/components/icons";
 
+import { membrete } from '@/components/IdentidadOficial';
+
 // `ruta: true` = es una página propia (va con next/link), no un ancla de la home.
 const links = [
   { href: "#niveles", label: "Niveles" },
@@ -22,17 +24,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-white/10 bg-[#050f26]/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
-        <a href="#inicio" className="flex items-center gap-3" aria-label="Profe. Alejandro Ramela - Inicio">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-sky-500 font-display text-lg font-extrabold text-white">
-            AR
-          </span>
-          <span className="font-display text-xl font-bold uppercase leading-none tracking-wide text-white">
-            Profe. <span className="text-sky-400">Alejandro Ramela</span>
-          </span>
+      <div className="mx-auto flex min-h-20 max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-2 lg:flex-nowrap lg:px-6">
+        <a href="#inicio" className="block w-full shrink-0 lg:w-[420px]" aria-label="Profe. Alejandro Ramela - Inicio">
+          <img src={membrete} alt="Prof. Alejandro Ramela · RamelaFútbol · Escuela de entrenadores" className="block h-auto w-full" />
         </a>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-4 lg:flex" aria-label="Principal">
           {links.map((link) =>
             "ruta" in link ? (
               <Link
