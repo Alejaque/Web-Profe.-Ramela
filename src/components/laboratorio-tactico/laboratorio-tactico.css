@@ -1713,3 +1713,14 @@ input[type='checkbox'] { width: 18px; height: 18px; accent-color: var(--cyan); }
 @media (prefers-reduced-motion: reduce) {
   .topbar-inner, .official-lab-crest, .mobile-web-return { transition: none; }
 }
+
+/* Return and tools share one line; only tools scroll on narrow screens. */
+.mobile-lab-row { display: none; }
+@media (max-width: 1380px) {
+  .mobile-lab-row { display: flex; align-items: center; gap: 10px; padding: 8px 16px 10px; border-top: 1px solid rgba(20,52,95,.55); }
+  .mobile-lab-row .mobile-web-return { padding: 0; flex: 0 0 auto; }
+  .mobile-lab-row .mobile-nav { flex: 1 1 auto; min-width: 0; padding: 0; border: 0; }
+  .mobile-lab-row .mobile-nav button { flex: 0 0 auto; }
+  .topbar.is-compact .mobile-lab-row { padding-top: 5px; padding-bottom: 6px; }
+  .topbar.is-compact .mobile-lab-row .mobile-web-return, .topbar.is-compact .mobile-lab-row .mobile-nav { padding: 0; }
+}
