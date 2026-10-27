@@ -4,7 +4,7 @@ import { dorado, blanco } from '@/components/IdentidadOficial';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, PointerEvent as ReactPointerEvent } from 'react';
 import {
-  Activity, AlertTriangle, ArrowRight, Award, BarChart3, BookOpen, BookmarkPlus, Box, Building2, CalendarDays, Camera,
+  Activity, AlertTriangle, ArrowLeft, ArrowRight, Award, BarChart3, BookOpen, BookmarkPlus, Box, Building2, CalendarDays, Camera,
   Check, CheckCircle2, ChevronDown, ChevronRight, ChevronUp, Circle, ClipboardList, Copy, Crosshair, Crown, Download, Edit3, Eraser,
   ExternalLink, FileDown, FileText, Film, Flame, FlipHorizontal2, Frame, Gauge, Globe2, Keyboard, Layers, Link2, ListFilter, Lock, Magnet, Maximize,
   MessageCircle, MonitorPlay, MousePointer2, Move3d, Orbit, Pause, Pencil, Play, Plus, Presentation, Printer, Redo2,
@@ -977,7 +977,7 @@ export default function App() {
       <header className="topbar">
         <div className="topbar-inner">
           <button className="brand-lockup" onClick={() => goTab('home')} aria-label="Ir al inicio del Laboratorio Táctico">
-            <img src={dorado} alt="Escudo dorado RamelaFútbol" style={{width:60,height:60,objectFit:"contain",flexShrink:0}} />
+            <img src={dorado} alt="Escudo dorado RamelaFútbol" className="official-lab-crest" />
             <span className="brand-copy">
               <strong><em>PROFE.</em> ALEJANDRO Ramela</strong>
               <small>LABORATORIO TÁCTICO PRO · VIDEO + 2D/3D + SEMANA</small>
@@ -990,9 +990,10 @@ export default function App() {
           </nav>
           <div className="topbar-actions">
             <button className="plan-button" onClick={() => goTab('pricing')}><Crown size={16} /> {planButtonLabel}</button>
-            <a className="site-link" href={SITE_URL} target="_blank" rel="noreferrer">Web Alejandro Ramela <ExternalLink size={14} /></a>
+            <a className="site-link" href="/"><ArrowLeft size={16} /> Volver a la web</a>
           </div>
         </div>
+        <div className="mobile-web-return"><a href="/"><ArrowLeft size={16} /> Volver a la web</a></div>
         <nav className="mobile-nav" aria-label="Navegación móvil">
           {navItems.map((item) => (
             <button key={item.id} className={activeTab === item.id ? 'active' : ''} onClick={() => goTab(item.id)}>{item.icon} {item.label}</button>
@@ -1193,4 +1194,4 @@ export default function App() {
       </footer>
     </div>
   );
-}
+                      }
