@@ -1,3 +1,4 @@
+import { blanco } from "@/components/IdentidadOficial";
 import Link from "next/link";
 import { RefreshIcon, WhatsappIcon } from "@/components/icons";
 import { whatsappUrl } from "@/components/TrustStrip";
@@ -10,6 +11,7 @@ export function Footer() {
     <footer className="bg-[#030a1a] py-12 text-slate-400">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between lg:px-8">
         <div>
+          <img src={blanco} alt="Escudo RamelaFútbol" className="mb-4 h-20 w-20 object-contain" />
           <p className="font-display text-2xl font-bold uppercase tracking-wide text-white">
             Profe. <span className="text-sky-400">Alejandro Ramela</span>
           </p>
