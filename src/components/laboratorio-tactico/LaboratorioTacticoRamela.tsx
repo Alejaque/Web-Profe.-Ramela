@@ -192,11 +192,13 @@ function ReportBuilder({ report, setReport, clips, markers, microcycle, boardTit
   };
 
   const printReport = () => {
-    const popup = window.open('', '_blank', 'noopener,noreferrer,width=1000,height=760');
+    // Sin 'noopener': con esa opcion window.open devuelve null y queda una ventana about:blank vacia.
+    const popup = window.open('', '_blank', 'width=1000,height=760');
     if (!popup) {
       showToast('El navegador bloqueó la ventana de impresión.');
       return;
     }
+    popup.opener = null;
     popup.document.open();
     popup.document.write(buildHtml());
     popup.document.close();
